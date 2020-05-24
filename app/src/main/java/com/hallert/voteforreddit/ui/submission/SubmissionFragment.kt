@@ -1,4 +1,4 @@
-package com.hallert.voteforreddit
+package com.hallert.voteforreddit.ui.submission
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
+import com.hallert.voteforreddit.ui.submission.SubmissionAdapter
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -13,7 +16,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import net.dean.jraw.models.Submission
 
-private var adapter = SubmissionsAdapter()
+private var adapter = SubmissionAdapter()
 
 class SubmissionsFragment : Fragment() {
     override fun onCreateView(
@@ -47,5 +50,4 @@ class SubmissionsFragment : Fragment() {
         recycler_view.adapter = adapter
 
     }
-
 }

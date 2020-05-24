@@ -1,21 +1,23 @@
-package com.hallert.voteforreddit
+package com.hallert.voteforreddit.ui.submission
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.hallert.voteforreddit.R
 import kotlinx.android.synthetic.main.submission.view.*
 import net.dean.jraw.models.Submission
-import org.w3c.dom.Text
 
-class SubmissionsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data: List<Submission> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SubmissionViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.submission, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.submission,
+                parent,
+                false
+            )
         )
     }
 

@@ -1,4 +1,4 @@
-package com.hallert.voteforreddit
+package com.hallert.voteforreddit.ui.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main

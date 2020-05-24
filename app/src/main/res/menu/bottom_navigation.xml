@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_subreddits"
-        android:icon="@drawable/ic_subreddits"
-        android:title="Subreddits" />
-
+        android:id="@+id/nav_posts"
+        android:icon="@drawable/ic_posts"
+        android:title="@string/posts" />
     <item
         android:id="@+id/nav_search"
         android:icon="@drawable/ic_search"
-        android:title="Search" />
-
+        android:title="@string/search" />
     <item
-        android:id="@+id/nav_submit"
-        android:icon="@drawable/ic_submit"
-        android:title="Submit" />
-
-
+        android:id="@+id/nav_subs"
+        android:icon="@drawable/ic_subs"
+        android:title="@string/subs" />
     <item
-        android:id="@+id/nav_messages"
-        android:icon="@drawable/ic_messages"
-        android:title="Messages" />
-
+        android:id="@+id/nav_inbox"
+        android:icon="@drawable/ic_inbox"
+        android:title="@string/inbox" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_profile"
-        android:title="Profile" />
-
+        android:title="@string/profile" />
 </menu>

@@ -1,4 +1,4 @@
-package com.hallert.voteforreddit
+package com.hallert.voteforreddit.ui.authentication
 
 import android.app.Activity
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch

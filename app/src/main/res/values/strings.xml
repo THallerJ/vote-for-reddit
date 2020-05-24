@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">VoteForReddit</string>
+    <string name="posts">Posts</string>
+    <string name="search">Search</string>
+    <string name="subs">Subs</string>
+    <string name="inbox">Inbox</string>
+    <string name="profile">Profile</string>
 </resources>

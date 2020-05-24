@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/submissionFragment"
-        android:name="com.hallert.voteforreddit.SubmissionsFragment"
+        android:name="com.hallert.voteforreddit.ui.submission.SubmissionsFragment"
         android:label="SubmissionFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.hallert.voteforreddit.ProfileFragment"
+        android:name="com.hallert.voteforreddit.ui.profile.ProfileFragment"
         android:label="ProfileFragment" />
     <activity
         android:id="@+id/bottomNavActivity"
-        android:name="com.hallert.voteforreddit.BottomNavActivity"
+        android:name="com.hallert.voteforreddit.ui.BottomNavActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>

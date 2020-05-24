@@ -1,7 +1,8 @@
-package com.hallert.voteforreddit
+package com.hallert.voteforreddit.user
 
 import android.content.Context
 import android.util.Log
+import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

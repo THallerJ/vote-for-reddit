@@ -1,6 +1,7 @@
 package com.hallert.voteforreddit
 
 import android.app.Application
+import com.hallert.voteforreddit.user.Authentication
 import net.dean.jraw.android.SharedPreferencesTokenStore
 import net.dean.jraw.oauth.AccountHelper
 
