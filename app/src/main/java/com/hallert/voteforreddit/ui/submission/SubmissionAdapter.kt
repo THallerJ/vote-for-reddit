@@ -9,7 +9,10 @@ import kotlinx.android.synthetic.main.submission.view.*
 import net.dean.jraw.models.Submission
 
 class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var data: List<Submission> = ArrayList()
+    var data: List<Submission> = ArrayList()
+    set(value) {
+        field = value
+        notifyDataSetChanged()}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SubmissionViewHolder(
@@ -33,11 +36,6 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return data.size
     }
 
-    fun setData(submissions: List<Submission>) {
-        data = submissions
-        notifyDataSetChanged()
-    }
-
     class SubmissionViewHolder constructor(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
@@ -45,6 +43,7 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
         fun bind(submission: Submission) {
+
             thing.text = submission.title
         }
     }
