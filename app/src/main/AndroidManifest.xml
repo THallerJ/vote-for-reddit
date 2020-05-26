@@ -30,5 +30,8 @@
         <meta-data
             android:name="net.dean.jraw.android.REDIRECT_URL"
             android:value="https://github.com/THallerJ" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 </manifest>

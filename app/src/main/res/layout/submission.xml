@@ -10,11 +10,13 @@
         android:id="@+id/submission_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
         android:padding="8dp"
         android:paddingEnd="24dp"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/submission_score_text"
+        app:layout_constraintEnd_toStartOf="@+id/submission_thumbnail_image"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,77 +25,78 @@
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elitt" />
 
     <TextView
-        android:id="@+id/submission_score_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.235"
-        tools:text="8.4K" />
-
-
-    <TextView
         android:id="@+id/submission_sub_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_bold"
         android:paddingStart="8dp"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="subreddit" />
 
     <TextView
         android:id="@+id/submission_comment_count_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:drawableLeft="@drawable/ic_comments"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:drawableStart="@drawable/ic_comments"
         android:drawablePadding="4dp"
+        android:fontFamily="@font/roboto"
         android:paddingStart="4dp"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
+        app:layout_constraintStart_toEndOf="@+id/submission_karma_text"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="456" />
 
     <TextView
         android:id="@+id/submission_karma_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
         android:drawableStart="@drawable/ic_upvote"
         android:drawablePadding="4dp"
+        android:fontFamily="@font/roboto"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/submission_comment_count_text"
+        app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="500" />
 
     <TextView
         android:id="@+id/submission_date_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_time"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:drawableStart="@drawable/ic_clock"
         android:drawablePadding="4dp"
+        android:fontFamily="@font/roboto"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.069"
-        app:layout_constraintStart_toEndOf="@+id/submission_karma_text"
+        app:layout_constraintStart_toEndOf="@+id/submission_comment_count_text"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="2h" />
+
+    <ImageView
+        android:id="@+id/submission_thumbnail_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/ic_profile"
+        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.238"
+        android:scaleType="fitXY" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
