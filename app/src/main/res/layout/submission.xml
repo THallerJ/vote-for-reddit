@@ -7,32 +7,93 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/title_text"
+        android:id="@+id/submission_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:paddingEnd="36dp"
-        android:text="Title"
-        android:textSize="18sp"
+        android:paddingEnd="24dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/post_point_text"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/submission_score_text"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="RtlSymmetry"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elitt" />
 
     <TextView
-        android:id="@+id/post_point_text"
+        android:id="@+id/submission_score_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="8.4"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.526" />
+        app:layout_constraintVertical_bias="0.235"
+        tools:text="8.4K" />
+
+
+    <TextView
+        android:id="@+id/submission_sub_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:paddingStart="8dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="subreddit" />
+
+    <TextView
+        android:id="@+id/submission_comment_count_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:drawableLeft="@drawable/ic_comments"
+        android:drawablePadding="4dp"
+        android:paddingStart="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintVertical_bias="0.2"
+        tools:text="456" />
+
+    <TextView
+        android:id="@+id/submission_karma_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:drawableStart="@drawable/ic_upvote"
+        android:drawablePadding="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/submission_comment_count_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintVertical_bias="0.2"
+        tools:text="500" />
+
+    <TextView
+        android:id="@+id/submission_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_time"
+        android:drawablePadding="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toEndOf="@+id/submission_karma_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintVertical_bias="0.2"
+        tools:text="2h" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
