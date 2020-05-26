@@ -3,6 +3,7 @@ package com.hallert.voteforreddit
 import android.app.Application
 import android.util.Log
 import com.hallert.voteforreddit.user.Authentication
+import kotlinx.coroutines.runBlocking
 import net.dean.jraw.android.SharedPreferencesTokenStore
 import net.dean.jraw.oauth.AccountHelper
 
@@ -13,11 +14,10 @@ class RedditApp : Application() {
 
 
         val auth = Authentication()
+
         auth.authenticateOnStart(applicationContext)
 
         accountHelper = auth.accountHelper
-       // Log.i("APP THING", accountHelper.reddit.me().username)
-
         tokenStore = auth.tokenStore
     }
 

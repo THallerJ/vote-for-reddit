@@ -6,21 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
+import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.RedditApp
-import com.hallert.voteforreddit.ui.submission.SubmissionAdapter
-import com.squareup.moshi.JsonAdapter
 import kotlinx.android.synthetic.main.fragment_submissions.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import net.dean.jraw.JrawUtils
-import net.dean.jraw.models.Listing
-import net.dean.jraw.models.Submission
 
 private var adapter = SubmissionAdapter()
 
@@ -39,6 +30,7 @@ class SubmissionsFragment : Fragment() {
         submissionViewModel.submissions.observe(viewLifecycleOwner, Observer { subs ->
             adapter.data = subs
         })
+
         return root
     }
 
@@ -51,5 +43,15 @@ class SubmissionsFragment : Fragment() {
         recycler_view.layoutManager = LinearLayoutManager(context)
         recycler_view.adapter = adapter
         submissionViewModel.getSubmissions()
+
+        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    submissionViewModel.getSubmissions()
+                }
+            }
+        })
     }
 }

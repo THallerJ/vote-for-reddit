@@ -39,12 +39,12 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class SubmissionViewHolder constructor(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-        val thing = itemView.test_text
-
+        val title = itemView.title_text
+        val score = itemView.post_point_text
 
         fun bind(submission: Submission) {
-
-            thing.text = submission.title
+            title.text = submission.title
+            score.text = submission.score.toString()
         }
     }
 }

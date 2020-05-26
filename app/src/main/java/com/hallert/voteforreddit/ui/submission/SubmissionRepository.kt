@@ -21,8 +21,8 @@ class SubmissionRepository {
         subreddit = RedditApp.accountHelper.reddit.frontPage().build()
     }
 
-    suspend fun queryAPI(): Listing<Submission>{
-        val result =CoroutineScope(IO).async {
+    suspend fun queryAPI(): Listing<Submission> {
+        val result = CoroutineScope(IO).async {
             subreddit.next()
         }
 
@@ -31,6 +31,7 @@ class SubmissionRepository {
 
     fun getNextSubmissions(): Listing<Submission> {
         return runBlocking {
-            queryAPI() }
+            queryAPI()
+        }
     }
 }

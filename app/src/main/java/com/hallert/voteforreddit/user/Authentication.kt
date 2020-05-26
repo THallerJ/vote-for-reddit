@@ -6,6 +6,7 @@ import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.dean.jraw.RedditClient
 import net.dean.jraw.android.AndroidHelper
 import net.dean.jraw.android.ManifestAppInfoProvider
@@ -42,18 +43,23 @@ class Authentication {
 
         val deferredToken: DeferredPersistentTokenStore = tokenStore
 
+
         if (deferredToken.usernames.isNotEmpty() && deferredToken.usernames[0] != "<userless>") {
             accountHelper.trySwitchToUser(deferredToken.usernames[0])
             client = accountHelper.reddit
         } else {
-            CoroutineScope(Dispatchers.IO).launch {
-                accountHelper.switchToUserless()
-                client = accountHelper.reddit
+            runBlocking {
+                CoroutineScope(Dispatchers.IO).launch {
+                    accountHelper.switchToUserless()
+                    client = accountHelper.reddit
+                }.join()
             }
         }
     }
 
-    fun isUserless(): Boolean { return accountHelper.reddit.authMethod.isUserless }
+    fun isUserless(): Boolean {
+        return accountHelper.reddit.authMethod.isUserless
+    }
 
     fun logout() {
         RedditApp.accountHelper.reddit.authManager.revokeRefreshToken()
