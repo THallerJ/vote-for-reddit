@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_submissions.*
 class SubmissionsFragment : Fragment() {
     private lateinit var submissionViewModel: SubmissionViewModel
     private lateinit var adapter: SubmissionAdapter
+    private var isLoading: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +38,11 @@ class SubmissionsFragment : Fragment() {
 
         submissionViewModel.submissions.observe(viewLifecycleOwner, Observer { subs ->
             adapter.data = subs
+        })
+
+
+        submissionViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
+            submission_swipe_refresh.isRefreshing = loading
         })
 
         return root
@@ -66,8 +72,6 @@ class SubmissionsFragment : Fragment() {
 
         submission_swipe_refresh.setOnRefreshListener {
             submissionViewModel.refresh()
-            Thread.sleep(200) // TODO: Find a better way to keep the spinner on screen
-            submission_swipe_refresh.isRefreshing = false
         }
     }
 }

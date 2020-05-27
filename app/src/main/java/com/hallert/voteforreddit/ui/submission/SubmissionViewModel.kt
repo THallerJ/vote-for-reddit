@@ -9,6 +9,7 @@ import net.dean.jraw.models.Submission
 
 class SubmissionViewModel : ViewModel() {
     val submissions = MutableLiveData<MutableList<Submission>>()
+    val isLoading = MutableLiveData<Boolean>()
 
     private var repo: SubmissionRepository = SubmissionRepository()
 
@@ -17,7 +18,11 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun getSubmissions() {
-        CoroutineScope(Main).launch { submissions.value = repo.getNextPage() }
+        isLoading.value = true
+        CoroutineScope(Main).launch {
+            submissions.value = repo.getNextPage()
+            isLoading.value = false
+        }
     }
 
     fun getSubredditName(): String {
@@ -25,7 +30,11 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun refresh() {
-        CoroutineScope(Main).launch { submissions.value = repo.refresh() }
+        isLoading.value = true
+        CoroutineScope(Main).launch {
+            submissions.value = repo.refresh()
+            isLoading.value = false
+        }
     }
 }
 
