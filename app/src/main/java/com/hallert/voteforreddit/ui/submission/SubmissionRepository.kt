@@ -12,13 +12,16 @@ import net.dean.jraw.pagination.DefaultPaginator
 // TODO: Subreddits fragment may need to know about this class
 class SubmissionRepository {
     private lateinit var subreddit: DefaultPaginator<Submission>
+    lateinit var subredditName: String
 
-    fun buildSubreddit(subredditName: String) {
-        subreddit = RedditApp.accountHelper.reddit.subreddit(subredditName).posts().build()
+    fun buildSubreddit(subName: String) {
+        subreddit = RedditApp.accountHelper.reddit.subreddit(subName).posts().build()
+        subredditName = subName
     }
 
     fun buildSubreddit() {
         subreddit = RedditApp.accountHelper.reddit.frontPage().build()
+        subredditName = "frontpage"
     }
 
     suspend fun queryAPI(): Listing<Submission> {

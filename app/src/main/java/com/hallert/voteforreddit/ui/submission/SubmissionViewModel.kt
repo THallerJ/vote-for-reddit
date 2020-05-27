@@ -17,7 +17,11 @@ class SubmissionViewModel : ViewModel() {
 
     fun getSubmissions() {
         // TODO: implement caching, this should allow the listt to continue scrolling
-       submissions.value = repo.getNextSubmissions()
+       submissions.value = repo.getNextSubmissions() as MutableList<Submission>?
+    }
+
+    fun getSubredditName(): String {
+        return repo.subredditName
     }
 }
 
