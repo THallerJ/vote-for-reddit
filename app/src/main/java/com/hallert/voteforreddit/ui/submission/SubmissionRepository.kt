@@ -3,13 +3,13 @@ package com.hallert.voteforreddit.ui.submission
 import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import net.dean.jraw.models.Listing
 import net.dean.jraw.models.Submission
 import net.dean.jraw.pagination.DefaultPaginator
 
-// TODO: Subreddits fragment may need to know about this class
 class SubmissionRepository {
     private lateinit var subreddit: DefaultPaginator<Submission>
     lateinit var subredditName: String
@@ -24,17 +24,23 @@ class SubmissionRepository {
         subredditName = "frontpage"
     }
 
-    suspend fun queryAPI(): Listing<Submission> {
-        val result = CoroutineScope(IO).async {
-            subreddit.next()
+    suspend fun refresh(): Listing<Submission> {
+        val result = CoroutineScope(Main).async {
+            subreddit.restart()
+
+            withContext(IO) {
+                subreddit.next()
+            }
         }
 
         return result.await()
     }
 
-    fun getNextSubmissions(): Listing<Submission> {
-        return runBlocking {
-            queryAPI()
+    suspend fun getNextPage(): Listing<Submission> {
+        val result = CoroutineScope(IO).async {
+            subreddit.next()
         }
+
+        return result.await()
     }
 }

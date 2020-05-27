@@ -1,7 +1,6 @@
 package com.hallert.voteforreddit.ui.submission
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,28 +10,31 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.ui.views.RecyclerLoadListener
 import kotlinx.android.synthetic.main.fragment_submissions.*
 
-private var adapter = SubmissionAdapter()
-
-// TODO: Create my own submission class that can be created from retrieved cache data
 class SubmissionsFragment : Fragment() {
-
     private lateinit var submissionViewModel: SubmissionViewModel
+    private lateinit var adapter: SubmissionAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_submissions, container, false)
+
         submissionViewModel = ViewModelProvider(this).get(SubmissionViewModel::class.java)
 
         val toolbarTitle = activity?.findViewById<TextView>(R.id.bottom_nav_title)
+
         if (toolbarTitle != null) {
             toolbarTitle.text = submissionViewModel.getSubredditName()
         }
+
+        adapter = SubmissionAdapter()
+
         submissionViewModel.submissions.observe(viewLifecycleOwner, Observer { subs ->
             adapter.data = subs
         })
@@ -46,19 +48,26 @@ class SubmissionsFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        recycler_view.layoutManager = LinearLayoutManager(context)
-        recycler_view.adapter = adapter
+        submission_recycler_view.layoutManager = LinearLayoutManager(context)
+        submission_recycler_view.adapter = adapter
         submissionViewModel.getSubmissions()
-        recycler_view.addItemDecoration(DividerItemDecoration(recycler_view.context, DividerItemDecoration.VERTICAL))
+        submission_recycler_view.addItemDecoration(
+            DividerItemDecoration(
+                submission_recycler_view.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
-        recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
-                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    submissionViewModel.getSubmissions()
-                }
+        submission_recycler_view.addOnScrollListener(object : RecyclerLoadListener() {
+            override fun atBottom() {
+                submissionViewModel.getSubmissions()
             }
         })
+
+        submission_swipe_refresh.setOnRefreshListener {
+            submissionViewModel.refresh()
+            Thread.sleep(200) // TODO: Find a better way to keep the spinner on screen
+            submission_swipe_refresh.isRefreshing = false
+        }
     }
 }
