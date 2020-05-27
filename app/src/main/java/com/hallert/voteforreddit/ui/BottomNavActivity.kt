@@ -91,7 +91,6 @@ class BottomNavActivity : AppCompatActivity() {
         true
     }
 
-
     private fun loginNewUser() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
