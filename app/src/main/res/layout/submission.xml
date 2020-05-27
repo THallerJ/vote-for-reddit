@@ -83,7 +83,7 @@
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_profile" />
+        tools:src="@drawable/ic_profile_empty" />
 
     <ImageView
         android:id="@+id/submission_link"
