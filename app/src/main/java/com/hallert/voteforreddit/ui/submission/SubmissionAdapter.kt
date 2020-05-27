@@ -3,8 +3,11 @@ package com.hallert.voteforreddit.ui.submission
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.util.NumberFormatUtil
@@ -44,12 +47,12 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class SubmissionViewHolder constructor(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.submission_title_text
-        val sub = itemView.submission_sub_text
-        val comments = itemView.submission_comment_count_text
-        val karma = itemView.submission_karma_text
-        val date = itemView.submission_date_text
-        val thumbnail = itemView.submission_thumbnail_image
+        private val title: TextView = itemView.submission_title_text
+        private val sub: TextView = itemView.submission_sub_text
+        private val comments: TextView = itemView.submission_comment_count_text
+        private val karma: TextView = itemView.submission_karma_text
+        private val date: TextView = itemView.submission_date_text
+        private val thumbnail: ImageView = itemView.submission_thumbnail_image
 
         fun bind(submission: Submission) {
             // TODO: Make  image icons smaller, perhaps 12dp
@@ -65,10 +68,13 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
+                .transform(RoundedCorners(20))
 
             Glide.with(itemView.context)
+                .applyDefaultRequestOptions(requestOptions)
                 .load(submission.thumbnail)
                 .into(thumbnail)
+
         }
     }
 }
