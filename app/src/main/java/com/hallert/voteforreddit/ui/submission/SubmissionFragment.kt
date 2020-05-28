@@ -1,6 +1,7 @@
 package com.hallert.voteforreddit.ui.submission
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.views.RecyclerLoadListener
 import kotlinx.android.synthetic.main.fragment_submissions.*
+import kotlinx.coroutines.runBlocking
 
 class SubmissionsFragment : Fragment() {
     private lateinit var submissionViewModel: SubmissionViewModel
     private lateinit var adapter: SubmissionAdapter
-    private var isLoading: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +29,7 @@ class SubmissionsFragment : Fragment() {
 
         submissionViewModel = ViewModelProvider(this).get(SubmissionViewModel::class.java)
 
+
         val toolbarTitle = activity?.findViewById<TextView>(R.id.bottom_nav_title)
 
         if (toolbarTitle != null) {
@@ -36,14 +38,17 @@ class SubmissionsFragment : Fragment() {
 
         adapter = SubmissionAdapter()
 
-        submissionViewModel.submissions.observe(viewLifecycleOwner, Observer { subs ->
-            adapter.data = subs
+
+        submissionViewModel.submissions.observe(viewLifecycleOwner, Observer { submissions ->
+            adapter.data = submissions
+            submissionViewModel.isLoading.value = false
         })
 
 
         submissionViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
             submission_swipe_refresh.isRefreshing = loading
         })
+
 
         return root
     }
@@ -56,7 +61,7 @@ class SubmissionsFragment : Fragment() {
     private fun initRecyclerView() {
         submission_recycler_view.layoutManager = LinearLayoutManager(context)
         submission_recycler_view.adapter = adapter
-        submissionViewModel.getSubmissions()
+        submissionViewModel.getNextPage()
         submission_recycler_view.addItemDecoration(
             DividerItemDecoration(
                 submission_recycler_view.context,
@@ -66,7 +71,7 @@ class SubmissionsFragment : Fragment() {
 
         submission_recycler_view.addOnScrollListener(object : RecyclerLoadListener() {
             override fun atBottom() {
-                submissionViewModel.getSubmissions()
+                submissionViewModel.getNextPage()
             }
         })
 
@@ -74,4 +79,5 @@ class SubmissionsFragment : Fragment() {
             submissionViewModel.refresh()
         }
     }
+
 }
