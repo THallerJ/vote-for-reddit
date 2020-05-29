@@ -13,8 +13,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto"
-        android:textColor="@android:color/black"
         android:paddingBottom="4dp"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/submission_link"
         app:layout_constraintStart_toEndOf="@+id/submission_thumbnail_image"
@@ -45,7 +45,7 @@
         android:paddingStart="4dp"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/submission_karma_text"
-        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
         tools:text="456" />
 
     <TextView
@@ -58,8 +58,8 @@
         android:drawablePadding="4dp"
         android:fontFamily="@font/roboto_bold"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
-        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintStart_toEndOf="@+id/submission_thumbnail_image"
+        app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
         tools:text="500" />
 
     <TextView
@@ -73,7 +73,7 @@
         android:fontFamily="@font/roboto_bold"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/submission_comment_count_text"
-        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
         tools:text="2h" />
 
     <ImageView
@@ -88,13 +88,37 @@
     <ImageView
         android:id="@+id/submission_link"
         android:layout_width="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_link"
         app:layout_constraintBottom_toBottomOf="@+id/submission_comment_count_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/submission_title_text"
         app:layout_constraintVertical_bias="0.307" />
+
+    <TextView
+        android:id="@+id/submission_domain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/submission_link_flair"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        tools:text="domain.com" />
+
+    <TextView
+        android:id="@+id/submission_link_flair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/roboto"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        tools:text="LinkFlair" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

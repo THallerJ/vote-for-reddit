@@ -31,7 +31,6 @@ class SubmissionsFragment : Fragment() {
 
         submissionViewModel = ViewModelProvider(this).get(SubmissionViewModel::class.java)
 
-
         val toolbarTitle = activity?.findViewById<TextView>(R.id.bottom_nav_title)
 
         if (toolbarTitle != null) {
