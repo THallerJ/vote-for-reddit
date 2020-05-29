@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.util.DateFormatUtil
 import com.hallert.voteforreddit.util.NumberFormatUtil
 import kotlinx.android.synthetic.main.submission.view.*
 import net.dean.jraw.models.Submission
@@ -56,13 +57,11 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val thumbnail: ImageView = itemView.submission_thumbnail_image
 
         fun bind(submission: Submission) {
-            // TODO: Make  image icons smaller, perhaps 12dp
             title.text = submission.title
             sub.text = submission.subreddit
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
             karma.text = NumberFormatUtil.truncate((submission.score))
-            //date.text = DateFormatUtil.timespan(submission.created)
-            date.text = "2h"
+            date.text = DateFormatUtil.timeSince(submission.created.time)
 
             thumbnail.layout(0, 0, 0, 0)
 

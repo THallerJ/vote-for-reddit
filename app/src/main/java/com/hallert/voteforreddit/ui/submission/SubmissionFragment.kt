@@ -1,6 +1,7 @@
 package com.hallert.voteforreddit.ui.submission
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.views.RecyclerLoadListener
+import com.hallert.voteforreddit.util.DateFormatUtil
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.runBlocking
 
@@ -43,7 +45,6 @@ class SubmissionsFragment : Fragment() {
             adapter.data = submissions
             submissionViewModel.isLoading.value = false
         })
-
 
         submissionViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->
             submission_swipe_refresh.isRefreshing = loading
