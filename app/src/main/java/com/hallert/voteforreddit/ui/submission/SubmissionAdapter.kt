@@ -87,10 +87,10 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(thumbnail)
 
+            linkFlair.text = submission.linkFlairText
+
             if (submission.linkFlairText.isNullOrBlank()) {
                 linkFlair.visibility = View.GONE
-            } else {
-                linkFlair.text = submission.linkFlairText
             }
 
             title.text = submission.title
@@ -112,10 +112,10 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val domain: TextView = itemView.submission_domain
 
         fun bind(submission: Submission) {
+            linkFlair.text = submission.linkFlairText
+
             if (submission.linkFlairText.isNullOrBlank()) {
                 linkFlair.visibility = View.GONE
-            } else {
-                linkFlair.text = submission.linkFlairText
             }
 
             title.text = submission.title

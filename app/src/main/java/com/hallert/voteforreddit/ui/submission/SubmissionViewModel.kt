@@ -42,7 +42,7 @@ class SubmissionViewModel : ViewModel() {
 
     // This ensures that the database is cleared before creating the fragment
     // however, this also blocks the refresh animation
-    fun startup() = runBlocking{
+    fun startup() = runBlocking {
         isLoading.value = true
         CoroutineScope(Main).launch {
             repo.refresh()
