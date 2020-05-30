@@ -91,6 +91,8 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             if (submission.linkFlairText.isNullOrBlank()) {
                 linkFlair.visibility = View.GONE
+            } else {
+                linkFlair.visibility = View.VISIBLE
             }
 
             title.text = submission.title
@@ -116,6 +118,8 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             if (submission.linkFlairText.isNullOrBlank()) {
                 linkFlair.visibility = View.GONE
+            } else {
+                linkFlair.visibility = View.VISIBLE
             }
 
             title.text = submission.title
