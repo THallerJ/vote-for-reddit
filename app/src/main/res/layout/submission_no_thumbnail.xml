@@ -17,7 +17,7 @@
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/submission_link"
-        app:layout_constraintStart_toEndOf="@+id/submission_thumbnail_image"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Lorem ipsum dolor sit amet thing and stud and yeara," />
 
@@ -29,7 +29,7 @@
         android:fontFamily="@font/roboto"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/submission_thumbnail_image"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
         tools:text="subreddit" />
 
@@ -58,7 +58,7 @@
         android:drawablePadding="4dp"
         android:fontFamily="@font/roboto_bold"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/submission_thumbnail_image"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
         tools:text="500" />
 
@@ -75,15 +75,6 @@
         app:layout_constraintStart_toEndOf="@+id/submission_comment_count_text"
         app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
         tools:text="2h" />
-
-    <ImageView
-        android:id="@+id/submission_thumbnail_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_profile_empty" />
 
     <ImageView
         android:id="@+id/submission_link"

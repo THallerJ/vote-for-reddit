@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_submission_background"
+        android:height="48dp"
+        android:width="48dp"/>
+    <item android:drawable="@drawable/ic_submission_link_icon"
+        android:gravity="center"/>
+</layer-list>
