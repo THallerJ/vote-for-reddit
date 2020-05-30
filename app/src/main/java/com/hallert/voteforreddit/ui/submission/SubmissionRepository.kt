@@ -1,6 +1,5 @@
 package com.hallert.voteforreddit.ui.submission
 
-import androidx.lifecycle.MutableLiveData
 import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.database.RedditDatabase
 import com.hallert.voteforreddit.database.SubmissionEntity
@@ -9,8 +8,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import net.dean.jraw.models.Submission
-import net.dean.jraw.models.SubredditSort
-import net.dean.jraw.models.TimePeriod
 import net.dean.jraw.pagination.DefaultPaginator
 
 class SubmissionRepository(private val database: RedditDatabase) {
