@@ -1,12 +1,12 @@
 package com.hallert.voteforreddit.ui.submission
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.dean.jraw.models.Submission
@@ -16,8 +16,8 @@ class SubmissionViewModel : ViewModel() {
 
     val submissions: LiveData<List<Submission>> = repo.submissions.asLiveData()
 
-    val isLoading = MutableLiveData<Boolean>()
-
+    @ExperimentalCoroutinesApi
+    val isLoading:  LiveData<Boolean> = repo.isLoading.asLiveData()
 
     init {
         repo.buildSubreddit()
@@ -25,28 +25,22 @@ class SubmissionViewModel : ViewModel() {
     }
 
     fun getNextPage() {
-        isLoading.value = true
         CoroutineScope(Main).launch {
             repo.getNextPage()
-            isLoading.value = false
         }
     }
 
     fun refresh() {
-        isLoading.value = true
         CoroutineScope(Main).launch {
             repo.refresh()
-            isLoading.value = false
         }
     }
 
     // This ensures that the database is cleared before creating the fragment
     // however, this also blocks the refresh animation
     fun startup() = runBlocking {
-        isLoading.value = true
         CoroutineScope(Main).launch {
             repo.refresh()
-            isLoading.value = false
         }
     }
 

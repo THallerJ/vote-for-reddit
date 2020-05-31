@@ -5,7 +5,9 @@ import com.hallert.voteforreddit.database.RedditDatabase
 import com.hallert.voteforreddit.database.SubmissionEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import net.dean.jraw.models.Submission
 import net.dean.jraw.pagination.DefaultPaginator
@@ -17,6 +19,8 @@ class SubmissionRepository(private val database: RedditDatabase) {
     val submissions: Flow<List<Submission>>
         get() = database.submissionDao.getAllSubmissions()
 
+    @ExperimentalCoroutinesApi
+    val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     // TODO: Remove buildSubreddit methods
     fun buildSubreddit(subName: String) {
@@ -30,13 +34,18 @@ class SubmissionRepository(private val database: RedditDatabase) {
         subredditName = "frontpage"
     }
 
+    @ExperimentalCoroutinesApi
     fun getNextPage() {
+        isLoading.value = true
+
         CoroutineScope(IO).launch {
             insertSubmissions(subreddit.next())
+            isLoading.value = false
         }
     }
 
     private fun insertSubmissions(submissions: List<Submission>) {
+
         val submissionList = mutableListOf<SubmissionEntity>()
 
         for (submission in submissions) {
@@ -52,11 +61,15 @@ class SubmissionRepository(private val database: RedditDatabase) {
         database.submissionDao.insertSubmissions(submissionList.toList())
     }
 
+    @ExperimentalCoroutinesApi
     fun refresh() {
+        isLoading.value = true
+
         CoroutineScope(IO).launch {
             subreddit.restart()
             database.submissionDao.clearDatabase()
             insertSubmissions(subreddit.next())
+            isLoading.value =false
         }
     }
 }
