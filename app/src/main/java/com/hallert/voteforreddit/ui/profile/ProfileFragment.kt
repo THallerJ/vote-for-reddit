@@ -31,6 +31,12 @@ class ProfileFragment: Fragment() {
             logout()
         }
 
+        val toolbarTitle = activity?.findViewById<TextView>(R.id.bottom_nav_title)
+
+        if (toolbarTitle != null) {
+            toolbarTitle.text = getString(R.string.profile)
+        }
+
         return root
     }
 

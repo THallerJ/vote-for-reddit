@@ -10,6 +10,7 @@ import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
+import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 
 class BottomNavActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
@@ -50,18 +51,12 @@ class BottomNavActivity : AppCompatActivity() {
                     .show()
             }
             R.id.nav_subs -> {
-                // TODO: Replace check with Authentication.isUserless()
-                if (!RedditApp.accountHelper.reddit.authMethod.isUserless) {
-                    Toast.makeText(
-                        this@BottomNavActivity,
-                        "TODO: Launch submit BottomSheet",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                } else {
-                    loginNewUser()
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragment_container,
+                        SubredditsFragment()
+                    ).commit()
                 }
-            }
             R.id.nav_inbox -> {
                 // TODO: Replace check with Authentication.isUserless()
                 if (!RedditApp.accountHelper.reddit.authMethod.isUserless) {
@@ -95,4 +90,17 @@ class BottomNavActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
     }
-}
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LOGIN_REQUEST_CODE) {
+            supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragment_container,
+                    SubmissionsFragment()
+                ).commit()
+
+            bottomNav.selectedItemId = R.id.nav_posts
+    }
+}}

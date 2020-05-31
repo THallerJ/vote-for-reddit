@@ -37,7 +37,6 @@ class SubmissionsFragment : Fragment() {
 
         submissionViewModel.submissions.observe(viewLifecycleOwner, Observer { submissions ->
             adapter.data = submissions
-            //submissionViewModel.isLoading.value = false
         })
 
         submissionViewModel.isLoading.observe(viewLifecycleOwner, Observer { loading ->

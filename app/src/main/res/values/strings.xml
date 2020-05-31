@@ -6,4 +6,7 @@
     <string name="inbox">Inbox</string>
     <string name="profile">Profile</string>
     <string name="subreddits">Subreddits</string>
+    <string name="frontpage">frontpage</string>
+    <string name="popular">Popular</string>
+    <string name="all">All</string>
 </resources>
