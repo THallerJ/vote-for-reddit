@@ -1,11 +1,9 @@
 package com.hallert.voteforreddit
 
 import android.app.Application
-import android.util.Log
 import androidx.room.Room
 import com.hallert.voteforreddit.database.RedditDatabase
 import com.hallert.voteforreddit.user.Authentication
-import kotlinx.coroutines.runBlocking
 import net.dean.jraw.android.SharedPreferencesTokenStore
 import net.dean.jraw.oauth.AccountHelper
 

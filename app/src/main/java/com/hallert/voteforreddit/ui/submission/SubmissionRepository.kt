@@ -3,21 +3,24 @@ package com.hallert.voteforreddit.ui.submission
 import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.database.RedditDatabase
 import com.hallert.voteforreddit.database.SubmissionEntity
+import com.hallert.voteforreddit.util.WebUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import net.dean.jraw.models.Submission
 import net.dean.jraw.pagination.DefaultPaginator
+
 
 class SubmissionRepository(private val database: RedditDatabase) {
     private lateinit var subreddit: DefaultPaginator<Submission> // TODO: This should be removed
     lateinit var subredditName: String // TODO: This should be removed
 
     val submissions: Flow<List<Submission>>
-        get() = database.submissionDao.getAllSubmissions()
+        get() = database.submissionDao.getAllSubmissions().filterNotNull()
 
     @ExperimentalCoroutinesApi
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -25,12 +28,14 @@ class SubmissionRepository(private val database: RedditDatabase) {
     // TODO: Remove buildSubreddit methods
     fun buildSubreddit(subName: String) {
         subreddit =
-            RedditApp.accountHelper.reddit.subreddit(subName).posts().build() // This should be passed into the methods as needed
+            RedditApp.accountHelper.reddit.subreddit(subName).posts()
+                .build() // This should be passed into the methods as needed
         subredditName = subName
     }
 
     fun buildSubreddit() {
-        subreddit = RedditApp.accountHelper.reddit.frontPage().build() // This should be passed into the methods as needed
+        subreddit = RedditApp.accountHelper.reddit.frontPage()
+            .build() // This should be passed into the methods as needed
         subredditName = "frontpage"
     }
 
@@ -39,7 +44,11 @@ class SubmissionRepository(private val database: RedditDatabase) {
         isLoading.value = true
 
         CoroutineScope(IO).launch {
-            insertSubmissions(subreddit.next())
+            if (WebUtil.isOnline()) {
+                val subs = subreddit.next()
+                insertSubmissions(subs)
+            }
+
             isLoading.value = false
         }
     }
@@ -66,10 +75,18 @@ class SubmissionRepository(private val database: RedditDatabase) {
         isLoading.value = true
 
         CoroutineScope(IO).launch {
-            subreddit.restart()
-            database.submissionDao.clearDatabase()
-            insertSubmissions(subreddit.next())
-            isLoading.value =false
+            if (WebUtil.isOnline()) {
+                subreddit.restart()
+                database.submissionDao.clearDatabase()
+                insertSubmissions(subreddit.next())
+                isLoading.value = false
+            } else {
+                isLoading.value = false
+            }
         }
     }
 }
+
+
+
+

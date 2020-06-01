@@ -43,7 +43,7 @@ class Authentication {
 
         val deferredToken: DeferredPersistentTokenStore = tokenStore
 
-
+        // TODO: This crashes on first startup if not connected to the internet
         if (deferredToken.usernames.isNotEmpty() && deferredToken.usernames[0] != "<userless>") {
             accountHelper.trySwitchToUser(deferredToken.usernames[0])
             client = accountHelper.reddit
