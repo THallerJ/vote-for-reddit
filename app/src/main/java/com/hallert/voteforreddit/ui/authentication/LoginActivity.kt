@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         val useMobileSite = true
 
         // TODO: Update scope to appropriate values
-        val scope = arrayOf("read", "identity")
+        val scope = arrayOf("read", "identity", "subscribe", "mysubreddits")
         val authUrl = helper.getAuthorizationUrl(requestRefreshToken, useMobileSite, *scope)
 
         webView.loadUrl(authUrl)

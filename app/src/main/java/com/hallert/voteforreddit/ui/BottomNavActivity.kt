@@ -3,17 +3,14 @@ package com.hallert.voteforreddit.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.FrameLayout
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
-import com.hallert.voteforreddit.ui.views.SubredditBottomSheet
 
 class BottomNavActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
@@ -55,7 +52,7 @@ class BottomNavActivity : AppCompatActivity() {
                     .show()
             }
             R.id.nav_subs -> {
-                val sheet = SubredditBottomSheet()
+                val sheet = SubredditsFragment()
                 sheet.show(supportFragmentManager, "subredditBottomSheet")
             }
             R.id.nav_inbox -> {
