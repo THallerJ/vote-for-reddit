@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:textSize="24sp"
+            android:textSize="@dimen/title_font_size"
             android:fontFamily="@font/roboto_bold"
             tools:text="frontpage" />
     </androidx.appcompat.widget.Toolbar>

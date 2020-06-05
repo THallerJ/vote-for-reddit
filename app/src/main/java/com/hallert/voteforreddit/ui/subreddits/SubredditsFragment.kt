@@ -55,11 +55,5 @@ class SubredditsFragment: BottomSheetDialogFragment() {
         subreddit_recycler_view.layoutManager = LinearLayoutManager(context)
         subreddit_recycler_view.adapter = adapter
         subredditsViewModel.getSubs()
-        subreddit_recycler_view.addItemDecoration(
-            DividerItemDecoration(
-                subreddit_recycler_view.context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
     }
 }
