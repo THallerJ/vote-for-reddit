@@ -16,7 +16,6 @@ class BottomNavActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
 
     private val LOGIN_REQUEST_CODE = 0
-    private var currentSelectedId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +31,6 @@ class BottomNavActivity : AppCompatActivity() {
 
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setOnNavigationItemSelectedListener(navListener)
-
     }
 
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -43,7 +41,6 @@ class BottomNavActivity : AppCompatActivity() {
                         R.id.fragment_container,
                         SubmissionsFragment()
                     ).commit()
-                currentSelectedId = R.id.nav_posts
             }
             R.id.nav_search -> {
                 Toast.makeText(
@@ -52,10 +49,14 @@ class BottomNavActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 )
                     .show()
+
+                return@OnNavigationItemSelectedListener false
             }
             R.id.nav_subs -> {
                 val sheet = SubredditsFragment()
                 sheet.show(supportFragmentManager, "subredditBottomSheet")
+
+                return@OnNavigationItemSelectedListener false
             }
             R.id.nav_inbox -> {
                 // TODO: Replace check with Authentication.isUserless()
@@ -69,8 +70,6 @@ class BottomNavActivity : AppCompatActivity() {
                 } else {
                     loginNewUser()
                 }
-
-                currentSelectedId = R.id.nav_inbox
             }
             R.id.nav_profile -> {
                 // TODO: Replace check with Authentication.isUserless()
@@ -83,7 +82,6 @@ class BottomNavActivity : AppCompatActivity() {
                 } else {
                     loginNewUser()
                 }
-                currentSelectedId = R.id.nav_profile
             }
         }
         true
