@@ -17,7 +17,7 @@ class SubmissionViewModel : ViewModel() {
     val submissions: LiveData<List<Submission>> = repo.submissions.asLiveData()
 
     @ExperimentalCoroutinesApi
-    val isLoading:  LiveData<Boolean> = repo.isLoading.asLiveData()
+    val isLoading: LiveData<Boolean> = repo.isLoading.asLiveData()
 
     init {
         repo.buildSubreddit()
@@ -36,8 +36,6 @@ class SubmissionViewModel : ViewModel() {
         }
     }
 
-    // This ensures that the database is cleared before creating the fragment
-    // however, this also blocks the refresh animation
     fun startup() = runBlocking {
         CoroutineScope(Main).launch {
             repo.refresh()

@@ -1,8 +1,11 @@
 package com.hallert.voteforreddit.ui.subreddits
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.hallert.voteforreddit.RedditApp
+import com.hallert.voteforreddit.ui.submission.SubmissionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -12,23 +15,13 @@ import net.dean.jraw.models.Subreddit
 import net.dean.jraw.pagination.Paginator
 
 class SubredditsViewModel : ViewModel() {
-    val subreddits = MutableLiveData<List<Subreddit>>()
+    private var repo: SubredditsRepository = SubredditsRepository(RedditApp.database)
 
-    fun getSubs() {
-        CoroutineScope(IO).launch {
-            if (!RedditApp.accountHelper.reddit.authMethod.isUserless) {
-                val pages = RedditApp.accountHelper.reddit.me().subreddits("subscriber")
-                    .limit(Paginator.RECOMMENDED_MAX_LIMIT).build()
-                val subredditList = mutableListOf<Subreddit>()
+    val subreddits: LiveData<List<Subreddit>> = repo.subreddits.asLiveData()
 
-                for (page in pages) {
-                    subredditList.addAll(page)
-                }
-
-                withContext(Main) {
-                    subreddits.value = subredditList
-                }
-            }
+    fun updateSubreddits() {
+        CoroutineScope(Main).launch {
+          repo.addSubreddits()
         }
     }
 }

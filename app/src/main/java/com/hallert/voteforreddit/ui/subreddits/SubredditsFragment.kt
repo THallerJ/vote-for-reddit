@@ -14,7 +14,7 @@ import com.hallert.voteforreddit.R
 import kotlinx.android.synthetic.main.fragment_subreddits.*
 
 
-class SubredditsFragment: BottomSheetDialogFragment() {
+class SubredditsFragment : BottomSheetDialogFragment() {
     private lateinit var subredditsViewModel: SubredditsViewModel
     private lateinit var adapter: SubredditAdapter
 
@@ -48,6 +48,6 @@ class SubredditsFragment: BottomSheetDialogFragment() {
     fun initRecyclerView() {
         subreddit_recycler_view.layoutManager = LinearLayoutManager(context)
         subreddit_recycler_view.adapter = adapter
-        subredditsViewModel.getSubs()
+        subredditsViewModel.updateSubreddits()
     }
 }
