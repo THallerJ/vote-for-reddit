@@ -54,7 +54,6 @@ class SubmissionRepository(private val database: RedditDatabase) {
     }
 
     private fun insertSubmissions(submissions: List<Submission>) {
-
         val submissionList = mutableListOf<SubmissionEntity>()
 
         for (submission in submissions) {

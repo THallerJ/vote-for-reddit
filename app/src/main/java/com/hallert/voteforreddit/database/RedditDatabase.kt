@@ -3,6 +3,7 @@ package com.hallert.voteforreddit.database
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import net.dean.jraw.models.Submission
+import net.dean.jraw.models.Subreddit
 
 @Dao
 interface SubmissionDao {
@@ -16,9 +17,22 @@ interface SubmissionDao {
     fun clearDatabase()
 }
 
-@Database(entities = [SubmissionEntity::class], version = 1)
-@TypeConverters(SubmissionTypeConverter::class)
+@Dao
+interface SubredditDao {
+    @Query("SELECT subreddit FROM SubredditEntity WHERE username = :currentUser ORDER BY subredditName ASC")
+    fun getSubreddits(currentUser: String): Flow<List<Subreddit>>
+
+    @Query("DELETE FROM SubredditEntity")
+    fun clearDatabase()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertSubreddits(subreddits: List<SubredditEntity>)
+}
+
+@Database(entities = [SubmissionEntity::class, SubredditEntity::class], version = 1)
+@TypeConverters(SubmissionTypeConverter::class, SubredditTypeConverter::class)
 abstract class RedditDatabase : RoomDatabase() {
     abstract val submissionDao: SubmissionDao
+    abstract val subredditDao: SubredditDao
 }
 

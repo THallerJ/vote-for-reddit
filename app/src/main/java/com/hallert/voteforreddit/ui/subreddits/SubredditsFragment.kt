@@ -1,18 +1,13 @@
 package com.hallert.voteforreddit.ui.subreddits
 
-import android.app.Dialog
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hallert.voteforreddit.R
@@ -33,7 +28,6 @@ class SubredditsFragment: BottomSheetDialogFragment() {
             it.behavior.peekHeight = width / 2
         }
         val root = inflater.inflate(R.layout.fragment_subreddits, container, false)
-
 
         subredditsViewModel = ViewModelProvider(this).get(SubredditsViewModel::class.java)
 
