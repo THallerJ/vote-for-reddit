@@ -1,7 +1,6 @@
 package com.hallert.voteforreddit.ui.submission
 
-import com.hallert.voteforreddit.RedditApp
-import com.hallert.voteforreddit.database.RedditDatabase
+import com.hallert.voteforreddit.database.SubmissionDao
 import com.hallert.voteforreddit.database.SubmissionEntity
 import com.hallert.voteforreddit.util.WebUtil
 import kotlinx.coroutines.CoroutineScope
@@ -12,15 +11,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import net.dean.jraw.models.Submission
+import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.pagination.DefaultPaginator
 
 
-class SubmissionRepository(private val database: RedditDatabase) {
+class SubmissionRepository(private val submissionDao: SubmissionDao, private val accountHelper: AccountHelper) {
     private lateinit var subreddit: DefaultPaginator<Submission> // TODO: This should be removed
     lateinit var subredditName: String // TODO: This should be removed
 
     val submissions: Flow<List<Submission>>
-        get() = database.submissionDao.getAllSubmissions().filterNotNull()
+        get() = submissionDao.getAllSubmissions().filterNotNull()
 
     @ExperimentalCoroutinesApi
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -28,13 +28,13 @@ class SubmissionRepository(private val database: RedditDatabase) {
     // TODO: Remove buildSubreddit methods
     fun buildSubreddit(subName: String) {
         subreddit =
-            RedditApp.accountHelper.reddit.subreddit(subName).posts()
+            accountHelper.reddit.subreddit(subName).posts()
                 .build() // This should be passed into the methods as needed
         subredditName = subName
     }
 
     fun buildSubreddit() {
-        subreddit = RedditApp.accountHelper.reddit.frontPage()
+        subreddit = accountHelper.reddit.frontPage()
             .build() // This should be passed into the methods as needed
         subredditName = "frontpage"
     }
@@ -66,7 +66,7 @@ class SubmissionRepository(private val database: RedditDatabase) {
             submissionList.add(entity)
         }
 
-        database.submissionDao.insertSubmissions(submissionList.toList())
+        submissionDao.insertSubmissions(submissionList.toList())
     }
 
     @ExperimentalCoroutinesApi
@@ -76,7 +76,7 @@ class SubmissionRepository(private val database: RedditDatabase) {
         CoroutineScope(IO).launch {
             if (WebUtil.isOnline()) {
                 subreddit.restart()
-                database.submissionDao.clearDatabase()
+                submissionDao.clearDatabase()
                 insertSubmissions(subreddit.next())
                 isLoading.value = false
             } else {

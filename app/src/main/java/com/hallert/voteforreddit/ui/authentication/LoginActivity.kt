@@ -10,15 +10,21 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.RedditApp
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.oauth.OAuthException
 import net.dean.jraw.oauth.StatefulAuthHelper
 import timber.log.Timber
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
+
+    @Inject lateinit var accountHelper: AccountHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -32,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
         CookieManager.getInstance().removeAllCookies(null)
         CookieManager.getInstance().flush()
 
-        val helper = RedditApp.accountHelper.switchToNewUser()
+        val helper = accountHelper.switchToNewUser()
 
         webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {

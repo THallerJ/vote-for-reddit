@@ -1,7 +1,6 @@
 package com.hallert.voteforreddit.ui.subreddits
 
-import com.hallert.voteforreddit.RedditApp
-import com.hallert.voteforreddit.database.RedditDatabase
+import com.hallert.voteforreddit.database.SubredditDao
 import com.hallert.voteforreddit.database.SubredditEntity
 import com.hallert.voteforreddit.user.UserManager
 import kotlinx.coroutines.CoroutineScope
@@ -9,17 +8,22 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import net.dean.jraw.models.Subreddit
+import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.pagination.Paginator
 
-class SubredditsRepository(private val database: RedditDatabase) {
+class SubredditsRepository(
+    private val subredditDao: SubredditDao,
+    private val accountHelper: AccountHelper,
+    private val userManager: UserManager
+) {
     val subreddits: Flow<List<Subreddit>>
-        get() = database.subredditDao.getSubreddits(UserManager.currentUser())
+        get() = subredditDao.getSubreddits(userManager.currentUser())
 
 
     fun addSubreddits() {
         CoroutineScope(IO).launch {
-            if (!UserManager.isUserless()) {
-                val pages = RedditApp.accountHelper.reddit.me().subreddits("subscriber")
+            if (!userManager.isUserless()) {
+                val pages = accountHelper.reddit.me().subreddits("subscriber")
                     .limit(Paginator.RECOMMENDED_MAX_LIMIT).build()
                 val subredditList = mutableListOf<SubredditEntity>()
 
@@ -27,7 +31,7 @@ class SubredditsRepository(private val database: RedditDatabase) {
                     for (subreddit in page) {
                         val entity = SubredditEntity(
                             subreddit.id,
-                            RedditApp.accountHelper.reddit.me().username,
+                            accountHelper.reddit.me().username,
                             subreddit.name,
                             subreddit
                         )
@@ -36,7 +40,7 @@ class SubredditsRepository(private val database: RedditDatabase) {
                     }
                 }
 
-                database.subredditDao.insertSubreddits(subredditList.toList())
+                subredditDao.insertSubreddits(subredditList.toList())
             }
         }
     }

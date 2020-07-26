@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.RedditApp
 import kotlinx.android.synthetic.main.subreddit_item.view.*
 import net.dean.jraw.models.Subreddit
 

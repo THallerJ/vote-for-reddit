@@ -8,16 +8,21 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.RedditApp
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import net.dean.jraw.oauth.AccountHelper
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProfileFragment: Fragment() {
     lateinit var textView: TextView
     lateinit var button: Button
+
+    @Inject lateinit var accountHelper: AccountHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,20 +51,20 @@ class ProfileFragment: Fragment() {
     }
 
     private fun setLoginText() {
-        if (!RedditApp.accountHelper.isAuthenticated() || RedditApp.accountHelper.reddit.authMethod.isUserless) {
+        if (!accountHelper.isAuthenticated() || accountHelper.reddit.authMethod.isUserless) {
             textView.text = "Not signed in"
             button.visibility = View.INVISIBLE
         } else {
-            textView.text = "Logged in as: " + RedditApp.accountHelper.reddit.me().username
+            textView.text = "Logged in as: " + accountHelper.reddit.me().username
             button.visibility = View.VISIBLE
         }
     }
 
     private fun logout() {
         CoroutineScope(IO).launch{
-            RedditApp.accountHelper.reddit.authManager.revokeRefreshToken()
-            RedditApp.accountHelper.reddit.authManager.revokeAccessToken()
-            RedditApp.accountHelper.switchToUserless()
+            accountHelper.reddit.authManager.revokeRefreshToken()
+            accountHelper.reddit.authManager.revokeAccessToken()
+            accountHelper.switchToUserless()
 
             withContext(Main) {
                 setLoginText()

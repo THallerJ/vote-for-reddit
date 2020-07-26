@@ -1,0 +1,36 @@
+package com.hallert.voteforreddit.injection
+
+import com.hallert.voteforreddit.database.SubmissionDao
+import com.hallert.voteforreddit.database.SubredditDao
+import com.hallert.voteforreddit.ui.submission.SubmissionRepository
+import com.hallert.voteforreddit.ui.subreddits.SubredditsRepository
+import com.hallert.voteforreddit.user.UserManager
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import net.dean.jraw.oauth.AccountHelper
+import javax.inject.Singleton
+
+@InstallIn(ApplicationComponent::class)
+@Module
+object RepositoryModule {
+
+    @Singleton
+    @Provides
+    fun provideSubmissionRepository(
+        submissionDao: SubmissionDao, accountHelper: AccountHelper
+    ): SubmissionRepository {
+        return SubmissionRepository(submissionDao, accountHelper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubredditsRepopsitory(
+        subredditDao: SubredditDao,
+        accountHelper: AccountHelper,
+        userManager: UserManager
+    ): SubredditsRepository {
+        return SubredditsRepository(subredditDao, accountHelper, userManager)
+    }
+}

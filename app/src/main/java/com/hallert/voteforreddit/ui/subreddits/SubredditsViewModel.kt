@@ -1,27 +1,26 @@
 package com.hallert.voteforreddit.ui.subreddits
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.hallert.voteforreddit.RedditApp
-import com.hallert.voteforreddit.ui.submission.SubmissionRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import net.dean.jraw.models.Subreddit
-import net.dean.jraw.pagination.Paginator
 
-class SubredditsViewModel : ViewModel() {
-    private var repo: SubredditsRepository = SubredditsRepository(RedditApp.database)
+class SubredditsViewModel @ViewModelInject constructor(
+    private val subredditsRepository: SubredditsRepository,
+    @Assisted private val stateHandle: SavedStateHandle
+) : ViewModel() {
 
-    val subreddits: LiveData<List<Subreddit>> = repo.subreddits.asLiveData()
+    val subreddits: LiveData<List<Subreddit>> = subredditsRepository.subreddits.asLiveData()
 
     fun updateSubreddits() {
         CoroutineScope(Main).launch {
-          repo.addSubreddits()
+            subredditsRepository.addSubreddits()
         }
     }
 }

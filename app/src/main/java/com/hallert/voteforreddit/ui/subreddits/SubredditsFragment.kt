@@ -5,17 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hallert.voteforreddit.R
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_subreddits.*
 
-
+@AndroidEntryPoint
 class SubredditsFragment : BottomSheetDialogFragment() {
-    private lateinit var subredditsViewModel: SubredditsViewModel
+    private val subredditsViewModel: SubredditsViewModel by viewModels()
     private lateinit var adapter: SubredditAdapter
 
     override fun onCreateView(
@@ -28,8 +29,6 @@ class SubredditsFragment : BottomSheetDialogFragment() {
             it.behavior.peekHeight = width / 2
         }
         val root = inflater.inflate(R.layout.fragment_subreddits, container, false)
-
-        subredditsViewModel = ViewModelProvider(this).get(SubredditsViewModel::class.java)
 
         adapter = SubredditAdapter()
 

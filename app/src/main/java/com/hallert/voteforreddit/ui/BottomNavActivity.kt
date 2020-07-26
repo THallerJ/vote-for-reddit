@@ -1,21 +1,26 @@
 package com.hallert.voteforreddit.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
+import dagger.hilt.android.AndroidEntryPoint
+import net.dean.jraw.oauth.AccountHelper
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BottomNavActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
 
     private val LOGIN_REQUEST_CODE = 0
+
+    @Inject lateinit var accountHelper: AccountHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +65,7 @@ class BottomNavActivity : AppCompatActivity() {
             }
             R.id.nav_inbox -> {
                 // TODO: Replace check with Authentication.isUserless()
-                if (!RedditApp.accountHelper.reddit.authMethod.isUserless) {
+                if (!accountHelper.reddit.authMethod.isUserless) {
                     Toast.makeText(
                         this@BottomNavActivity,
                         "TODO: Launch messages Fragment",
@@ -73,7 +78,7 @@ class BottomNavActivity : AppCompatActivity() {
             }
             R.id.nav_profile -> {
                 // TODO: Replace check with Authentication.isUserless()
-                if (!RedditApp.accountHelper.reddit.authMethod.isUserless) {
+                if (!accountHelper.reddit.authMethod.isUserless) {
                     supportFragmentManager.beginTransaction()
                         .replace(
                             R.id.fragment_container,

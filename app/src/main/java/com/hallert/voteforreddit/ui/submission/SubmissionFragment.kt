@@ -6,16 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.views.RecyclerLoadListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_submissions.*
 
+@AndroidEntryPoint
 class SubmissionsFragment : Fragment() {
-    private lateinit var submissionViewModel: SubmissionViewModel
+    private val submissionViewModel: SubmissionViewModel by viewModels()
     private lateinit var adapter: SubmissionAdapter
 
     override fun onCreateView(
@@ -24,8 +26,6 @@ class SubmissionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_submissions, container, false)
-
-        submissionViewModel = ViewModelProvider(this).get(SubmissionViewModel::class.java)
 
         val toolbarTitle = activity?.findViewById<TextView>(R.id.bottom_nav_title)
 
