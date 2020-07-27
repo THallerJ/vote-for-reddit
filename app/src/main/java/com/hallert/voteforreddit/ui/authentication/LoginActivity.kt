@@ -10,6 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.ui.subreddits.SubredditsRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class LoginActivity : AppCompatActivity() {
 
     @Inject lateinit var accountHelper: AccountHelper
+    @Inject lateinit var subredditsRepository: SubredditsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +78,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         host.setResult(if (success) Activity.RESULT_OK else Activity.RESULT_CANCELED, Intent())
+        subredditsRepository.addSubreddits()
         host.finish()
     }
 }

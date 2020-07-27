@@ -22,8 +22,8 @@ interface SubredditDao {
     @Query("SELECT subreddit FROM SubredditEntity WHERE username = :currentUser ORDER BY subredditName ASC")
     fun getSubreddits(currentUser: String): Flow<List<Subreddit>>
 
-    @Query("DELETE FROM SubredditEntity")
-    fun clearDatabase()
+    @Query("DELETE FROM SubredditEntity WHERE username =:currentUser")
+    fun clearDatabase(currentUser: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSubreddits(subreddits: List<SubredditEntity>)

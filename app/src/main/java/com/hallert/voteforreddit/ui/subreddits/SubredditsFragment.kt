@@ -34,6 +34,11 @@ class SubredditsFragment : BottomSheetDialogFragment() {
 
         subredditsViewModel.subreddits.observe(viewLifecycleOwner, Observer { subreddits ->
             adapter.data = subreddits
+
+            subreddit_frontpage.visibility = View.VISIBLE
+            subreddit_popular.visibility = View.VISIBLE
+            subreddit_all.visibility = View.VISIBLE
+            subreddits_title.visibility = View.VISIBLE
         })
 
         return root
@@ -42,6 +47,7 @@ class SubredditsFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+
     }
 
     fun initRecyclerView() {
