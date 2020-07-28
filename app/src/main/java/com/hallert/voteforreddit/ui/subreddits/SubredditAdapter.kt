@@ -9,7 +9,9 @@ import com.hallert.voteforreddit.R
 import kotlinx.android.synthetic.main.subreddit_item.view.*
 import net.dean.jraw.models.Subreddit
 
-class SubredditAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SubredditAdapter constructor(private val clickListener: SubredditClickListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     var data: List<Subreddit> = ArrayList()
         set(value) {
             field = value
@@ -25,7 +27,7 @@ class SubredditAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is SubredditViewHolder -> {
-                holder.bind(data[position])
+                holder.bind(data[position], clickListener)
             }
 
         }
@@ -38,8 +40,17 @@ class SubredditAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class SubredditViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name: TextView = itemView.subreddit_name
 
-        fun bind(subreddit: Subreddit) {
+        fun bind(subreddit: Subreddit, listener: SubredditClickListener) {
             name.text = subreddit.name
+
+            itemView.setOnClickListener {
+                listener.onItemClick(subreddit, adapterPosition)
+            }
         }
     }
+}
+
+
+interface SubredditClickListener {
+    fun onItemClick(subreddit: Subreddit, position: Int)
 }

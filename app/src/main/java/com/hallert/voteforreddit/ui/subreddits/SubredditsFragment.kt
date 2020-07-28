@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +14,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hallert.voteforreddit.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_subreddits.*
+import net.dean.jraw.models.Subreddit
 
 @AndroidEntryPoint
-class SubredditsFragment : BottomSheetDialogFragment() {
+class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
     private val subredditsViewModel: SubredditsViewModel by viewModels()
     private lateinit var adapter: SubredditAdapter
 
@@ -30,7 +32,7 @@ class SubredditsFragment : BottomSheetDialogFragment() {
         }
         val root = inflater.inflate(R.layout.fragment_subreddits, container, false)
 
-        adapter = SubredditAdapter()
+        adapter = SubredditAdapter(this)
 
         subredditsViewModel.subreddits.observe(viewLifecycleOwner, Observer { subreddits ->
             adapter.data = subreddits
@@ -47,12 +49,19 @@ class SubredditsFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-
     }
 
     fun initRecyclerView() {
         subreddit_recycler_view.layoutManager = LinearLayoutManager(context)
         subreddit_recycler_view.adapter = adapter
         subredditsViewModel.updateSubreddits()
+    }
+
+    // This method control what happens when clicking items in the RecyclerView
+    override fun onItemClick(subreddit: Subreddit, position: Int) {
+        Toast.makeText(
+            context,
+            "TODO: Launch " + subreddit.name + " subreddit", Toast.LENGTH_SHORT)
+            .show()
     }
 }
