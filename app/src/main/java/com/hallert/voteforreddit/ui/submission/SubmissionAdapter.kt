@@ -17,9 +17,11 @@ import com.hallert.voteforreddit.util.NumberFormatUtil
 import kotlinx.android.synthetic.main.submission.view.*
 import net.dean.jraw.models.Submission
 
-class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    internal val NO_THUMBNAIL = 0
-    internal val THUMBNAIL = 1
+class SubmissionAdapter constructor(private val listener: SubmissionClickListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val NO_THUMBNAIL = 0
+    private val THUMBNAIL = 1
 
     var data: List<Submission> = ArrayList()
         set(value) {
@@ -45,9 +47,9 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (data[position].thumbnail != "self") {
-            (holder as ThumbnailViewHolder).bind(data[position])
+            (holder as ThumbnailViewHolder).bind(data[position], listener)
         } else {
-            (holder as NoThumbnailViewHolder).bind(data[position])
+            (holder as NoThumbnailViewHolder).bind(data[position], listener)
         }
     }
 
@@ -75,7 +77,7 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val linkFlair: TextView = itemView.submission_link_flair
         private val domain: TextView = itemView.submission_domain
 
-        fun bind(submission: Submission) {
+        fun bind(submission: Submission, listener: SubmissionClickListener) {
             thumbnail.layout(0, 0, 0, 0)
             val requestOptions = RequestOptions()
                 .error(R.drawable.ic_submission_link)
@@ -86,6 +88,17 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 .load(submission.thumbnail)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(thumbnail)
+
+            itemView.setOnClickListener {
+                listener.onItemClick(submission, adapterPosition)
+            }
+
+            thumbnail.setOnClickListener {
+                listener.onItemThumbnailClick(
+                    submission,
+                    adapterPosition
+                )
+            }
 
             linkFlair.text = submission.linkFlairText
 
@@ -113,13 +126,17 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val linkFlair: TextView = itemView.submission_link_flair
         private val domain: TextView = itemView.submission_domain
 
-        fun bind(submission: Submission) {
+        fun bind(submission: Submission, listener: SubmissionClickListener) {
             linkFlair.text = submission.linkFlairText
 
             if (submission.linkFlairText.isNullOrBlank()) {
                 linkFlair.visibility = View.GONE
             } else {
                 linkFlair.visibility = View.VISIBLE
+            }
+
+            itemView.setOnClickListener {
+                listener.onItemClick(submission, adapterPosition)
             }
 
             title.text = submission.title
@@ -130,4 +147,9 @@ class SubmissionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             domain.text = submission.domain
         }
     }
+}
+
+interface SubmissionClickListener {
+    fun onItemClick(submission: Submission, position: Int)
+    fun onItemThumbnailClick(submission: Submission, position: Int)
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,9 +15,10 @@ import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.views.RecyclerLoadListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_submissions.*
+import net.dean.jraw.models.Submission
 
 @AndroidEntryPoint
-class SubmissionsFragment : Fragment() {
+class SubmissionsFragment : Fragment(), SubmissionClickListener {
     private val submissionViewModel: SubmissionViewModel by viewModels()
     private lateinit var adapter: SubmissionAdapter
 
@@ -33,7 +35,7 @@ class SubmissionsFragment : Fragment() {
             toolbarTitle.text = submissionViewModel.getSubredditName()
         }
 
-        adapter = SubmissionAdapter()
+        adapter = SubmissionAdapter(this)
 
         submissionViewModel.submissions.observe(viewLifecycleOwner, Observer { submissions ->
             adapter.data = submissions
@@ -73,4 +75,17 @@ class SubmissionsFragment : Fragment() {
         }
     }
 
+    override fun onItemClick(submission: Submission, position: Int) {
+        Toast.makeText(
+            context,
+            "TODO: Open submission " + submission.title, Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    override fun onItemThumbnailClick(submission: Submission, position: Int) {
+        Toast.makeText(
+            context,
+            "TODO: Open thumbnail/link " + submission.title, Toast.LENGTH_SHORT)
+            .show()
+    }
 }
