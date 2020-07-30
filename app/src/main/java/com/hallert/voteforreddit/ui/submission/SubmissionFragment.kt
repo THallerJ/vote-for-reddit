@@ -75,6 +75,8 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         }
     }
 
+
+    // These methods handle click events on items in the RecyclerView
     override fun onItemClick(submission: Submission, position: Int) {
         Toast.makeText(
             context,

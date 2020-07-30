@@ -76,6 +76,7 @@ class SubmissionAdapter constructor(private val listener: SubmissionClickListene
         private val thumbnail: ImageView = itemView.submission_thumbnail_image
         private val linkFlair: TextView = itemView.submission_link_flair
         private val domain: TextView = itemView.submission_domain
+        private val submissionLink: ImageView = itemView.submission_link
 
         fun bind(submission: Submission, listener: SubmissionClickListener) {
             thumbnail.layout(0, 0, 0, 0)
@@ -94,6 +95,13 @@ class SubmissionAdapter constructor(private val listener: SubmissionClickListene
             }
 
             thumbnail.setOnClickListener {
+                listener.onItemThumbnailClick(
+                    submission,
+                    adapterPosition
+                )
+            }
+
+            submissionLink.setOnClickListener {
                 listener.onItemThumbnailClick(
                     submission,
                     adapterPosition
@@ -148,6 +156,7 @@ class SubmissionAdapter constructor(private val listener: SubmissionClickListene
         }
     }
 }
+
 
 interface SubmissionClickListener {
     fun onItemClick(submission: Submission, position: Int)
