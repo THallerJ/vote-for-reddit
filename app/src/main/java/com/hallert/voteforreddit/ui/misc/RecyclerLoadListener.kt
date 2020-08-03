@@ -1,4 +1,4 @@
-package com.hallert.voteforreddit.ui.views
+package com.hallert.voteforreddit.ui.misc
 
 import androidx.recyclerview.widget.RecyclerView
 

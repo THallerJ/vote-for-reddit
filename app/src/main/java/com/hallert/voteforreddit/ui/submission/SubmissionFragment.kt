@@ -1,5 +1,6 @@
 package com.hallert.voteforreddit.ui.submission
 
+import SwipeToVoteCallBack
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.ui.views.RecyclerLoadListener
+import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import net.dean.jraw.models.Submission
@@ -57,12 +59,35 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submission_recycler_view.layoutManager = LinearLayoutManager(context)
         submission_recycler_view.adapter = adapter
         submissionViewModel.getNextPage()
+
         submission_recycler_view.addItemDecoration(
             DividerItemDecoration(
                 submission_recycler_view.context,
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        val swipeCallback =
+            object : SwipeToVoteCallBack(adapter) {
+                override fun onSwipeLeft() {
+                    Toast.makeText(
+                        context,
+                        "TODO: Downvote submission",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onSwipeRight() {
+                    Toast.makeText(
+                        context,
+                        "TODO: Upvote submission",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+        val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeCallback)
+        itemTouchHelper.attachToRecyclerView(submission_recycler_view)
 
         submission_recycler_view.addOnScrollListener(object : RecyclerLoadListener() {
             override fun atBottom() {
@@ -75,19 +100,20 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         }
     }
 
-
     // These methods handle click events on items in the RecyclerView
     override fun onItemClick(submission: Submission, position: Int) {
         Toast.makeText(
             context,
-            "TODO: Open submission " + submission.title, Toast.LENGTH_SHORT)
+            "TODO: Open submission " + submission.title, Toast.LENGTH_SHORT
+        )
             .show()
     }
 
     override fun onItemThumbnailClick(submission: Submission, position: Int) {
         Toast.makeText(
             context,
-            "TODO: Open thumbnail/link " + submission.title, Toast.LENGTH_SHORT)
+            "TODO: Open thumbnail/link " + submission.title, Toast.LENGTH_SHORT
+        )
             .show()
     }
 }
