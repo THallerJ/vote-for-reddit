@@ -88,6 +88,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
         val itemTouchHelper: ItemTouchHelper = ItemTouchHelper(swipeCallback)
         itemTouchHelper.attachToRecyclerView(submission_recycler_view)
+        submission_recycler_view.itemAnimator!!.changeDuration = 0
 
         submission_recycler_view.addOnScrollListener(object : RecyclerLoadListener() {
             override fun atBottom() {

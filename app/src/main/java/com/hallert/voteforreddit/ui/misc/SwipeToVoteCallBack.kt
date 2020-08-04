@@ -11,6 +11,7 @@ abstract class SwipeToVoteCallBack(
 ) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
+
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -59,7 +60,7 @@ abstract class SwipeToVoteCallBack(
             )
         }
 
-        // val upvoteIcon = context?.resources?.getDrawable(R.drawable.ic_upvote, null)
+        //val upvoteIcon = context?.resources?.getDrawable(R.drawable.ic_upvote, null)
 
         when {
             // swipe to the right
@@ -67,19 +68,19 @@ abstract class SwipeToVoteCallBack(
                 upvoteBackground?.setBounds(
                     itemView.left,
                     itemView.top,
-                    if (dX <= swipeDistance) itemView.left + dX.toInt() else swipeDistance.toInt(),
+                    if (dX <= swipeDistance) itemView.left + dX.toInt()
+                    else swipeDistance.toInt(),
                     itemView.bottom
                 )
             }
             // swipe to the left
             dX < 0 -> {
                 downvoteBackground?.setBounds(
-                    if (dX <= -swipeDistance) itemView.right - swipeDistance.toInt() else itemView.right + dX.toInt(),
+                    if (dX <= -swipeDistance) itemView.right - swipeDistance.toInt()
+                    else itemView.right + dX.toInt(),
                     itemView.top,
                     itemView.right,
                     itemView.bottom
-
-                    //itemView.right - swipeDistance.toInt()
                 )
             }
             else -> {
@@ -90,12 +91,9 @@ abstract class SwipeToVoteCallBack(
         downvoteBackground?.draw(c)
         upvoteBackground?.draw(c)
 
-        //upvoteIcon.draw(c)
+        //upvoteIcon?.draw(c)
     }
 
-    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-        super.clearView(recyclerView, viewHolder)
-    }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (direction == ItemTouchHelper.RIGHT) {
