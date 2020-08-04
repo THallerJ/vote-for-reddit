@@ -68,7 +68,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         )
 
         val swipeCallback =
-            object : SwipeToVoteCallBack(adapter) {
+            object : SwipeToVoteCallBack(this!!.context, adapter) {
                 override fun onSwipeLeft() {
                     Toast.makeText(
                         context,

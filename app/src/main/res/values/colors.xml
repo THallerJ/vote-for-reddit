@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#F8F8F8</color>
     <color name="colorAccent">#448aff</color>
     <color name="colorDull">#8d8d8d</color>
-    <color name="submissionBackgroundColor">#d0d0d0</color>606060
+    <color name="submissionBackgroundColor">#d0d0d0</color>
     <color name="submissionIconColor">#606060</color>
+    <color name="downvoteColor">#82b1ff</color>
+    <color name="upvoteColor">#ff7043</color>
 
 </resources>
