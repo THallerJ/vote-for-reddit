@@ -12,7 +12,6 @@ abstract class SwipeToVoteCallBack(
 ) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
-
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -38,7 +37,6 @@ abstract class SwipeToVoteCallBack(
             newDx = -swipeDistance
         }
 
-
         val itemView = viewHolder.itemView
 
         val upvoteBackground = context?.resources?.getColor(R.color.upvoteColor, null)?.let {
@@ -52,55 +50,83 @@ abstract class SwipeToVoteCallBack(
             )
         }
 
-        val upvoteIcon = context?.resources?.getDrawable(R.drawable.arrow_up_bold, null)
-
-        val iconLeft = itemView.left + (swipeDistance.toInt() / 2) - upvoteIcon!!.intrinsicWidth
-        val iconTop = itemView.top + (itemView.height / 2) - (upvoteIcon.intrinsicHeight)
-        val iconRight = itemView.left + (swipeDistance.toInt() / 2) + upvoteIcon!!.intrinsicWidth
-        val iconBottom = itemView.top + (itemView.height / 2) + (upvoteIcon.intrinsicHeight / 2)
+        val upvoteIcon = context?.resources?.getDrawable(R.drawable.ic_swipe_upvote, null)
+        val downvoteIcon = context?.resources?.getDrawable(R.drawable.ic_swipe_downvote, null)
 
         when {
             // swipe to the right
             dX > 0 -> {
+                /*
                 upvoteBackground?.setBounds(
                     itemView.left,
                     itemView.top,
                     if (dX <= swipeDistance) itemView.left + dX.toInt()
                     else swipeDistance.toInt(),
                     itemView.bottom
-                )
-
-                upvoteIcon?.setBounds(
-                    if (dX <= swipeDistance) itemView.left + (dX.toInt() / 2) - upvoteIcon!!.intrinsicWidth
-                    else iconLeft,
-                    iconTop,
-                    if (dX <= swipeDistance) itemView.left + (dX.toInt() / 2)  + upvoteIcon!!.intrinsicWidth
-                    else iconRight,
-                    iconBottom
-                )
-
-                /*
-                upvoteIcon?.setBounds(
-                    itemView.left + iconMarginVertical,
-                    itemView.top + iconMarginVertical,
-                    itemView.left + iconMarginVertical + upvoteIcon.intrinsicWidth,
-                    itemView.bottom - iconMarginVertical
                 ) */
+
+                var backgroundRight = swipeDistance.toInt()
+
+                var iconLeft =
+                    itemView.left + (swipeDistance.toInt() / 2) - upvoteIcon!!.intrinsicWidth
+                val iconTop = itemView.top + (itemView.height / 2) - (upvoteIcon.intrinsicHeight)
+                var iconRight =
+                    itemView.left + (swipeDistance.toInt() / 2) + upvoteIcon!!.intrinsicWidth
+                val iconBottom =
+                    itemView.top + (itemView.height / 2) + (upvoteIcon.intrinsicHeight / 2)
+
+                if (dX <= swipeDistance) {
+                    backgroundRight = itemView.left + dX.toInt()
+
+                    if (dX <= upvoteIcon.intrinsicWidth) {
+                        iconLeft = 0
+                        iconRight = 0
+                    } else {
+                        iconLeft = itemView.left + (dX.toInt() / 2) - upvoteIcon!!.intrinsicWidth
+                        iconRight = itemView.left + (dX.toInt() / 2) + upvoteIcon!!.intrinsicWidth
+                    }
+                }
+
+                upvoteBackground?.setBounds(
+                    itemView.left,
+                    itemView.top,
+                    backgroundRight,
+                    itemView.bottom
+                )
+
+                upvoteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
             // swipe to the left
             dX < 0 -> {
+                var backgroundLeft = itemView.right - swipeDistance.toInt()
+
+                var iconLeft =
+                    itemView.right - (swipeDistance.toInt() / 2) - downvoteIcon!!.intrinsicWidth
+                val iconTop = itemView.top + (itemView.height / 2) - (downvoteIcon.intrinsicHeight)
+                var iconRight =
+                    itemView.right - (swipeDistance.toInt() / 2) + downvoteIcon!!.intrinsicWidth
+                val iconBottom =
+                    itemView.top + (itemView.height / 2) + (downvoteIcon.intrinsicHeight / 2)
+
+                if (dX >= -swipeDistance) {
+                    backgroundLeft = itemView.right + dX.toInt()
+
+                    if (dX >= -downvoteIcon.intrinsicWidth) {
+                        iconLeft = 0
+                        iconRight = 0
+                    } else {
+                        iconLeft = itemView.right + (dX.toInt() / 2) - upvoteIcon!!.intrinsicWidth
+                        iconRight = itemView.right + (dX.toInt() / 2) + upvoteIcon!!.intrinsicWidth
+                    }
+                }
+
                 downvoteBackground?.setBounds(
-                    if (dX <= -swipeDistance) itemView.right - swipeDistance.toInt()
-                    else itemView.right + dX.toInt(),
+                    backgroundLeft,
                     itemView.top,
                     itemView.right,
                     itemView.bottom
                 )
-
-
-            }
-            else -> {
-                upvoteBackground?.setBounds(0, 0, 0, 0)
+                downvoteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
         }
 
@@ -108,6 +134,7 @@ abstract class SwipeToVoteCallBack(
         upvoteBackground?.draw(c)
 
         upvoteIcon?.draw(c)
+        downvoteIcon?.draw(c)
 
         super.onChildDraw(
             c,
@@ -119,7 +146,6 @@ abstract class SwipeToVoteCallBack(
             isCurrentlyActive
         );
     }
-
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (direction == ItemTouchHelper.RIGHT) {
