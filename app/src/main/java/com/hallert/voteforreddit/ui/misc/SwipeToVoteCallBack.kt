@@ -1,6 +1,7 @@
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
@@ -37,15 +38,6 @@ abstract class SwipeToVoteCallBack(
             newDx = -swipeDistance
         }
 
-        super.onChildDraw(
-            c,
-            recyclerView,
-            viewHolder,
-            newDx,
-            dY,
-            actionState,
-            isCurrentlyActive
-        );
 
         val itemView = viewHolder.itemView
 
@@ -60,7 +52,12 @@ abstract class SwipeToVoteCallBack(
             )
         }
 
-        //val upvoteIcon = context?.resources?.getDrawable(R.drawable.ic_upvote, null)
+        val upvoteIcon = context?.resources?.getDrawable(R.drawable.arrow_up_bold, null)
+
+        val iconLeft = itemView.left + (swipeDistance.toInt() / 2) - upvoteIcon!!.intrinsicWidth
+        val iconTop = itemView.top + (itemView.height / 2) - (upvoteIcon.intrinsicHeight)
+        val iconRight = itemView.left + (swipeDistance.toInt() / 2) + upvoteIcon!!.intrinsicWidth
+        val iconBottom = itemView.top + (itemView.height / 2) + (upvoteIcon.intrinsicHeight / 2)
 
         when {
             // swipe to the right
@@ -72,6 +69,23 @@ abstract class SwipeToVoteCallBack(
                     else swipeDistance.toInt(),
                     itemView.bottom
                 )
+
+                upvoteIcon?.setBounds(
+                    if (dX <= swipeDistance) itemView.left + (dX.toInt() / 2) - upvoteIcon!!.intrinsicWidth
+                    else iconLeft,
+                    iconTop,
+                    if (dX <= swipeDistance) itemView.left + (dX.toInt() / 2)  + upvoteIcon!!.intrinsicWidth
+                    else iconRight,
+                    iconBottom
+                )
+
+                /*
+                upvoteIcon?.setBounds(
+                    itemView.left + iconMarginVertical,
+                    itemView.top + iconMarginVertical,
+                    itemView.left + iconMarginVertical + upvoteIcon.intrinsicWidth,
+                    itemView.bottom - iconMarginVertical
+                ) */
             }
             // swipe to the left
             dX < 0 -> {
@@ -82,6 +96,8 @@ abstract class SwipeToVoteCallBack(
                     itemView.right,
                     itemView.bottom
                 )
+
+
             }
             else -> {
                 upvoteBackground?.setBounds(0, 0, 0, 0)
@@ -91,7 +107,17 @@ abstract class SwipeToVoteCallBack(
         downvoteBackground?.draw(c)
         upvoteBackground?.draw(c)
 
-        //upvoteIcon?.draw(c)
+        upvoteIcon?.draw(c)
+
+        super.onChildDraw(
+            c,
+            recyclerView,
+            viewHolder,
+            newDx,
+            dY,
+            actionState,
+            isCurrentlyActive
+        );
     }
 
 
