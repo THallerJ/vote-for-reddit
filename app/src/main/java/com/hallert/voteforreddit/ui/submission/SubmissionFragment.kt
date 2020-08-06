@@ -1,6 +1,6 @@
 package com.hallert.voteforreddit.ui.submission
 
-import SwipeToVoteCallBack
+import SwipeVoteCallBack
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,7 +68,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         )
 
         val swipeCallback =
-            object : SwipeToVoteCallBack(this!!.context, adapter) {
+            object : SwipeVoteCallBack(this!!.context, adapter) {
                 override fun onSwipeLeft() {
                     Toast.makeText(
                         context,

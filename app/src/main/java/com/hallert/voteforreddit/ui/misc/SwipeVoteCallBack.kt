@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
 
-abstract class SwipeToVoteCallBack(
+abstract class SwipeVoteCallBack(
     private val context: Context?,
     private val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
 ) :
@@ -56,15 +56,6 @@ abstract class SwipeToVoteCallBack(
         when {
             // swipe to the right
             dX > 0 -> {
-                /*
-                upvoteBackground?.setBounds(
-                    itemView.left,
-                    itemView.top,
-                    if (dX <= swipeDistance) itemView.left + dX.toInt()
-                    else swipeDistance.toInt(),
-                    itemView.bottom
-                ) */
-
                 var backgroundRight = swipeDistance.toInt()
 
                 var iconLeft =
@@ -145,6 +136,10 @@ abstract class SwipeToVoteCallBack(
             actionState,
             isCurrentlyActive
         );
+    }
+
+    override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+        return 0.25f
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

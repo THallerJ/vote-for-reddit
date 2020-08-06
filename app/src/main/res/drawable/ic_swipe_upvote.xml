@@ -1,7 +1,7 @@
 <!-- drawable/ic_swipe_upvote.xml -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="24dp"
-    android:width="24dp"
+    android:height="16dp"
+    android:width="16dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path android:fillColor="#000" android:pathData="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" />
