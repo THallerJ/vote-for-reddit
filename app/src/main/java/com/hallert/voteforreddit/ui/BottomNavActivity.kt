@@ -2,6 +2,7 @@ package com.hallert.voteforreddit.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,11 +21,13 @@ private const val PROFILE_FRAGMENT_TAG: String = "profile_fragment"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
 
+private const val TITLE_TEXT: String = "title_text"
 private const val LOGIN_REQUEST_CODE = 0
 
 @AndroidEntryPoint
 class BottomNavActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
+    private lateinit var toolbarTitle: TextView
 
     @Inject
     lateinit var accountHelper: AccountHelper
@@ -34,13 +37,16 @@ class BottomNavActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        toolbarTitle = findViewById(R.id.bottom_nav_title)
 
         if (savedInstanceState == null) {
+            toolbarTitle.text = "Submissions"
             currentFragmentTag = ROOT_FRAGMENT
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, SubmissionsFragment(), ROOT_FRAGMENT).commit()
         } else {
             currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG)!!
+            toolbarTitle.text = savedInstanceState.getString(TITLE_TEXT)
         }
 
         bottomNav = findViewById(R.id.bottom_navigation_bar)
@@ -75,6 +81,8 @@ class BottomNavActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.nav_posts -> {
                 switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+                // TODO: Replace with subreddit title
+                toolbarTitle.text = "Submissions"
             }
             R.id.nav_search -> {
                 Toast.makeText(
@@ -108,6 +116,7 @@ class BottomNavActivity : AppCompatActivity() {
             R.id.nav_profile -> {
                 // TODO: Replace check with Authentication.isUserless()
                 if (!accountHelper.reddit.authMethod.isUserless) {
+                    toolbarTitle.text = getString(R.string.profile)
                     switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
                 } else {
                     loginNewUser()
@@ -138,6 +147,7 @@ class BottomNavActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(CURRENT_FRAGMENT_TAG, currentFragmentTag)
+        outState.putString(TITLE_TEXT, toolbarTitle.text.toString())
         super.onSaveInstanceState(outState)
     }
 }

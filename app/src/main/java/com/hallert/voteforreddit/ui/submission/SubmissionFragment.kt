@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,12 +29,6 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_submissions, container, false)
-
-        val toolbarTitle = activity?.findViewById<TextView>(R.id.bottom_nav_title)
-
-        if (toolbarTitle != null) {
-            toolbarTitle.text = submissionViewModel.getSubredditName()
-        }
 
         adapter = SubmissionAdapter(this)
 
