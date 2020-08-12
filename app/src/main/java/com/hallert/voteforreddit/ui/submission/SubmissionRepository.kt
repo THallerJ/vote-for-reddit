@@ -62,7 +62,6 @@ class SubmissionRepository(private val submissionDao: SubmissionDao, private val
                 submission,
                 System.currentTimeMillis()
             )
-
             submissionList.add(entity)
         }
 

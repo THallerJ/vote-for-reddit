@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
@@ -14,38 +15,66 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
+private const val ROOT_FRAGMENT: String = "root_fragment"
+private const val PROFILE_FRAGMENT_TAG: String = "profile_fragment"
+
+private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
+
+private const val LOGIN_REQUEST_CODE = 0
+
 @AndroidEntryPoint
 class BottomNavActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
 
-    private val LOGIN_REQUEST_CODE = 0
+    @Inject
+    lateinit var accountHelper: AccountHelper
 
-    @Inject lateinit var accountHelper: AccountHelper
+    private lateinit var currentFragmentTag: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
+            currentFragmentTag = ROOT_FRAGMENT
             supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragment_container,
-                    SubmissionsFragment()
-                ).commit()
+                .add(R.id.fragment_container, SubmissionsFragment(), ROOT_FRAGMENT).commit()
+        } else {
+            currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG)!!
         }
 
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setOnNavigationItemSelectedListener(navListener)
     }
 
+    private fun switchFragments(
+        newFragment: Fragment,
+        newFragmentTag: String
+    ) {
+        if (currentFragmentTag != newFragmentTag) {
+            if (supportFragmentManager.findFragmentByTag(newFragmentTag) != null) {
+                supportFragmentManager.beginTransaction()
+                    .show(supportFragmentManager.findFragmentByTag(newFragmentTag)!!)
+                    .commit()
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, newFragment, newFragmentTag)
+                    .commit()
+            }
+
+            if (supportFragmentManager.findFragmentByTag(currentFragmentTag) != null) {
+                supportFragmentManager.beginTransaction()
+                    .hide(supportFragmentManager.findFragmentByTag(currentFragmentTag)!!).commit()
+            }
+
+            currentFragmentTag = newFragmentTag
+        }
+    }
+
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_posts -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.fragment_container,
-                        SubmissionsFragment()
-                    ).commit()
+                switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
             }
             R.id.nav_search -> {
                 Toast.makeText(
@@ -79,11 +108,7 @@ class BottomNavActivity : AppCompatActivity() {
             R.id.nav_profile -> {
                 // TODO: Replace check with Authentication.isUserless()
                 if (!accountHelper.reddit.authMethod.isUserless) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(
-                            R.id.fragment_container,
-                            ProfileFragment()
-                        ).commit()
+                    switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
                 } else {
                     loginNewUser()
                 }
@@ -109,5 +134,10 @@ class BottomNavActivity : AppCompatActivity() {
 
             bottomNav.selectedItemId = R.id.nav_posts
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(CURRENT_FRAGMENT_TAG, currentFragmentTag)
+        super.onSaveInstanceState(outState)
     }
 }
