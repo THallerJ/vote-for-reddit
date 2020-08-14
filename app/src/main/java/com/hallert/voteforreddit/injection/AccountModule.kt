@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import net.dean.jraw.RedditClient
 import net.dean.jraw.android.AndroidHelper
 import net.dean.jraw.android.ManifestAppInfoProvider
 import net.dean.jraw.android.SharedPreferencesTokenStore
@@ -44,6 +45,12 @@ object AccountModule {
         provider: ManifestAppInfoProvider
     ): AccountHelper {
         return AndroidHelper.accountHelper(provider, UUID.randomUUID(), tokenStore)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRedditClient(accountHelper: AccountHelper): RedditClient {
+        return accountHelper.reddit
     }
 
     @Singleton

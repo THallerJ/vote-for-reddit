@@ -10,14 +10,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import net.dean.jraw.RedditClient
 import net.dean.jraw.models.Submission
-import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.pagination.DefaultPaginator
+import java.util.*
 
 
-class SubmissionRepository(private val submissionDao: SubmissionDao, private val accountHelper: AccountHelper) {
-    private lateinit var subreddit: DefaultPaginator<Submission> // TODO: This should be removed
-    lateinit var subredditName: String // TODO: This should be removed
+class SubmissionRepository(
+    private val submissionDao: SubmissionDao,
+    private val client: RedditClient
+) {
+    private lateinit var subreddit: DefaultPaginator<Submission>
 
     val submissions: Flow<List<Submission>>
         get() = submissionDao.getAllSubmissions().filterNotNull()
@@ -25,17 +28,18 @@ class SubmissionRepository(private val submissionDao: SubmissionDao, private val
     @ExperimentalCoroutinesApi
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-
-    // TODO: Remove buildSubreddit methods
     fun buildSubreddit(subName: String) {
-        subreddit =
-            accountHelper.reddit.subreddit(subName).posts()
-                .build() // This should be passed into the methods as needed
+        if (subName.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), " ") == "frontpage") {
+            buildSubreddit()
+        } else {
+            subreddit =
+                client.subreddit(subName).posts()
+                    .build() //
+        }
     }
 
     fun buildSubreddit() {
-        subreddit = accountHelper.reddit.frontPage()
-            .build() // This should be passed into the methods as needed
+        subreddit = client.frontPage().build()
     }
 
     @ExperimentalCoroutinesApi
@@ -97,10 +101,7 @@ class SubmissionRepository(private val submissionDao: SubmissionDao, private val
                 isLoading.value = false
             }
         }
-
-
     }
-
 }
 
 

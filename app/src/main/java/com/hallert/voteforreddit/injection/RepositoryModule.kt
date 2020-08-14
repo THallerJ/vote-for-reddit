@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import net.dean.jraw.RedditClient
 import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Singleton
 
@@ -19,9 +20,9 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideSubmissionRepository(
-        submissionDao: SubmissionDao, accountHelper: AccountHelper
+        submissionDao: SubmissionDao, client: RedditClient
     ): SubmissionRepository {
-        return SubmissionRepository(submissionDao, accountHelper)
+        return SubmissionRepository(submissionDao, client)
     }
 
     @Singleton

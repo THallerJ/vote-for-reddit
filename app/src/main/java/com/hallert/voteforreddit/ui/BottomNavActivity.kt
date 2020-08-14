@@ -14,6 +14,7 @@ import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import net.dean.jraw.RedditClient
 import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
@@ -31,7 +32,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     private lateinit var toolbarTitle: TextView
 
     @Inject
-    lateinit var accountHelper: AccountHelper
+    lateinit var client: RedditClient
 
     private lateinit var currentFragmentTag: String
 
@@ -41,7 +42,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         toolbarTitle = findViewById(R.id.bottom_nav_title)
 
         if (savedInstanceState == null) {
-            toolbarTitle.text = "Submissions"
+            toolbarTitle.text = getString(R.string.frontpage)
             currentFragmentTag = ROOT_FRAGMENT
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, SubmissionsFragment(), ROOT_FRAGMENT).commit()
@@ -82,8 +83,6 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         when (item.itemId) {
             R.id.nav_posts -> {
                 switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
-                // TODO: Replace with subreddit title
-                toolbarTitle.text = "Submissions"
             }
             R.id.nav_search -> {
                 Toast.makeText(
@@ -103,7 +102,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
             }
             R.id.nav_inbox -> {
                 // TODO: Replace check with Authentication.isUserless()
-                if (!accountHelper.reddit.authMethod.isUserless) {
+                if (!client.authMethod.isUserless) {
                     Toast.makeText(
                         this@BottomNavActivity,
                         "TODO: Launch messages Fragment",
@@ -116,7 +115,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
             }
             R.id.nav_profile -> {
                 // TODO: Replace check with Authentication.isUserless()
-                if (!accountHelper.reddit.authMethod.isUserless) {
+                if (!client.authMethod.isUserless) {
                     toolbarTitle.text = getString(R.string.profile)
                     switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
                 } else {
