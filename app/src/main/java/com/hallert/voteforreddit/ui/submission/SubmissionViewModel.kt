@@ -46,10 +46,14 @@ class SubmissionViewModel @ViewModelInject constructor(
         }
     }
 
-    // TODO: This should be removed
-    fun getSubredditName(): String {
-        return submissionRepository.subredditName
+
+    @ExperimentalCoroutinesApi
+    fun switchSubreddits(subredditName: String) {
+        CoroutineScope(Main).launch {
+            submissionRepository.switchSubreddit(subredditName)
+        }
     }
+
 }
 
 

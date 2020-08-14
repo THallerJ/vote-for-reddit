@@ -25,18 +25,17 @@ class SubmissionRepository(private val submissionDao: SubmissionDao, private val
     @ExperimentalCoroutinesApi
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
+
     // TODO: Remove buildSubreddit methods
     fun buildSubreddit(subName: String) {
         subreddit =
             accountHelper.reddit.subreddit(subName).posts()
                 .build() // This should be passed into the methods as needed
-        subredditName = subName
     }
 
     fun buildSubreddit() {
         subreddit = accountHelper.reddit.frontPage()
             .build() // This should be passed into the methods as needed
-        subredditName = "frontpage"
     }
 
     @ExperimentalCoroutinesApi
@@ -83,6 +82,25 @@ class SubmissionRepository(private val submissionDao: SubmissionDao, private val
             }
         }
     }
+
+    @ExperimentalCoroutinesApi
+    fun switchSubreddit(subredditName: String) {
+        isLoading.value = true
+
+        CoroutineScope(IO).launch {
+            if (WebUtil.isOnline()) {
+                submissionDao.clearDatabase()
+                buildSubreddit(subredditName)
+                insertSubmissions(subreddit.next())
+                isLoading.value = false
+            } else {
+                isLoading.value = false
+            }
+        }
+
+
+    }
+
 }
 
 

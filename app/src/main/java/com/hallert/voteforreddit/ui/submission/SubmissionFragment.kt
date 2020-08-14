@@ -16,6 +16,7 @@ import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_submissions.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
 
 @AndroidEntryPoint
@@ -92,6 +93,11 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submission_swipe_refresh.setOnRefreshListener {
             submissionViewModel.refresh()
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    fun openSubreddit(name: String) {
+        submissionViewModel.switchSubreddits(name)
     }
 
     // These methods handle click events on items in the RecyclerView

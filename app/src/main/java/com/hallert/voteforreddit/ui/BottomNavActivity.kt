@@ -13,6 +13,7 @@ import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ private const val TITLE_TEXT: String = "title_text"
 private const val LOGIN_REQUEST_CODE = 0
 
 @AndroidEntryPoint
-class BottomNavActivity : AppCompatActivity() {
+class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragmentListener {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var toolbarTitle: TextView
 
@@ -129,6 +130,14 @@ class BottomNavActivity : AppCompatActivity() {
     private fun loginNewUser() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onSubredditSelected(selection: String) {
+        toolbarTitle.text = selection
+        val fragment: SubmissionsFragment =
+            supportFragmentManager.findFragmentByTag(ROOT_FRAGMENT) as SubmissionsFragment
+        fragment.openSubreddit(selection)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

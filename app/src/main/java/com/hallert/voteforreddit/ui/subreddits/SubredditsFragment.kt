@@ -1,11 +1,11 @@
 package com.hallert.voteforreddit.ui.subreddits
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +20,7 @@ import net.dean.jraw.models.Subreddit
 class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
     private val subredditsViewModel: SubredditsViewModel by viewModels()
     private lateinit var adapter: SubredditAdapter
+    private lateinit var listener: SubredditFragmentListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,9 +60,24 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
     // This method control what happens when clicking items in the RecyclerView
     override fun onItemClick(subreddit: Subreddit, position: Int) {
-        Toast.makeText(
-            context,
-            "TODO: Launch " + subreddit.name + " subreddit", Toast.LENGTH_SHORT)
-            .show()
+        this.dismiss()
+        listener.onSubredditSelected(subreddit.name)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is SubredditFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException(
+                context.toString()
+                        + " must implement SubredditFragmentListener"
+            )
+        }
+    }
+
+
+    interface SubredditFragmentListener {
+        fun onSubredditSelected(selection: String)
     }
 }
