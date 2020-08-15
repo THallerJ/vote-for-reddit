@@ -23,13 +23,17 @@ private const val PROFILE_FRAGMENT_TAG: String = "profile_fragment"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
 
+
 private const val TITLE_TEXT: String = "title_text"
+private const val SUBREDDIT_TITLE_TEXT: String = "subreddit_text"
 private const val LOGIN_REQUEST_CODE = 0
 
 @AndroidEntryPoint
 class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragmentListener {
     private lateinit var bottomNav: BottomNavigationView
-    private lateinit var toolbarTitle: TextView
+    private lateinit var toolbarTitleTextView: TextView
+
+    private lateinit var subreddit_title: String
 
     @Inject
     lateinit var client: RedditClient
@@ -39,16 +43,18 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        toolbarTitle = findViewById(R.id.bottom_nav_title)
+        toolbarTitleTextView = findViewById(R.id.bottom_nav_title)
 
         if (savedInstanceState == null) {
-            toolbarTitle.text = getString(R.string.frontpage)
+            subreddit_title = getString(R.string.frontpage)
+            toolbarTitleTextView.text = subreddit_title
             currentFragmentTag = ROOT_FRAGMENT
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, SubmissionsFragment(), ROOT_FRAGMENT).commit()
         } else {
             currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG)!!
-            toolbarTitle.text = savedInstanceState.getString(TITLE_TEXT)
+            toolbarTitleTextView.text = savedInstanceState.getString(TITLE_TEXT)
+            subreddit_title = savedInstanceState.getString(SUBREDDIT_TITLE_TEXT)!!
         }
 
         bottomNav = findViewById(R.id.bottom_navigation_bar)
@@ -82,6 +88,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_posts -> {
+                toolbarTitleTextView.text = subreddit_title
                 switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
             }
             R.id.nav_search -> {
@@ -116,7 +123,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
             R.id.nav_profile -> {
                 // TODO: Replace check with Authentication.isUserless()
                 if (!client.authMethod.isUserless) {
-                    toolbarTitle.text = getString(R.string.profile)
+                    toolbarTitleTextView.text = getString(R.string.profile)
                     switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
                 } else {
                     loginNewUser()
@@ -133,7 +140,8 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
 
     @ExperimentalCoroutinesApi
     override fun onSubredditSelected(selection: String) {
-        toolbarTitle.text = selection
+        subreddit_title = selection
+        toolbarTitleTextView.text = subreddit_title
         val fragment: SubmissionsFragment =
             supportFragmentManager.findFragmentByTag(ROOT_FRAGMENT) as SubmissionsFragment
         fragment.openSubreddit(selection)
@@ -155,7 +163,9 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(CURRENT_FRAGMENT_TAG, currentFragmentTag)
-        outState.putString(TITLE_TEXT, toolbarTitle.text.toString())
+        outState.putString(TITLE_TEXT, toolbarTitleTextView.text.toString())
+        outState.putString(SUBREDDIT_TITLE_TEXT, subreddit_title)
+
         super.onSaveInstanceState(outState)
     }
 }
