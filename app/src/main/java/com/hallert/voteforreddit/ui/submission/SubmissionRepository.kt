@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import net.dean.jraw.RedditClient
 import net.dean.jraw.models.Submission
+import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.pagination.DefaultPaginator
 import java.util.*
 
 
 class SubmissionRepository(
     private val submissionDao: SubmissionDao,
-    private val client: RedditClient
+    private val accountHelper: AccountHelper
 ) {
     private lateinit var subreddit: DefaultPaginator<Submission>
 
@@ -33,13 +33,13 @@ class SubmissionRepository(
             buildSubreddit()
         } else {
             subreddit =
-                client.subreddit(subName).posts()
+                accountHelper.reddit.subreddit(subName).posts()
                     .build() //
         }
     }
 
     fun buildSubreddit() {
-        subreddit = client.frontPage().build()
+        subreddit = accountHelper.reddit.frontPage().build()
     }
 
     @ExperimentalCoroutinesApi

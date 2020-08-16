@@ -20,9 +20,9 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideSubmissionRepository(
-        submissionDao: SubmissionDao, client: RedditClient
+        submissionDao: SubmissionDao, accountHelper: AccountHelper
     ): SubmissionRepository {
-        return SubmissionRepository(submissionDao, client)
+        return SubmissionRepository(submissionDao, accountHelper)
     }
 
     @Singleton

@@ -1,5 +1,6 @@
 package com.hallert.voteforreddit.ui
 
+import android.accounts.Account
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
@@ -35,8 +36,11 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
 
     private lateinit var subreddit_title: String
 
+   // @Inject
+    //lateinit var client: RedditClient
+
     @Inject
-    lateinit var client: RedditClient
+    lateinit var accountHelper: AccountHelper
 
     private lateinit var currentFragmentTag: String
 
@@ -109,7 +113,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
             }
             R.id.nav_inbox -> {
                 // TODO: Replace check with Authentication.isUserless()
-                if (!client.authMethod.isUserless) {
+                if (!accountHelper.reddit.authMethod.isUserless) {
                     Toast.makeText(
                         this@BottomNavActivity,
                         "TODO: Launch messages Fragment",
@@ -122,7 +126,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
             }
             R.id.nav_profile -> {
                 // TODO: Replace check with Authentication.isUserless()
-                if (!client.authMethod.isUserless) {
+                if (!accountHelper.reddit.authMethod.isUserless) {
                     toolbarTitleTextView.text = getString(R.string.profile)
                     switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
                 } else {
