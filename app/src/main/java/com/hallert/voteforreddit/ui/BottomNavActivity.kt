@@ -154,6 +154,8 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     }
 
     override fun onFrontPageSelected() {
+        subredditTitle = getString(R.string.frontpage)
+        toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openFrontpage()
     }
 
