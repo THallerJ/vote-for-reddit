@@ -1,6 +1,5 @@
 package com.hallert.voteforreddit.ui
 
-import android.accounts.Account
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
@@ -15,7 +14,6 @@ import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import net.dean.jraw.RedditClient
 import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
@@ -93,8 +91,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
                 if ((bottomNav.selectedItemId == R.id.nav_posts)
                     && (subredditTitle != getString(R.string.frontpage))
                 ) {
-                    val fragment: SubmissionsFragment =
-                        supportFragmentManager.findFragmentByTag(ROOT_FRAGMENT) as SubmissionsFragment
+                    val fragment: SubmissionsFragment = getSubmissionFragment()
                     subredditTitle = getString(R.string.frontpage)
                     fragment.openSubreddit(subredditTitle)
                 }
@@ -153,9 +150,15 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     override fun onSubredditSelected(selection: String) {
         subredditTitle = selection
         toolbarTitleTextView.text = subredditTitle
-        val fragment: SubmissionsFragment =
-            supportFragmentManager.findFragmentByTag(ROOT_FRAGMENT) as SubmissionsFragment
-        fragment.openSubreddit(selection)
+        getSubmissionFragment().openSubreddit(selection)
+    }
+
+    override fun onFrontPageSelected() {
+        getSubmissionFragment().openFrontpage()
+    }
+
+    private fun getSubmissionFragment(): SubmissionsFragment {
+        return supportFragmentManager.findFragmentByTag(ROOT_FRAGMENT) as SubmissionsFragment
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

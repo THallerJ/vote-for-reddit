@@ -100,6 +100,11 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submissionViewModel.switchSubreddits(name)
     }
 
+    fun openFrontpage() {
+        submissionViewModel.switchFrontpage()
+    }
+
+
     // These methods handle click events on items in the RecyclerView
     override fun onItemClick(submission: Submission, position: Int) {
         Toast.makeText(

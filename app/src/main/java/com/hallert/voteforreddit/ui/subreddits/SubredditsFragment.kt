@@ -42,6 +42,8 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
             subreddit_popular.visibility = View.VISIBLE
             subreddit_all.visibility = View.VISIBLE
             subreddits_title.visibility = View.VISIBLE
+
+            setListeners()
         })
 
         return root
@@ -60,8 +62,23 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
     // This method control what happens when clicking items in the RecyclerView
     override fun onItemClick(subreddit: Subreddit, position: Int) {
-        this.dismiss()
         listener.onSubredditSelected(subreddit.name)
+        this.dismiss()
+    }
+
+    private fun setListeners() {
+        subreddit_all.setOnClickListener {
+            listener.onSubredditSelected("All")
+            this.dismiss()
+        }
+        subreddit_popular.setOnClickListener {
+            listener.onSubredditSelected("Popular")
+            this.dismiss()
+        }
+        subreddit_frontpage.setOnClickListener {
+            listener.onFrontPageSelected()
+            this.dismiss()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -79,5 +96,6 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
     interface SubredditFragmentListener {
         fun onSubredditSelected(selection: String)
+        fun onFrontPageSelected()
     }
 }

@@ -1,8 +1,11 @@
 package com.hallert.voteforreddit.ui.submission
 
+import android.content.Context
+import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.database.SubmissionDao
 import com.hallert.voteforreddit.database.SubmissionEntity
 import com.hallert.voteforreddit.util.WebUtil
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,10 +18,10 @@ import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.pagination.DefaultPaginator
 import java.util.*
 
-
 class SubmissionRepository(
     private val submissionDao: SubmissionDao,
-    private val accountHelper: AccountHelper
+    private val accountHelper: AccountHelper,
+    @ApplicationContext private val context: Context
 ) {
     private lateinit var subreddit: DefaultPaginator<Submission>
 
@@ -29,13 +32,7 @@ class SubmissionRepository(
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     fun buildSubreddit(subName: String) {
-        if (subName.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), " ") == "frontpage") {
-            buildSubreddit()
-        } else {
-            subreddit =
-                accountHelper.reddit.subreddit(subName).posts()
-                    .build() //
-        }
+        subreddit = accountHelper.reddit.subreddit(subName).posts().build()
     }
 
     fun buildSubreddit() {
@@ -96,10 +93,30 @@ class SubmissionRepository(
                 submissionDao.clearDatabase()
                 buildSubreddit(subredditName)
                 insertSubmissions(subreddit.next())
-                isLoading.value = false
-            } else {
+            }
+
+            isLoading.value = false
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    fun switchSubreddit(subredditName: String, isDefault: Boolean) {
+        if ((subredditName.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), " ") ==
+                    context.getString(R.string.frontpage))
+        ) {
+            isLoading.value = true
+
+            CoroutineScope(IO).launch {
+                if (WebUtil.isOnline()) {
+                    submissionDao.clearDatabase()
+                    buildSubreddit()
+                    insertSubmissions(subreddit.next())
+                }
+
                 isLoading.value = false
             }
+        } else {
+            switchSubreddit(subredditName)
         }
     }
 }
