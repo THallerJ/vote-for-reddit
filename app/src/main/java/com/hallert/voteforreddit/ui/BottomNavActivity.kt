@@ -151,6 +151,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openSubreddit(selection)
         switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+        bottomNav.selectedItemId = R.id.nav_posts
     }
 
     override fun onFrontPageSelected() {
@@ -158,6 +159,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openFrontpage()
         switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+        bottomNav.selectedItemId = R.id.nav_posts
     }
 
     private fun getSubmissionFragment(): SubmissionsFragment {
