@@ -150,12 +150,14 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         subredditTitle = selection
         toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openSubreddit(selection)
+        switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
     }
 
     override fun onFrontPageSelected() {
         subredditTitle = getString(R.string.frontpage)
         toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openFrontpage()
+        switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
     }
 
     private fun getSubmissionFragment(): SubmissionsFragment {
@@ -166,12 +168,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == LOGIN_REQUEST_CODE) {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragment_container,
-                    SubmissionsFragment()
-                ).commit()
-
+            switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
             bottomNav.selectedItemId = R.id.nav_posts
         }
     }
