@@ -2,6 +2,7 @@ package com.hallert.voteforreddit.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
+import com.hallert.voteforreddit.ui.inbox.InboxFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 private const val ROOT_FRAGMENT: String = "root_fragment"
 private const val PROFILE_FRAGMENT_TAG: String = "profile_fragment"
+private const val INBOX_FRAGMENT_TAG: String = "inbox_fragment"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
 
@@ -118,12 +121,8 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
             R.id.nav_inbox -> {
                 // TODO: Replace check with Authentication.isUserless()
                 if (!accountHelper.reddit.authMethod.isUserless) {
-                    Toast.makeText(
-                        this@BottomNavActivity,
-                        "TODO: Launch messages Fragment",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    toolbarTitleTextView.text = getString(R.string.inbox)
+                    switchFragments(InboxFragment(), INBOX_FRAGMENT_TAG)
                 } else {
                     loginNewUser()
                 }

@@ -71,10 +71,12 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
             listener.onSubredditSelected("All")
             this.dismiss()
         }
+
         subreddit_popular.setOnClickListener {
             listener.onSubredditSelected("Popular")
             this.dismiss()
         }
+
         subreddit_frontpage.setOnClickListener {
             listener.onFrontPageSelected()
             this.dismiss()
