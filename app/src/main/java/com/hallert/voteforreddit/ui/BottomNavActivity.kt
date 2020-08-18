@@ -2,7 +2,6 @@ package com.hallert.voteforreddit.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +35,8 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     private lateinit var toolbarTitleTextView: TextView
 
     private lateinit var subredditTitle: String
+
+    private var doLoadFrontpage = true
 
     @Inject
     lateinit var accountHelper: AccountHelper
@@ -91,16 +92,15 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_posts -> {
-                if ((bottomNav.selectedItemId == R.id.nav_posts)
-                    && (subredditTitle != getString(R.string.frontpage))
-                ) {
+                if (doLoadFrontpage && (subredditTitle != getString(R.string.frontpage))) {
                     val fragment: SubmissionsFragment = getSubmissionFragment()
                     subredditTitle = getString(R.string.frontpage)
-                    fragment.openSubreddit(subredditTitle)
+                    fragment.openFrontpage()
                 }
 
                 toolbarTitleTextView.text = subredditTitle
                 switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+                doLoadFrontpage = true
             }
             R.id.nav_search -> {
                 Toast.makeText(
@@ -123,6 +123,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
                 if (!accountHelper.reddit.authMethod.isUserless) {
                     toolbarTitleTextView.text = getString(R.string.inbox)
                     switchFragments(InboxFragment(), INBOX_FRAGMENT_TAG)
+                    doLoadFrontpage = false
                 } else {
                     loginNewUser()
                 }
@@ -132,6 +133,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
                 if (!accountHelper.reddit.authMethod.isUserless) {
                     toolbarTitleTextView.text = getString(R.string.profile)
                     switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
+                    doLoadFrontpage = false
                 } else {
                     loginNewUser()
                 }
@@ -151,14 +153,12 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openSubreddit(selection)
         switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+        doLoadFrontpage = false
         bottomNav.selectedItemId = R.id.nav_posts
     }
 
     override fun onFrontPageSelected() {
-        subredditTitle = getString(R.string.frontpage)
-        toolbarTitleTextView.text = subredditTitle
-        getSubmissionFragment().openFrontpage()
-        switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+        doLoadFrontpage = true
         bottomNav.selectedItemId = R.id.nav_posts
     }
 
