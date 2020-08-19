@@ -1,5 +1,7 @@
 package com.hallert.voteforreddit.ui.submission
 
+import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +14,17 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
+import com.hallert.voteforreddit.user.UserManager
 import com.hallert.voteforreddit.util.DateFormatUtil
 import com.hallert.voteforreddit.util.NumberFormatUtil
 import kotlinx.android.synthetic.main.submission.view.*
 import net.dean.jraw.models.Submission
+import net.dean.jraw.models.VoteDirection
 
-class SubmissionAdapter constructor(private val listener: SubmissionClickListener) :
+class SubmissionAdapter constructor(
+    private val listener: SubmissionClickListener
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val NO_THUMBNAIL = 0
@@ -50,6 +57,29 @@ class SubmissionAdapter constructor(private val listener: SubmissionClickListene
             (holder as ThumbnailViewHolder).bind(data[position], listener)
         } else {
             (holder as NoThumbnailViewHolder).bind(data[position], listener)
+        }
+
+        if (data[position].vote == VoteDirection.UP) {
+            holder.itemView.setBackgroundColor(
+                RedditApp.appContext.resources.getColor(
+                    R.color.upvoteTintColor,
+                    null
+                )
+            )
+        } else if (data[position].vote == VoteDirection.DOWN) {
+            holder.itemView.setBackgroundColor(
+                RedditApp.appContext.resources.getColor(
+                    R.color.downvoteTintColor,
+                    null
+                )
+            )
+        } else {
+            holder.itemView.setBackgroundColor(
+                RedditApp.appContext.resources.getColor(
+                    R.color.colorPrimary,
+                    null
+                )
+            )
         }
     }
 

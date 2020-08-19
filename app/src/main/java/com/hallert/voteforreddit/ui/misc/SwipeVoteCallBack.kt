@@ -144,15 +144,15 @@ abstract class SwipeVoteCallBack(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (direction == ItemTouchHelper.RIGHT) {
-            onSwipeRight()
+            onSwipeRight(viewHolder.adapterPosition)
         } else if (direction == ItemTouchHelper.LEFT) {
-            onSwipeLeft()
+            onSwipeLeft(viewHolder.adapterPosition)
         }
 
         adapter.notifyItemChanged(viewHolder.adapterPosition)
     }
 
 
-    abstract fun onSwipeLeft()
-    abstract fun onSwipeRight()
+    abstract fun onSwipeLeft(position: Int)
+    abstract fun onSwipeRight(position: Int)
 }

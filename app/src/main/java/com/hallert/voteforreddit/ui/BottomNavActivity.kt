@@ -13,9 +13,9 @@ import com.hallert.voteforreddit.ui.inbox.InboxFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
+import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
 private const val ROOT_FRAGMENT: String = "root_fragment"
@@ -24,6 +24,7 @@ private const val INBOX_FRAGMENT_TAG: String = "inbox_fragment"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
 
+private const val CURRENT_USER_TAG: String = "current_user"
 
 private const val TITLE_TEXT: String = "title_text"
 private const val SUBREDDIT_TITLE_TEXT: String = "subreddit_text"
@@ -38,8 +39,10 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
 
     private var doLoadFrontpage = true
 
+    private lateinit var currentUser: String
+
     @Inject
-    lateinit var accountHelper: AccountHelper
+    lateinit var userManager: UserManager
 
     private lateinit var currentFragmentTag: String
 
@@ -49,12 +52,14 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         toolbarTitleTextView = findViewById(R.id.bottom_nav_title)
 
         if (savedInstanceState == null) {
+            currentUser = userManager.currentUser()
             subredditTitle = getString(R.string.frontpage)
             toolbarTitleTextView.text = subredditTitle
             currentFragmentTag = ROOT_FRAGMENT
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, SubmissionsFragment(), ROOT_FRAGMENT).commit()
         } else {
+            currentUser = savedInstanceState.getString(CURRENT_USER_TAG)!!
             currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG)!!
             toolbarTitleTextView.text = savedInstanceState.getString(TITLE_TEXT)
             subredditTitle = savedInstanceState.getString(SUBREDDIT_TITLE_TEXT)!!
@@ -92,9 +97,12 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_posts -> {
-                if (doLoadFrontpage && (subredditTitle != getString(R.string.frontpage))) {
+                if ((doLoadFrontpage && (subredditTitle != getString(R.string.frontpage)))
+                    || (currentUser != userManager.currentUser())
+                ) {
                     val fragment: SubmissionsFragment = getSubmissionFragment()
                     subredditTitle = getString(R.string.frontpage)
+                    currentUser = userManager.currentUser()
                     fragment.openFrontpage()
                 }
 
@@ -119,8 +127,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
                 return@OnNavigationItemSelectedListener false
             }
             R.id.nav_inbox -> {
-                // TODO: Replace check with Authentication.isUserless()
-                if (!accountHelper.reddit.authMethod.isUserless) {
+                if (!userManager.isUserless()) {
                     toolbarTitleTextView.text = getString(R.string.inbox)
                     switchFragments(InboxFragment(), INBOX_FRAGMENT_TAG)
                     doLoadFrontpage = false
@@ -129,8 +136,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
                 }
             }
             R.id.nav_profile -> {
-                // TODO: Replace check with Authentication.isUserless()
-                if (!accountHelper.reddit.authMethod.isUserless) {
+                if (!userManager.isUserless()) {
                     toolbarTitleTextView.text = getString(R.string.profile)
                     switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
                     doLoadFrontpage = false
@@ -179,6 +185,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         outState.putString(CURRENT_FRAGMENT_TAG, currentFragmentTag)
         outState.putString(TITLE_TEXT, toolbarTitleTextView.text.toString())
         outState.putString(SUBREDDIT_TITLE_TEXT, subredditTitle)
+        outState.putString(CURRENT_USER_TAG, currentUser)
 
         super.onSaveInstanceState(outState)
     }

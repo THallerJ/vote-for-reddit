@@ -14,15 +14,20 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
+import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubmissionsFragment : Fragment(), SubmissionClickListener {
     private val submissionViewModel: SubmissionViewModel by viewModels()
     private lateinit var adapter: SubmissionAdapter
+
+    @Inject
+    lateinit var userManager: UserManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,8 +67,8 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         )
 
         val swipeCallback =
-            object : SwipeVoteCallBack(this!!.context, adapter) {
-                override fun onSwipeLeft() {
+            object : SwipeVoteCallBack(this.context, adapter) {
+                override fun onSwipeLeft(position: Int) {
                     Toast.makeText(
                         context,
                         "TODO: Downvote submission",
@@ -71,7 +76,8 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
                     ).show()
                 }
 
-                override fun onSwipeRight() {
+                override fun onSwipeRight(position: Int) {
+
                     Toast.makeText(
                         context,
                         "TODO: Upvote submission",
@@ -87,6 +93,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submission_recycler_view.addOnScrollListener(object : RecyclerLoadListener() {
             override fun atBottom() {
                 submissionViewModel.getNextPage()
+                submission_recycler_view
             }
         })
 

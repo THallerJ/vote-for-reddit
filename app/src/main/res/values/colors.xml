@@ -8,4 +8,7 @@
     <color name="submissionIconColor">#606060</color>
     <color name="downvoteColor">#c0cfff</color>
     <color name="upvoteColor">#ffbb93</color>
+    <color name="upvoteTintColor">#ffefe6</color>
+    <color name="downvoteTintColor">#e6ebff</color>
+
 </resources>

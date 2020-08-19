@@ -1,6 +1,7 @@
 package com.hallert.voteforreddit
 
 import android.app.Application
+import android.content.Context
 import com.hallert.voteforreddit.database.RedditDatabase
 import com.hallert.voteforreddit.user.Authentication
 import dagger.hilt.android.HiltAndroidApp
@@ -21,7 +22,12 @@ class RedditApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        appContext = this
         auth.authenticateOnStart(applicationContext)
         runBlocking { CoroutineScope(IO).launch { db.submissionDao.clearDatabase() } }
+    }
+
+    companion object {
+         lateinit var appContext: Context
     }
 }
