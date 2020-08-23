@@ -19,10 +19,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
+import net.dean.jraw.models.VoteDirection
+import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubmissionsFragment : Fragment(), SubmissionClickListener {
+    @ExperimentalCoroutinesApi
     private val submissionViewModel: SubmissionViewModel by viewModels()
     private lateinit var adapter: SubmissionAdapter
 
@@ -54,6 +57,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         initRecyclerView()
     }
 
+    @ExperimentalCoroutinesApi
     private fun initRecyclerView() {
         submission_recycler_view.layoutManager = LinearLayoutManager(context)
         submission_recycler_view.adapter = adapter
@@ -69,20 +73,17 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         val swipeCallback =
             object : SwipeVoteCallBack(this.context, adapter) {
                 override fun onSwipeLeft(position: Int) {
-                    Toast.makeText(
-                        context,
-                        "TODO: Downvote submission",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                   submissionViewModel.voteSubmission(
+                       adapter.data[position],
+                       VoteDirection.DOWN
+                   )
                 }
 
                 override fun onSwipeRight(position: Int) {
-
-                    Toast.makeText(
-                        context,
-                        "TODO: Upvote submission",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    submissionViewModel.voteSubmission(
+                        adapter.data[position],
+                        VoteDirection.UP
+                    )
                 }
             }
 
@@ -107,6 +108,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submissionViewModel.switchSubreddits(name)
     }
 
+    @ExperimentalCoroutinesApi
     fun openFrontpage() {
         submissionViewModel.switchFrontpage()
     }

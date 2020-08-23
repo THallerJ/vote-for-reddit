@@ -9,14 +9,20 @@ import androidx.lifecycle.asLiveData
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.dean.jraw.models.Submission
+import net.dean.jraw.models.VoteDirection
+import net.dean.jraw.oauth.AccountHelper
+import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class SubmissionViewModel @ViewModelInject constructor(
     private val submissionRepository: SubmissionRepository,
+    private val accountHelper: AccountHelper,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -61,8 +67,34 @@ class SubmissionViewModel @ViewModelInject constructor(
     fun switchFrontpage() {
         submissionRepository.switchSubreddit(
             RedditApp.appContext.getString(R.string.frontpage),
-            true
+        true
         )
+    }
+
+    fun voteSubmission(submission: Submission, voteDirection: VoteDirection) {
+        CoroutineScope(IO).launch {
+            val votedSubmission = accountHelper.reddit.submission(submission.id)
+
+            when (voteDirection) {
+                VoteDirection.UP -> {
+                    if (submission.vote == voteDirection) {
+                        votedSubmission.unvote()
+                    } else {
+                        votedSubmission.upvote()
+                    }
+                }
+                VoteDirection.DOWN -> {
+                    if (submission.vote == voteDirection) {
+                        votedSubmission.unvote()
+                    } else {
+                        votedSubmission.downvote()
+                    }
+                }
+                VoteDirection.NONE -> {
+                    votedSubmission.unvote()
+                }
+            }
+        }
     }
 }
 
