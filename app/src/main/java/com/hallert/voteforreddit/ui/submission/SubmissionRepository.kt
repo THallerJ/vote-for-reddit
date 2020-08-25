@@ -82,6 +82,12 @@ class SubmissionRepository(
         }
     }
 
+    fun updateSubmission(submission: Submission) {
+        CoroutineScope(IO).launch {
+            submissionDao.updateSubmission(submission, submission.id)
+        }
+    }
+
     @ExperimentalCoroutinesApi
     fun switchSubreddit(subredditName: String) {
         isLoading.value = true

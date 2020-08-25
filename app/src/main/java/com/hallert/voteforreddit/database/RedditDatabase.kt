@@ -15,6 +15,9 @@ interface SubmissionDao {
 
     @Query("DELETE FROM SubmissionEntity")
     fun clearDatabase()
+
+    @Query("UPDATE SubmissionEntity SET submission = :submission WHERE id = :id")
+    fun updateSubmission(submission: Submission, id: String)
 }
 
 @Dao

@@ -32,6 +32,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     @Inject
     lateinit var userManager: UserManager
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,9 +50,14 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
             submission_swipe_refresh.isRefreshing = loading
         })
 
+        submissionViewModel.votedToggle.observe(viewLifecycleOwner, Observer { voted ->
+            adapter.notifyItemChanged(submissionViewModel.swipePosition)
+        })
+
         return root
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
@@ -77,6 +83,8 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
                        adapter.data[position],
                        VoteDirection.DOWN
                    )
+
+                    submissionViewModel.swipePosition = position
                 }
 
                 override fun onSwipeRight(position: Int) {
@@ -84,6 +92,8 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
                         adapter.data[position],
                         VoteDirection.UP
                     )
+
+                    submissionViewModel.swipePosition = position
                 }
             }
 

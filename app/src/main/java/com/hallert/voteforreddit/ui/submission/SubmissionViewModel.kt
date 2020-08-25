@@ -2,10 +2,7 @@ package com.hallert.voteforreddit.ui.submission
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +27,10 @@ class SubmissionViewModel @ViewModelInject constructor(
 
     @ExperimentalCoroutinesApi
     val isLoading: LiveData<Boolean> = submissionRepository.isLoading.asLiveData()
+
+    val votedToggle: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    var swipePosition = -1
 
     init {
         submissionRepository.buildSubreddit()
@@ -94,6 +95,9 @@ class SubmissionViewModel @ViewModelInject constructor(
                     votedSubmission.unvote()
                 }
             }
+
+            submissionRepository.updateSubmission(votedSubmission.inspect())
+            votedToggle.postValue(!votedToggle.value!!)
         }
     }
 }
