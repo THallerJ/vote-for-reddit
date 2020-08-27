@@ -1,7 +1,5 @@
 package com.hallert.voteforreddit.ui.submission
 
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
-import com.hallert.voteforreddit.user.UserManager
 import com.hallert.voteforreddit.util.DateFormatUtil
 import com.hallert.voteforreddit.util.NumberFormatUtil
 import kotlinx.android.synthetic.main.submission.view.*

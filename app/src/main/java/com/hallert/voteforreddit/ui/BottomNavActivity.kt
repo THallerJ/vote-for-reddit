@@ -148,7 +148,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         true
     }
 
-    private fun loginNewUser() {
+     fun loginNewUser() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
     }

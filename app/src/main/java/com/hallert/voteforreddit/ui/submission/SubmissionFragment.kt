@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.ui.BottomNavActivity
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,21 +80,33 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         val swipeCallback =
             object : SwipeVoteCallBack(this.context, adapter) {
                 override fun onSwipeLeft(position: Int) {
-                   submissionViewModel.voteSubmission(
-                       adapter.data[position],
-                       VoteDirection.DOWN
-                   )
+                    if (!userManager.isUserless()) {
+                        submissionViewModel.voteSubmission(
+                            adapter.data[position],
+                            VoteDirection.DOWN
+                        )
 
-                    submissionViewModel.swipePosition = position
+                        submissionViewModel.swipePosition = position
+                    } else {
+                        val hostActivity = activity as (BottomNavActivity)
+                        hostActivity.loginNewUser()
+                    }
+
                 }
 
                 override fun onSwipeRight(position: Int) {
-                    submissionViewModel.voteSubmission(
-                        adapter.data[position],
-                        VoteDirection.UP
-                    )
+                    if (!userManager.isUserless()) {
+                        submissionViewModel.voteSubmission(
+                            adapter.data[position],
+                            VoteDirection.UP
+                        )
 
-                    submissionViewModel.swipePosition = position
+                        submissionViewModel.swipePosition = position
+                    } else {
+                        val hostActivity = activity as (BottomNavActivity)
+                        hostActivity.loginNewUser()
+                    }
+
                 }
             }
 
