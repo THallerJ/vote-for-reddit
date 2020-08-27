@@ -28,10 +28,6 @@ class SubmissionViewModel @ViewModelInject constructor(
     @ExperimentalCoroutinesApi
     val isLoading: LiveData<Boolean> = submissionRepository.isLoading.asLiveData()
 
-    val votedToggle: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    var swipePosition = -1
-
     init {
         submissionRepository.buildSubreddit()
         startup()
@@ -97,7 +93,6 @@ class SubmissionViewModel @ViewModelInject constructor(
             }
 
             submissionRepository.updateSubmission(votedSubmission.inspect())
-            votedToggle.postValue(!votedToggle.value!!)
         }
     }
 }

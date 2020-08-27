@@ -51,10 +51,6 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
             submission_swipe_refresh.isRefreshing = loading
         })
 
-        submissionViewModel.votedToggle.observe(viewLifecycleOwner, Observer { voted ->
-            adapter.notifyItemChanged(submissionViewModel.swipePosition)
-        })
-
         return root
     }
 
@@ -81,12 +77,12 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
             object : SwipeVoteCallBack(this.context, adapter) {
                 override fun onSwipeLeft(position: Int) {
                     if (!userManager.isUserless()) {
+                        adapter.itemSwipedLeft(position)
+
                         submissionViewModel.voteSubmission(
                             adapter.data[position],
                             VoteDirection.DOWN
                         )
-
-                        submissionViewModel.swipePosition = position
                     } else {
                         val hostActivity = activity as (BottomNavActivity)
                         hostActivity.loginNewUser()
@@ -96,17 +92,16 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
                 override fun onSwipeRight(position: Int) {
                     if (!userManager.isUserless()) {
+                        adapter.itemSwipedRight(position)
+
                         submissionViewModel.voteSubmission(
                             adapter.data[position],
                             VoteDirection.UP
                         )
-
-                        submissionViewModel.swipePosition = position
                     } else {
                         val hostActivity = activity as (BottomNavActivity)
                         hostActivity.loginNewUser()
                     }
-
                 }
             }
 

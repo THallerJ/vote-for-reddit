@@ -27,6 +27,9 @@ class SubmissionAdapter constructor(
     private val NO_THUMBNAIL = 0
     private val THUMBNAIL = 1
 
+    private var upvote: Boolean = false
+    private var downvote: Boolean = false
+
     var data: List<Submission> = ArrayList()
         set(value) {
             field = value
@@ -56,27 +59,71 @@ class SubmissionAdapter constructor(
             (holder as NoThumbnailViewHolder).bind(data[position], listener)
         }
 
-        if (data[position].vote == VoteDirection.UP) {
-            holder.itemView.setBackgroundColor(
-                RedditApp.appContext.resources.getColor(
-                    R.color.upvoteTintColor,
-                    null
+        setViewHolderColor(holder, position)
+    }
+
+    private fun setViewHolderColor(holder: RecyclerView.ViewHolder, position: Int) {
+        val currentVoteDirection = data[position].vote
+
+        if (upvote) {
+            if (currentVoteDirection == VoteDirection.UP) {
+                holder.itemView.setBackgroundColor(
+                    RedditApp.appContext.resources.getColor(
+                        R.color.colorPrimary,
+                        null
+                    )
                 )
-            )
-        } else if (data[position].vote == VoteDirection.DOWN) {
-            holder.itemView.setBackgroundColor(
-                RedditApp.appContext.resources.getColor(
-                    R.color.downvoteTintColor,
-                    null
+            } else {
+                holder.itemView.setBackgroundColor(
+                    RedditApp.appContext.resources.getColor(
+                        R.color.upvoteTintColor,
+                        null
+                    )
                 )
-            )
+            }
+
+            upvote = false
+        } else if (downvote) {
+            if (currentVoteDirection == VoteDirection.DOWN) {
+                holder.itemView.setBackgroundColor(
+                    RedditApp.appContext.resources.getColor(
+                        R.color.colorPrimary,
+                        null
+                    )
+                )
+            } else {
+                holder.itemView.setBackgroundColor(
+                    RedditApp.appContext.resources.getColor(
+                        R.color.upvoteTintColor,
+                        null
+                    )
+                )
+            }
+
+            downvote = false
         } else {
-            holder.itemView.setBackgroundColor(
-                RedditApp.appContext.resources.getColor(
-                    R.color.colorPrimary,
-                    null
+            if (currentVoteDirection == VoteDirection.UP) {
+                holder.itemView.setBackgroundColor(
+                    RedditApp.appContext.resources.getColor(
+                        R.color.upvoteTintColor,
+                        null
+                    )
                 )
-            )
+            } else if (currentVoteDirection == VoteDirection.DOWN) {
+                holder.itemView.setBackgroundColor(
+                    RedditApp.appContext.resources.getColor(
+                        R.color.downvoteTintColor,
+                        null
+                    )
+                )
+            } else {
+                holder.itemView.setBackgroundColor(
+                    RedditApp.appContext.resources.getColor(
+                        R.color.colorPrimary,
+                        null
+                    )
+                )
+            }
         }
     }
 
@@ -181,6 +228,16 @@ class SubmissionAdapter constructor(
             date.text = DateFormatUtil.timeSince(submission.created.time)
             domain.text = submission.domain
         }
+    }
+
+    fun itemSwipedRight(position: Int) {
+        upvote = true
+        notifyItemChanged(position)
+    }
+
+    fun itemSwipedLeft(position: Int) {
+        downvote = true
+        notifyItemChanged(position)
     }
 }
 
