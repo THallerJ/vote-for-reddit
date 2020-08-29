@@ -94,7 +94,7 @@ class SubmissionAdapter constructor(
             } else {
                 holder.itemView.setBackgroundColor(
                     RedditApp.appContext.resources.getColor(
-                        R.color.upvoteTintColor,
+                        R.color.downvoteTintColor,
                         null
                     )
                 )
@@ -128,10 +128,10 @@ class SubmissionAdapter constructor(
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (data[position].thumbnail != "self") {
-            return THUMBNAIL
+        return if (data[position].thumbnail != "self") {
+            THUMBNAIL
         } else {
-            return NO_THUMBNAIL
+            NO_THUMBNAIL
         }
     }
 

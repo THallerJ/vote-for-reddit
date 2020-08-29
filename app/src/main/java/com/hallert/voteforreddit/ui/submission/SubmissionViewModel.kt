@@ -14,7 +14,7 @@ import kotlinx.coroutines.runBlocking
 import net.dean.jraw.models.Submission
 import net.dean.jraw.models.VoteDirection
 import net.dean.jraw.oauth.AccountHelper
-import javax.inject.Inject
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class SubmissionViewModel @ViewModelInject constructor(
@@ -72,24 +72,28 @@ class SubmissionViewModel @ViewModelInject constructor(
         CoroutineScope(IO).launch {
             val votedSubmission = accountHelper.reddit.submission(submission.id)
 
-            when (voteDirection) {
-                VoteDirection.UP -> {
-                    if (submission.vote == voteDirection) {
+            try {
+                when (voteDirection) {
+                    VoteDirection.UP -> {
+                        if (submission.vote == voteDirection) {
+                            votedSubmission.unvote()
+                        } else {
+                            votedSubmission.upvote()
+                        }
+                    }
+                    VoteDirection.DOWN -> {
+                        if (submission.vote == voteDirection) {
+                            votedSubmission.unvote()
+                        } else {
+                            votedSubmission.downvote()
+                        }
+                    }
+                    VoteDirection.NONE -> {
                         votedSubmission.unvote()
-                    } else {
-                        votedSubmission.upvote()
                     }
                 }
-                VoteDirection.DOWN -> {
-                    if (submission.vote == voteDirection) {
-                        votedSubmission.unvote()
-                    } else {
-                        votedSubmission.downvote()
-                    }
-                }
-                VoteDirection.NONE -> {
-                    votedSubmission.unvote()
-                }
+            } catch (e: net.dean.jraw.ApiException) {
+                Timber.e(e)
             }
 
             submissionRepository.updateSubmission(votedSubmission.inspect())
