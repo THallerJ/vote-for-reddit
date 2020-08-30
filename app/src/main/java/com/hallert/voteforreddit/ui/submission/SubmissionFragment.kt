@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -21,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
 import net.dean.jraw.models.VoteDirection
-import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,12 +66,18 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submission_recycler_view.adapter = adapter
         submissionViewModel.getNextPage()
 
-        submission_recycler_view.addItemDecoration(
-            DividerItemDecoration(
-                submission_recycler_view.context,
-                DividerItemDecoration.VERTICAL
-            )
+        val divider = DividerItemDecoration(
+            context,
+            DividerItemDecoration.VERTICAL
         )
+
+        divider.setDrawable(context?.let {
+            ContextCompat.getDrawable(
+                it,
+                R.drawable.divider_line
+            )
+        }!!)
+        submission_recycler_view.addItemDecoration(divider)
 
         val swipeCallback =
             object : SwipeVoteCallBack(this.context, adapter) {

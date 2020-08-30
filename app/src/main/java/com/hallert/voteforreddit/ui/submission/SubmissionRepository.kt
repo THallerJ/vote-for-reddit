@@ -106,7 +106,7 @@ class SubmissionRepository(
     @ExperimentalCoroutinesApi
     fun switchSubreddit(subredditName: String, isDefault: Boolean) {
         if ((subredditName.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), " ") ==
-                    RedditApp.appContext.getString(R.string.frontpage))
+                    RedditApp.appContext.getString(R.string.frontpage).toLowerCase(Locale.ROOT))
         ) {
             isLoading.value = true
 

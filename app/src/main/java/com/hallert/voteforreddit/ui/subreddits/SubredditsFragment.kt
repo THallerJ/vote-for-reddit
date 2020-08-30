@@ -15,12 +15,16 @@ import com.hallert.voteforreddit.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_subreddits.*
 import net.dean.jraw.models.Subreddit
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
     private val subredditsViewModel: SubredditsViewModel by viewModels()
     private lateinit var adapter: SubredditAdapter
     private lateinit var listener: SubredditFragmentListener
+
+    @Inject
+    lateinit var userManager: com.hallert.voteforreddit.user.UserManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +46,12 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
             subreddit_popular.visibility = View.VISIBLE
             subreddit_all.visibility = View.VISIBLE
             subreddits_title.visibility = View.VISIBLE
+
+            if (userManager.isUserless()) {
+                subreddits_divider_line.visibility = View.GONE
+            } else {
+                subreddits_divider_line.visibility = View.VISIBLE
+            }
 
             setListeners()
         })
