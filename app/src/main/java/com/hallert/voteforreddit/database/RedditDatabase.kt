@@ -22,7 +22,7 @@ interface SubmissionDao {
 
 @Dao
 interface SubredditDao {
-    @Query("SELECT subreddit FROM SubredditEntity WHERE username = :currentUser ORDER BY subredditName ASC")
+    @Query("SELECT subreddit FROM SubredditEntity WHERE username = :currentUser ORDER BY LOWER(subredditName) ASC")
     fun getSubreddits(currentUser: String): Flow<List<Subreddit>>
 
     @Query("DELETE FROM SubredditEntity WHERE username =:currentUser")
