@@ -1,6 +1,8 @@
 package com.hallert.voteforreddit.ui.submission
 
 import SwipeVoteCallBack
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.BottomNavActivity
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
+import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,6 +33,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     @ExperimentalCoroutinesApi
     private val submissionViewModel: SubmissionViewModel by viewModels()
     private lateinit var adapter: SubmissionAdapter
+    lateinit var listener: SubmissionFragmentListener
 
     @Inject
     lateinit var userManager: UserManager
@@ -106,8 +110,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
                             VoteDirection.UP
                         )
                     } else {
-                        val hostActivity = activity as (BottomNavActivity)
-                        hostActivity.loginNewUser()
+                        listener.loginUser()
                     }
                 }
             }
@@ -157,6 +160,25 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     }
 
     override fun onItemLongClick() {
-        Toast.makeText(context, "TODO: launch sorting bottom sheet", Toast.LENGTH_SHORT).show()
+        listener.sort()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is SubmissionFragmentListener) {
+            listener = context
+        } else {
+            throw RuntimeException(
+                context.toString()
+                        + " must implement SubmissionFragmentListener"
+            )
+        }
+    }
+
+
+    interface SubmissionFragmentListener {
+        fun loginUser()
+        fun sort()
     }
 }

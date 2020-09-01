@@ -31,7 +31,8 @@ private const val SUBREDDIT_TITLE_TEXT: String = "subreddit_text"
 private const val LOGIN_REQUEST_CODE = 0
 
 @AndroidEntryPoint
-class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragmentListener {
+class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragmentListener,
+    SubmissionsFragment.SubmissionFragmentListener {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var toolbarTitleTextView: TextView
 
@@ -148,7 +149,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         true
     }
 
-     fun loginNewUser() {
+    fun loginNewUser() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
     }
@@ -188,5 +189,13 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
         outState.putString(CURRENT_USER_TAG, currentUser)
 
         super.onSaveInstanceState(outState)
+    }
+
+    override fun loginUser() {
+        loginNewUser()
+    }
+
+    override fun sort() {
+        Toast.makeText(this, "Sort", Toast.LENGTH_SHORT).show()
     }
 }

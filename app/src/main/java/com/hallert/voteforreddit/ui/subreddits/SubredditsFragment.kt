@@ -95,6 +95,7 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         if (context is SubredditFragmentListener) {
             listener = context
         } else {
