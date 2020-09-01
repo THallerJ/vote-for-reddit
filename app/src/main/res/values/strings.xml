@@ -9,4 +9,10 @@
     <string name="frontpage">Frontpage</string>
     <string name="popular">Popular</string>
     <string name="all">All</string>
+    <string name="sorting">Sorting</string>
+    <string name="hot">Hot</string>
+    <string name="newSort">New</string>
+    <string name="rising">Rising</string>
+    <string name="top">Top</string>
+    <string name="controversial">Controversial</string>
 </resources>

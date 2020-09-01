@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.inbox.InboxFragment
+import com.hallert.voteforreddit.ui.misc.SortingFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
@@ -123,7 +124,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
             }
             R.id.nav_subs -> {
                 val sheet = SubredditsFragment()
-                sheet.show(supportFragmentManager, "subredditBottomSheet")
+                sheet.show(supportFragmentManager, "subreddit_bottom_sheet")
 
                 return@OnNavigationItemSelectedListener false
             }
@@ -196,6 +197,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
     }
 
     override fun sort() {
-        Toast.makeText(this, "Sort", Toast.LENGTH_SHORT).show()
+        val sheet = SortingFragment()
+        sheet.show(supportFragmentManager, "sorting_bottom_sheet")
     }
 }
