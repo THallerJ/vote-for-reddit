@@ -18,6 +18,7 @@ import com.hallert.voteforreddit.ui.BottomNavActivity
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
@@ -153,5 +154,9 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
             "TODO: Open thumbnail/link " + submission.title, Toast.LENGTH_SHORT
         )
             .show()
+    }
+
+    override fun onItemLongClick() {
+        Toast.makeText(context, "TODO: launch sorting bottom sheet", Toast.LENGTH_SHORT).show()
     }
 }

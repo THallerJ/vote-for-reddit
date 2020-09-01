@@ -168,6 +168,11 @@ class SubmissionAdapter constructor(
                 listener.onItemClick(submission, adapterPosition)
             }
 
+            itemView.setOnLongClickListener(View.OnLongClickListener {
+                listener.onItemLongClick()
+                true
+            })
+
             thumbnail.setOnClickListener {
                 listener.onItemThumbnailClick(
                     submission,
@@ -221,6 +226,11 @@ class SubmissionAdapter constructor(
                 listener.onItemClick(submission, adapterPosition)
             }
 
+            itemView.setOnLongClickListener(View.OnLongClickListener {
+                listener.onItemLongClick()
+                true
+            })
+
             title.text = submission.title
             sub.text = submission.subreddit
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
@@ -245,4 +255,5 @@ class SubmissionAdapter constructor(
 interface SubmissionClickListener {
     fun onItemClick(submission: Submission, position: Int)
     fun onItemThumbnailClick(submission: Submission, position: Int)
+    fun onItemLongClick()
 }
