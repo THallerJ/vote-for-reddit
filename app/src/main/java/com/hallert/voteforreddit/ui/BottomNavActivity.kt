@@ -17,6 +17,8 @@ import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import net.dean.jraw.models.SubredditSort
+import net.dean.jraw.models.TimePeriod
 import javax.inject.Inject
 
 private const val ROOT_FRAGMENT: String = "root_fragment"
@@ -204,5 +206,14 @@ class BottomNavActivity :
     override fun sort() {
         val sheet = SortingFragment()
         sheet.show(supportFragmentManager, "sorting_bottom_sheet")
+    }
+
+    override fun sortSelected(sort: SubredditSort) {
+        Toast.makeText(this, "$sort", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun sortTimeSelected(sort: SubredditSort, timePeriod: TimePeriod) {
+        Toast.makeText(this, "$sort $timePeriod", Toast.LENGTH_SHORT)
+            .show()
     }
 }
