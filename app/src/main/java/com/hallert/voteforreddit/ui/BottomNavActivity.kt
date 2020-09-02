@@ -32,8 +32,12 @@ private const val SUBREDDIT_TITLE_TEXT: String = "subreddit_text"
 private const val LOGIN_REQUEST_CODE = 0
 
 @AndroidEntryPoint
-class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragmentListener,
-    SubmissionsFragment.SubmissionFragmentListener {
+class BottomNavActivity :
+    AppCompatActivity(),
+    SubredditsFragment.SubredditFragmentObserver,
+    SubmissionsFragment.SubmissionFragmentObserver,
+    SortingFragment.SortingFragmentObserver {
+
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var toolbarTitleTextView: TextView
 
@@ -48,6 +52,7 @@ class BottomNavActivity : AppCompatActivity(), SubredditsFragment.SubredditFragm
 
     private lateinit var currentFragmentTag: String
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

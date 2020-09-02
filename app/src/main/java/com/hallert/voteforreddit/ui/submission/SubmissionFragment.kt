@@ -33,7 +33,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     @ExperimentalCoroutinesApi
     private val submissionViewModel: SubmissionViewModel by viewModels()
     private lateinit var adapter: SubmissionAdapter
-    lateinit var listener: SubmissionFragmentListener
+    lateinit var observer: SubmissionFragmentObserver
 
     @Inject
     lateinit var userManager: UserManager
@@ -95,8 +95,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
                             VoteDirection.DOWN
                         )
                     } else {
-                        val hostActivity = activity as (BottomNavActivity)
-                        hostActivity.loginNewUser()
+                        observer.loginUser()
                     }
 
                 }
@@ -110,7 +109,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
                             VoteDirection.UP
                         )
                     } else {
-                        listener.loginUser()
+                        observer.loginUser()
                     }
                 }
             }
@@ -160,14 +159,14 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     }
 
     override fun onItemLongClick() {
-        listener.sort()
+        observer.sort()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        if (context is SubmissionFragmentListener) {
-            listener = context
+        if (context is SubmissionFragmentObserver) {
+            observer = context
         } else {
             throw RuntimeException(
                 context.toString()
@@ -177,7 +176,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     }
 
 
-    interface SubmissionFragmentListener {
+    interface SubmissionFragmentObserver {
         fun loginUser()
         fun sort()
     }

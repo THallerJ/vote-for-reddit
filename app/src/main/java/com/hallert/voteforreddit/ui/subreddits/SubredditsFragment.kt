@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
     private val subredditsViewModel: SubredditsViewModel by viewModels()
     private lateinit var adapter: SubredditAdapter
-    private lateinit var listener: SubredditFragmentListener
+    private lateinit var observer: SubredditFragmentObserver
 
     @Inject
     lateinit var userManager: com.hallert.voteforreddit.user.UserManager
@@ -72,23 +72,23 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
     // This method control what happens when clicking items in the RecyclerView
     override fun onItemClick(subreddit: Subreddit, position: Int) {
-        listener.onSubredditSelected(subreddit.name)
+        observer.onSubredditSelected(subreddit.name)
         this.dismiss()
     }
 
     private fun setListeners() {
         subreddit_all.setOnClickListener {
-            listener.onSubredditSelected("All")
+            observer.onSubredditSelected("All")
             this.dismiss()
         }
 
         subreddit_popular.setOnClickListener {
-            listener.onSubredditSelected("Popular")
+            observer.onSubredditSelected("Popular")
             this.dismiss()
         }
 
         subreddit_frontpage.setOnClickListener {
-            listener.onFrontPageSelected()
+            observer.onFrontPageSelected()
             this.dismiss()
         }
     }
@@ -96,8 +96,8 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        if (context is SubredditFragmentListener) {
-            listener = context
+        if (context is SubredditFragmentObserver) {
+            observer = context
         } else {
             throw RuntimeException(
                 context.toString()
@@ -107,7 +107,7 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
     }
 
 
-    interface SubredditFragmentListener {
+    interface SubredditFragmentObserver {
         fun onSubredditSelected(selection: String)
         fun onFrontPageSelected()
     }
