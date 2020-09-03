@@ -10,7 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.inbox.InboxFragment
-import com.hallert.voteforreddit.ui.misc.SortingFragment
+import com.hallert.voteforreddit.ui.subreddits.sort.SubmissionSortFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
@@ -38,7 +38,7 @@ class BottomNavActivity :
     AppCompatActivity(),
     SubredditsFragment.SubredditFragmentObserver,
     SubmissionsFragment.SubmissionFragmentObserver,
-    SortingFragment.SortingFragmentObserver {
+    SubmissionSortFragment.SortingFragmentObserver {
 
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var toolbarTitleTextView: TextView
@@ -204,7 +204,7 @@ class BottomNavActivity :
     }
 
     override fun sort() {
-        val sheet = SortingFragment()
+        val sheet = SubmissionSortFragment()
         sheet.show(supportFragmentManager, "sorting_bottom_sheet")
     }
 
