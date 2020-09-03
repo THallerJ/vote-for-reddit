@@ -10,7 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.inbox.InboxFragment
-import com.hallert.voteforreddit.ui.subreddits.sort.SubmissionSortFragment
+import com.hallert.voteforreddit.ui.submission.sort.SubmissionSortFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment

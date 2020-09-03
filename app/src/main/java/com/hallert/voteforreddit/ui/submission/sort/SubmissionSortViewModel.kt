@@ -1,4 +1,4 @@
-package com.hallert.voteforreddit.ui.subreddits.sort
+package com.hallert.voteforreddit.ui.submission.sort
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
