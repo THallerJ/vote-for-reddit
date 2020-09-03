@@ -212,7 +212,7 @@ class BottomNavActivity :
         Toast.makeText(this, "$sort", Toast.LENGTH_SHORT).show()
     }
 
-    override fun sortTimeSelected(sort: SubredditSort, timePeriod: TimePeriod) {
+    override fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod) {
         Toast.makeText(this, "$sort $timePeriod", Toast.LENGTH_SHORT)
             .show()
     }
