@@ -138,6 +138,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submissionViewModel.switchFrontpage()
     }
 
+    @ExperimentalCoroutinesApi
     fun changeSort(sort: SubredditSort, timePeriod: TimePeriod?) {
             submissionViewModel.changeSort(sort, timePeriod)
 
