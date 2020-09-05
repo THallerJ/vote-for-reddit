@@ -67,15 +67,15 @@ class SubmissionSortFragment : BottomSheetDialogFragment(), View.OnClickListener
     override fun onClick(v: View?) {
         when (v) {
             hot_text_view -> {
-                observer.sortSelected(SubredditSort.HOT)
+                observer.sortSelected(SubredditSort.HOT, null)
                 this.dismiss()
             }
             new_text_view -> {
-                observer.sortSelected(SubredditSort.NEW)
+                observer.sortSelected(SubredditSort.NEW, null)
                 this.dismiss()
             }
             rising_text_view -> {
-                observer.sortSelected(SubredditSort.RISING)
+                observer.sortSelected(SubredditSort.RISING, null)
                 this.dismiss()
             }
             top_text_view -> {
@@ -132,7 +132,6 @@ class SubmissionSortFragment : BottomSheetDialogFragment(), View.OnClickListener
 
 
     interface SortingFragmentObserver {
-        fun sortSelected(sort: SubredditSort)
-        fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod)
+        fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod?)
     }
 }

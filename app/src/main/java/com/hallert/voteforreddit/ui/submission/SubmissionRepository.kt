@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import net.dean.jraw.models.Submission
+import net.dean.jraw.models.SubredditSort
+import net.dean.jraw.models.TimePeriod
 import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.pagination.DefaultPaginator
 import java.util.*
@@ -26,15 +28,55 @@ class SubmissionRepository(
     val submissions: Flow<List<Submission>>
         get() = submissionDao.getAllSubmissions().filterNotNull()
 
+    private lateinit var subredditName: String
+
     @ExperimentalCoroutinesApi
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     fun buildSubreddit(subName: String) {
         subreddit = accountHelper.reddit.subreddit(subName).posts().build()
+        subredditName = subName
     }
 
     fun buildSubreddit() {
         subreddit = accountHelper.reddit.frontPage().build()
+    }
+
+    fun sortSubreddit(
+        subredditName: String,
+        sort: SubredditSort,
+        timePeriod: TimePeriod,
+        isFrontPage: Boolean
+    ) {
+        subreddit = if (isFrontPage) {
+            accountHelper.reddit
+                .frontPage()
+                .sorting(sort)
+                .timePeriod(timePeriod)
+                .build()
+        } else {
+            accountHelper.reddit
+                .subreddit(subredditName)
+                .posts()
+                .sorting(sort)
+                .timePeriod(timePeriod)
+                .build()
+        }
+    }
+
+    fun sortSubreddit(subredditName: String, sort: SubredditSort, isFrontPage: Boolean) {
+        subreddit = if (isFrontPage) {
+            accountHelper.reddit
+                .frontPage()
+                .sorting(sort)
+                .build()
+        } else {
+            accountHelper.reddit
+                .subreddit(subredditName)
+                .posts()
+                .sorting(sort)
+                .build()
+        }
     }
 
     @ExperimentalCoroutinesApi

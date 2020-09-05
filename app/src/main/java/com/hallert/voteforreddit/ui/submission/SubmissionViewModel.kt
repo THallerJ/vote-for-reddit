@@ -2,7 +2,10 @@ package com.hallert.voteforreddit.ui.submission
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +15,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.dean.jraw.models.Submission
+import net.dean.jraw.models.SubredditSort
+import net.dean.jraw.models.TimePeriod
 import net.dean.jraw.models.VoteDirection
 import net.dean.jraw.oauth.AccountHelper
 import timber.log.Timber
@@ -28,7 +33,11 @@ class SubmissionViewModel @ViewModelInject constructor(
     @ExperimentalCoroutinesApi
     val isLoading: LiveData<Boolean> = submissionRepository.isLoading.asLiveData()
 
+    private var isFrontPage = true
+    private var subredditName: String
+
     init {
+        subredditName = RedditApp.appContext.getString(R.string.frontpage)
         submissionRepository.buildSubreddit()
         startup()
     }
@@ -55,6 +64,9 @@ class SubmissionViewModel @ViewModelInject constructor(
 
     @ExperimentalCoroutinesApi
     fun switchSubreddits(subredditName: String) {
+        isFrontPage = false
+        this.subredditName = subredditName
+
         CoroutineScope(Main).launch {
             submissionRepository.switchSubreddit(subredditName)
         }
@@ -62,10 +74,23 @@ class SubmissionViewModel @ViewModelInject constructor(
 
     @ExperimentalCoroutinesApi
     fun switchFrontpage() {
+        isFrontPage = true
+        subredditName = RedditApp.appContext.getString(R.string.frontpage)
+
         submissionRepository.switchSubreddit(
-            RedditApp.appContext.getString(R.string.frontpage),
-        true
+            subredditName,
+            true
         )
+    }
+
+    fun changeSort(sort: SubredditSort, timePeriod: TimePeriod?) {
+        if (timePeriod == null) {
+            submissionRepository.sortSubreddit(subredditName, sort, isFrontPage)
+        } else {
+            submissionRepository.sortSubreddit(subredditName, sort, timePeriod, isFrontPage)
+        }
+
+        refresh()
     }
 
     fun voteSubmission(submission: Submission, voteDirection: VoteDirection) {

@@ -208,12 +208,8 @@ class BottomNavActivity :
         sheet.show(supportFragmentManager, "sorting_bottom_sheet")
     }
 
-    override fun sortSelected(sort: SubredditSort) {
-        Toast.makeText(this, "$sort", Toast.LENGTH_SHORT).show()
-    }
 
-    override fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod) {
-        Toast.makeText(this, "$sort $timePeriod", Toast.LENGTH_SHORT)
-            .show()
+    override fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod?) {
+        getSubmissionFragment().changeSort(sort, timePeriod)
     }
 }

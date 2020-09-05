@@ -1,7 +1,6 @@
 package com.hallert.voteforreddit.ui.submission
 
 import SwipeVoteCallBack
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,15 +15,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.ui.BottomNavActivity
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
-import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
+import net.dean.jraw.models.SubredditSort
+import net.dean.jraw.models.TimePeriod
 import net.dean.jraw.models.VoteDirection
 import javax.inject.Inject
 
@@ -140,6 +138,10 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submissionViewModel.switchFrontpage()
     }
 
+    fun changeSort(sort: SubredditSort, timePeriod: TimePeriod?) {
+            submissionViewModel.changeSort(sort, timePeriod)
+
+    }
 
     // These methods handle click events on items in the RecyclerView
     override fun onItemClick(submission: Submission, position: Int) {
