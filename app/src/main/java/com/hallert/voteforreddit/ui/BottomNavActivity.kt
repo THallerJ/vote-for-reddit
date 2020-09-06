@@ -2,6 +2,8 @@ package com.hallert.voteforreddit.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +29,8 @@ import javax.inject.Inject
 private const val ROOT_FRAGMENT: String = "root_fragment"
 private const val PROFILE_FRAGMENT_TAG: String = "profile_fragment"
 private const val INBOX_FRAGMENT_TAG: String = "inbox_fragment"
+private const val SUBREDDIT_SHEET_TAG: String = "subreddit_sheet_tag"
+private const val SUBMISSION_SORT_TAG: String = "submission_sort"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
 
@@ -46,6 +50,7 @@ class BottomNavActivity :
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var toolbarTitleTextView: TextView
     private lateinit var sortText: TextView
+    private lateinit var sortLayout: LinearLayout
 
     private lateinit var subredditTitle: String
 
@@ -83,6 +88,8 @@ class BottomNavActivity :
 
         sortText = findViewById(R.id.sort_text)
         sort.setOnClickListener { sort() }
+
+        sortLayout = findViewById(R.id.sort)
     }
 
     private fun switchFragments(
@@ -123,6 +130,7 @@ class BottomNavActivity :
                     fragment.openFrontpage()
                 }
 
+                sortLayout.visibility = View.VISIBLE
                 toolbarTitleTextView.text = subredditTitle
                 switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
                 doLoadFrontpage = true
@@ -139,13 +147,14 @@ class BottomNavActivity :
             }
             R.id.nav_subs -> {
                 val sheet = SubredditsFragment()
-                sheet.show(supportFragmentManager, "subreddit_bottom_sheet")
+                sheet.show(supportFragmentManager, SUBREDDIT_SHEET_TAG)
 
                 return@OnNavigationItemSelectedListener false
             }
             R.id.nav_inbox -> {
                 if (!userManager.isUserless()) {
                     toolbarTitleTextView.text = getString(R.string.inbox)
+                    sortLayout.visibility = View.GONE
                     switchFragments(InboxFragment(), INBOX_FRAGMENT_TAG)
                     doLoadFrontpage = false
                 } else {
@@ -155,6 +164,7 @@ class BottomNavActivity :
             R.id.nav_profile -> {
                 if (!userManager.isUserless()) {
                     toolbarTitleTextView.text = getString(R.string.profile)
+                    sortLayout.visibility = View.GONE
                     switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
                     doLoadFrontpage = false
                 } else {
@@ -215,7 +225,7 @@ class BottomNavActivity :
 
     override fun sort() {
         val sheet = SubmissionSortFragment()
-        sheet.show(supportFragmentManager, "sorting_bottom_sheet")
+        sheet.show(supportFragmentManager, SUBMISSION_SORT_TAG)
     }
 
     @ExperimentalCoroutinesApi
