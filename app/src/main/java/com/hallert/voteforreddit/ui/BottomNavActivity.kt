@@ -115,6 +115,7 @@ class BottomNavActivity :
                     || (currentUser != userManager.currentUser())
                 ) {
                     val fragment: SubmissionsFragment = getSubmissionFragment()
+                    sortText.text = "Hot"
                     subredditTitle = getString(R.string.frontpage)
                     currentUser = userManager.currentUser()
                     fragment.openFrontpage()
@@ -180,6 +181,7 @@ class BottomNavActivity :
 
     override fun onFrontPageSelected() {
         doLoadFrontpage = true
+        sortText.text = "Hot"
         bottomNav.selectedItemId = R.id.nav_posts
     }
 
