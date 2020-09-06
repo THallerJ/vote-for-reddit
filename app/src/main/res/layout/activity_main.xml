@@ -10,7 +10,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="3dp">
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/bottom_nav_toolbar"
@@ -33,7 +33,7 @@
                     android:layout_marginStart="16dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/roboto"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/title_font_size"
                     app:layout_constraintEnd_toStartOf="@+id/sort"
@@ -76,9 +76,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Top All"
+                        android:text="Hot"
                         app:layout_constraintStart_toEndOf="@+id/sort_icon"
                         app:layout_constraintTop_toTopOf="parent" />
                 </LinearLayout>

@@ -16,6 +16,7 @@ import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.SubredditSort
 import net.dean.jraw.models.TimePeriod
@@ -42,6 +43,7 @@ class BottomNavActivity :
 
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var toolbarTitleTextView: TextView
+    private lateinit var sortText: TextView
 
     private lateinit var subredditTitle: String
 
@@ -76,6 +78,9 @@ class BottomNavActivity :
 
         bottomNav = findViewById(R.id.bottom_navigation_bar)
         bottomNav.setOnNavigationItemSelectedListener(navListener)
+
+        sortText = findViewById(R.id.sort_text)
+        sort.setOnClickListener { sort() }
     }
 
     private fun switchFragments(
@@ -167,6 +172,7 @@ class BottomNavActivity :
         subredditTitle = selection
         toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openSubreddit(selection)
+        sortText.text = "Hot"
         switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
         doLoadFrontpage = false
         bottomNav.selectedItemId = R.id.nav_posts
@@ -208,8 +214,14 @@ class BottomNavActivity :
         sheet.show(supportFragmentManager, "sorting_bottom_sheet")
     }
 
-
+    @ExperimentalCoroutinesApi
     override fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod?) {
+        if (timePeriod == null) {
+            sortText.text = sort.toString()
+        } else {
+            sortText.text = "$sort $timePeriod"
+        }
+
         getSubmissionFragment().changeSort(sort, timePeriod)
     }
 }

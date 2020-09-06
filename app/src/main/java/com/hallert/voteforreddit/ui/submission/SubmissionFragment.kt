@@ -18,6 +18,7 @@ import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
@@ -140,7 +141,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
     @ExperimentalCoroutinesApi
     fun changeSort(sort: SubredditSort, timePeriod: TimePeriod?) {
-            submissionViewModel.changeSort(sort, timePeriod)
+        submissionViewModel.changeSort(sort, timePeriod)
 
     }
 
