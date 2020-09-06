@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.inbox.InboxFragment
 import com.hallert.voteforreddit.ui.submission.sort.SubmissionSortFragment
@@ -15,6 +16,7 @@ import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
 import com.hallert.voteforreddit.user.UserManager
+import com.hallert.voteforreddit.util.StringFormatUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -115,7 +117,7 @@ class BottomNavActivity :
                     || (currentUser != userManager.currentUser())
                 ) {
                     val fragment: SubmissionsFragment = getSubmissionFragment()
-                    sortText.text = "Hot"
+                    sortText.text = RedditApp.appContext.getString(R.string.hot)
                     subredditTitle = getString(R.string.frontpage)
                     currentUser = userManager.currentUser()
                     fragment.openFrontpage()
@@ -163,7 +165,7 @@ class BottomNavActivity :
         true
     }
 
-    fun loginNewUser() {
+    private fun loginNewUser() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
     }
@@ -173,7 +175,7 @@ class BottomNavActivity :
         subredditTitle = selection
         toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openSubreddit(selection)
-        sortText.text = "Hot"
+        sortText.text = RedditApp.appContext.getString(R.string.hot)
         switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
         doLoadFrontpage = false
         bottomNav.selectedItemId = R.id.nav_posts
@@ -181,7 +183,7 @@ class BottomNavActivity :
 
     override fun onFrontPageSelected() {
         doLoadFrontpage = true
-        sortText.text = "Hot"
+        sortText.text = RedditApp.appContext.getString(R.string.hot)
         bottomNav.selectedItemId = R.id.nav_posts
     }
 
@@ -219,9 +221,9 @@ class BottomNavActivity :
     @ExperimentalCoroutinesApi
     override fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod?) {
         if (timePeriod == null) {
-            sortText.text = sort.toString()
+            sortText.text = StringFormatUtil.capitalizeWords("$sort")
         } else {
-            sortText.text = "$sort $timePeriod"
+            sortText.text = StringFormatUtil.capitalizeWords("$sort $timePeriod")
         }
 
         getSubmissionFragment().changeSort(sort, timePeriod)
