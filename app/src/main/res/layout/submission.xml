@@ -26,10 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:visibility="visible"
         android:fontFamily="@font/roboto"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/submission_thumbnail_image"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
         tools:text="subreddit" />
@@ -100,24 +100,44 @@
 
     <TextView
         android:id="@+id/submission_domain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:layout_marginStart="8dp"
+        android:maxLines="1"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/submission_link_flair"
+        app:layout_constraintEnd_toEndOf="@+id/submission_title_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        tools:text="domain.com" />
+
+    <TextView
+        android:id="@+id/submission_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:ellipsize="end"
         android:fontFamily="@font/roboto"
+        android:maxLines="1"
+        tools:text="AuthorName"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/submission_link_flair"
-        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
-        tools:text="domain.com" />
+        app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text" />
 
     <TextView
         android:id="@+id/submission_link_flair"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:ellipsize="end"
         android:fontFamily="@font/roboto_bold"
+        android:maxLines="1"
         android:textColor="@color/colorAccent"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
+        app:layout_constraintEnd_toStartOf="@+id/submission_domain"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/submission_author"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
         tools:text="LinkFlair" />
 

@@ -44,6 +44,9 @@ class Authentication @Inject constructor(
                 }.join()
             }
         }
+
+        deferredToken.load()
+        deferredToken.autoPersist = true
     }
 
     fun isUserless(): Boolean {
