@@ -89,6 +89,14 @@ class BottomNavActivity :
         sortText = findViewById(R.id.sort_text)
         sort.setOnClickListener { sort() }
 
+        more.setOnClickListener {
+            Toast.makeText(this, "TODO: Open menu", Toast.LENGTH_SHORT).show()
+        }
+
+        sidebar.setOnClickListener {
+            Toast.makeText(this, "TODO: Open sidemenu", Toast.LENGTH_SHORT).show()
+        }
+
         sortLayout = findViewById(R.id.sort)
     }
 

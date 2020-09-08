@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.submission.view.submission_karma_text
 import kotlinx.android.synthetic.main.submission.view.submission_link_flair
 import kotlinx.android.synthetic.main.submission.view.submission_sub_text
 import kotlinx.android.synthetic.main.submission.view.submission_title_text
-import kotlinx.android.synthetic.main.submission_no_thumbnail.view.*
 import net.dean.jraw.models.Submission
 import net.dean.jraw.models.VoteDirection
 
