@@ -17,14 +17,6 @@ import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.util.DateFormatUtil
 import com.hallert.voteforreddit.util.NumberFormatUtil
 import kotlinx.android.synthetic.main.submission.view.*
-import kotlinx.android.synthetic.main.submission.view.submission_author
-import kotlinx.android.synthetic.main.submission.view.submission_comment_count_text
-import kotlinx.android.synthetic.main.submission.view.submission_date_text
-import kotlinx.android.synthetic.main.submission.view.submission_domain
-import kotlinx.android.synthetic.main.submission.view.submission_karma_text
-import kotlinx.android.synthetic.main.submission.view.submission_link_flair
-import kotlinx.android.synthetic.main.submission.view.submission_sub_text
-import kotlinx.android.synthetic.main.submission.view.submission_title_text
 import net.dean.jraw.models.Submission
 import net.dean.jraw.models.VoteDirection
 
@@ -163,6 +155,7 @@ class SubmissionAdapter constructor(
         private val domain: TextView = itemView.submission_domain
         private val submissionLink: ImageView = itemView.submission_link
         private val author: TextView = itemView.submission_author
+        private val nsfw: TextView = itemView.submission_nsfw
 
         fun bind(
             submission: Submission,
@@ -211,6 +204,12 @@ class SubmissionAdapter constructor(
                 linkFlair.visibility = View.VISIBLE
             }
 
+            if (submission.isNsfw) {
+                nsfw.visibility = View.VISIBLE
+            } else {
+                nsfw.visibility = View.GONE
+            }
+
             title.text = submission.title
 
             if (submission.isStickied) {
@@ -242,6 +241,7 @@ class SubmissionAdapter constructor(
         private val date: TextView = itemView.submission_date_text
         private val linkFlair: TextView = itemView.submission_link_flair
         private val author: TextView = itemView.submission_author
+        private val nsfw: TextView = itemView.submission_nsfw
 
         fun bind(
             submission: Submission,
@@ -254,6 +254,12 @@ class SubmissionAdapter constructor(
                 linkFlair.visibility = View.GONE
             } else {
                 linkFlair.visibility = View.VISIBLE
+            }
+
+            if (submission.isNsfw) {
+                nsfw.visibility = View.VISIBLE
+            } else {
+                nsfw.visibility = View.GONE
             }
 
             itemView.setOnClickListener {
