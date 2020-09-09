@@ -1,5 +1,6 @@
 package com.hallert.voteforreddit.ui.submission
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -211,6 +212,13 @@ class SubmissionAdapter constructor(
             }
 
             title.text = submission.title
+
+            if (submission.isStickied) {
+                title.setTextColor(RedditApp.appContext.getColor(R.color.stickyColor))
+            } else {
+                title.setTextColor(Color.BLACK)
+            }
+
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
             karma.text = NumberFormatUtil.truncate((submission.score))
             date.text = DateFormatUtil.timeSince(submission.created.time)
@@ -258,6 +266,15 @@ class SubmissionAdapter constructor(
             })
 
             title.text = submission.title
+
+            title.text = submission.title
+
+            if (submission.isStickied) {
+                title.setTextColor(RedditApp.appContext.getColor(R.color.stickyColor))
+            } else {
+                title.setTextColor(Color.BLACK)
+            }
+
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
             karma.text = NumberFormatUtil.truncate((submission.score))
             date.text = DateFormatUtil.timeSince(submission.created.time)

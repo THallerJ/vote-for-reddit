@@ -11,5 +11,6 @@
     <color name="upvoteTintColor">#ffefe6</color>
     <color name="downvoteTintColor">#e6ebff</color>
     <color name="dividerColorLight">#f2f2f2</color>
+    <color name="stickyColor">#228822</color>
 
 </resources>
