@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_subreddits.*
 import net.dean.jraw.models.Subreddit
@@ -78,17 +79,17 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
     private fun setListeners() {
         subreddit_all.setOnClickListener {
-            observer.onSubredditSelected("All")
+            observer.onMultiredditSelected(RedditApp.appContext.getString(R.string.all))
             this.dismiss()
         }
 
         subreddit_popular.setOnClickListener {
-            observer.onSubredditSelected("Popular")
+            observer.onMultiredditSelected(RedditApp.appContext.getString(R.string.popular))
             this.dismiss()
         }
 
         subreddit_frontpage.setOnClickListener {
-            observer.onFrontPageSelected()
+            observer.onMultiredditSelected(RedditApp.appContext.getString(R.string.frontpage))
             this.dismiss()
         }
     }
@@ -109,6 +110,6 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
     interface SubredditFragmentObserver {
         fun onSubredditSelected(selection: String)
-        fun onFrontPageSelected()
+        fun onMultiredditSelected(selection: String)
     }
 }

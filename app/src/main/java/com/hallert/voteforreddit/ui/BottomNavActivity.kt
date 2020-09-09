@@ -135,7 +135,7 @@ class BottomNavActivity :
                     sortText.text = RedditApp.appContext.getString(R.string.hot)
                     subredditTitle = getString(R.string.frontpage)
                     currentUser = userManager.currentUser()
-                    fragment.openFrontpage()
+                    fragment.openMultireddit(RedditApp.appContext.getString(R.string.frontpage))
                 }
 
                 sortLayout.visibility = View.VISIBLE
@@ -199,10 +199,21 @@ class BottomNavActivity :
         bottomNav.selectedItemId = R.id.nav_posts
     }
 
-    override fun onFrontPageSelected() {
-        doLoadFrontpage = true
-        sortText.text = RedditApp.appContext.getString(R.string.hot)
-        bottomNav.selectedItemId = R.id.nav_posts
+    @ExperimentalCoroutinesApi
+    override fun onMultiredditSelected(selection: String) {
+        if (selection == RedditApp.appContext.getString(R.string.frontpage)) {
+            doLoadFrontpage = true
+            sortText.text = RedditApp.appContext.getString(R.string.hot)
+            bottomNav.selectedItemId = R.id.nav_posts
+        } else {
+            subredditTitle = selection
+            toolbarTitleTextView.text = subredditTitle
+            getSubmissionFragment().openMultireddit(selection)
+            sortText.text = RedditApp.appContext.getString(R.string.hot)
+            switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+            doLoadFrontpage = false
+            bottomNav.selectedItemId = R.id.nav_posts
+        }
     }
 
     private fun getSubmissionFragment(): SubmissionsFragment {

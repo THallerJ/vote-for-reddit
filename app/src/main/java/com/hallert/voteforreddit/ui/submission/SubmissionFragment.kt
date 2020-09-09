@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -131,7 +132,20 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
     @ExperimentalCoroutinesApi
     fun openSubreddit(name: String) {
+        adapter.isMultireddit = false
         submissionViewModel.switchSubreddits(name)
+    }
+
+    @ExperimentalCoroutinesApi
+    fun openMultireddit(name: String) {
+        adapter.isMultireddit = true
+
+        if (name == RedditApp.appContext.getString(R.string.frontpage)) {
+            submissionViewModel.switchFrontpage()
+        } else {
+            submissionViewModel.switchSubreddits(name)
+        }
+
     }
 
     @ExperimentalCoroutinesApi

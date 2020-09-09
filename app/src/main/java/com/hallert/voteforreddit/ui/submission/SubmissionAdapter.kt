@@ -38,6 +38,8 @@ class SubmissionAdapter constructor(
     private var upvote: Boolean = false
     private var downvote: Boolean = false
 
+    var isMultireddit = true
+
     var data: List<Submission> = ArrayList()
         set(value) {
             field = value
@@ -62,9 +64,9 @@ class SubmissionAdapter constructor(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (data[position].thumbnail != "self") {
-            (holder as ThumbnailViewHolder).bind(data[position], listener)
+            (holder as ThumbnailViewHolder).bind(data[position], isMultireddit, listener)
         } else {
-            (holder as NoThumbnailViewHolder).bind(data[position], listener)
+            (holder as NoThumbnailViewHolder).bind(data[position], isMultireddit, listener)
         }
 
         setViewHolderColor(holder, position)
@@ -161,7 +163,11 @@ class SubmissionAdapter constructor(
         private val submissionLink: ImageView = itemView.submission_link
         private val author: TextView = itemView.submission_author
 
-        fun bind(submission: Submission, listener: SubmissionClickListener) {
+        fun bind(
+            submission: Submission,
+            isMultireddit: Boolean,
+            listener: SubmissionClickListener
+        ) {
             thumbnail.layout(0, 0, 0, 0)
             val requestOptions = RequestOptions()
                 .error(R.drawable.ic_submission_link)
@@ -205,12 +211,18 @@ class SubmissionAdapter constructor(
             }
 
             title.text = submission.title
-            sub.text = submission.subreddit
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
             karma.text = NumberFormatUtil.truncate((submission.score))
             date.text = DateFormatUtil.timeSince(submission.created.time)
             domain.text = submission.domain
             author.text = submission.author
+
+            if (isMultireddit) {
+                sub.visibility = View.VISIBLE
+                sub.text = submission.subreddit
+            } else {
+                sub.visibility = View.GONE
+            }
         }
     }
 
@@ -221,10 +233,13 @@ class SubmissionAdapter constructor(
         private val karma: TextView = itemView.submission_karma_text
         private val date: TextView = itemView.submission_date_text
         private val linkFlair: TextView = itemView.submission_link_flair
-        private val domain: TextView = itemView.submission_domain
         private val author: TextView = itemView.submission_author
 
-        fun bind(submission: Submission, listener: SubmissionClickListener) {
+        fun bind(
+            submission: Submission,
+            isMultireddit: Boolean,
+            listener: SubmissionClickListener
+        ) {
             linkFlair.text = submission.linkFlairText
 
             if (submission.linkFlairText.isNullOrBlank()) {
@@ -243,12 +258,17 @@ class SubmissionAdapter constructor(
             })
 
             title.text = submission.title
-            sub.text = submission.subreddit
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
             karma.text = NumberFormatUtil.truncate((submission.score))
             date.text = DateFormatUtil.timeSince(submission.created.time)
-            domain.text = submission.domain
             author.text = submission.author
+
+            if (isMultireddit) {
+                sub.visibility = View.VISIBLE
+                sub.text = submission.subreddit
+            } else {
+                sub.visibility = View.GONE
+            }
         }
     }
 

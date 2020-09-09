@@ -10,10 +10,12 @@
         android:id="@+id/submission_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/roboto"
-        android:paddingBottom="4dp"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/submission_link"
@@ -46,7 +48,7 @@
         android:paddingStart="4dp"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/submission_karma_text"
-        app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_author"
         tools:text="456" />
 
     <TextView
@@ -60,7 +62,7 @@
         android:fontFamily="@font/roboto_bold"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/submission_thumbnail_image"
-        app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_author"
         tools:text="500" />
 
     <TextView
@@ -74,13 +76,14 @@
         android:fontFamily="@font/roboto_bold"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/submission_comment_count_text"
-        app:layout_constraintTop_toBottomOf="@+id/submission_sub_text"
+        app:layout_constraintTop_toBottomOf="@+id/submission_author"
         tools:text="2h" />
 
     <ImageView
         android:id="@+id/submission_thumbnail_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginTop="-4dp"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -104,12 +107,11 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:fontFamily="@font/roboto"
-        android:layout_marginStart="8dp"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@id/submission_link_flair"
+        app:layout_constraintBottom_toTopOf="@+id/submission_title_text"
         app:layout_constraintEnd_toEndOf="@+id/submission_title_text"
-        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        app:layout_constraintStart_toStartOf="@+id/submission_title_text"
         tools:text="domain.com" />
 
     <TextView
@@ -120,23 +122,22 @@
         android:ellipsize="end"
         android:fontFamily="@font/roboto"
         android:maxLines="1"
-        tools:text="AuthorName"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/submission_sub_text"
-        app:layout_constraintTop_toBottomOf="@+id/submission_title_text" />
+        app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
+        tools:text="AuthorName" />
 
     <TextView
         android:id="@+id/submission_link_flair"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:fontFamily="@font/roboto_bold"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textColor="@color/colorAccent"
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/submission_domain"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="@id/submission_title_text"
         app:layout_constraintStart_toEndOf="@+id/submission_author"
         app:layout_constraintTop_toBottomOf="@+id/submission_title_text"
         tools:text="LinkFlair" />
