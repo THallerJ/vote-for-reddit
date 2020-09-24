@@ -56,7 +56,7 @@ class SubmissionAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (data[position].thumbnail != "self") {
+        if (!data[position].isSelfPost) {
             (holder as ThumbnailViewHolder).bind(data[position], isMultireddit, listener)
         } else {
             (holder as NoThumbnailViewHolder).bind(data[position], isMultireddit, listener)
@@ -131,7 +131,7 @@ class SubmissionAdapter constructor(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (data[position].thumbnail != "self") {
+        return if (!data[position].isSelfPost) {
             THUMBNAIL
         } else {
             NO_THUMBNAIL
@@ -152,7 +152,6 @@ class SubmissionAdapter constructor(
         private val date: TextView = itemView.submission_date_text
         private val thumbnail: ImageView = itemView.submission_thumbnail_image
         private val linkFlair: TextView = itemView.submission_link_flair
-        private val domain: TextView = itemView.submission_domain
         private val submissionLink: ImageView = itemView.submission_link
         private val author: TextView = itemView.submission_author
         private val nsfw: TextView = itemView.submission_nsfw
@@ -218,10 +217,29 @@ class SubmissionAdapter constructor(
                 title.setTextColor(Color.BLACK)
             }
 
+            val domainParser = SubmissionDomainParser()
+
+            when (domainParser.parse(submission.domain)) {
+                SubmissionDomainType.INTERNET -> {
+                    submissionLink.setImageResource(R.drawable.ic_link)
+                }
+                SubmissionDomainType.IMAGE -> {
+                    submissionLink.setImageResource(R.drawable.ic_image)
+                }
+                SubmissionDomainType.VIDEO -> {
+                    submissionLink.setImageResource(R.drawable.ic_video)
+                }
+                SubmissionDomainType.TWITTER -> {
+                    submissionLink.setImageResource(R.drawable.ic_twitter)
+                }
+                SubmissionDomainType.YOUTUBE -> {
+                    submissionLink.setImageResource(R.drawable.ic_youtube)
+                }
+            }
+
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
             karma.text = NumberFormatUtil.truncate((submission.score))
             date.text = DateFormatUtil.timeSince(submission.created.time)
-            domain.text = submission.domain
             author.text = submission.author
 
             if (isMultireddit) {

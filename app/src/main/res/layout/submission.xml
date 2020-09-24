@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/submission_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginEnd="36dp"
         android:fontFamily="@font/roboto"
         android:textColor="@android:color/black"
         android:textSize="16sp"
@@ -83,10 +81,9 @@
         android:id="@+id/submission_thumbnail_image"
         android:layout_width="72dp"
         android:layout_height="72dp"
-
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/submission_title_text"
         tools:src="@drawable/ic_profile_empty" />
 
     <ImageView
@@ -100,19 +97,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/submission_thumbnail_image"
         app:layout_constraintVertical_bias="0.307" />
-
-    <TextView
-        android:id="@+id/submission_domain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:fontFamily="@font/roboto"
-        android:singleLine="true"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/submission_title_text"
-        app:layout_constraintEnd_toEndOf="@+id/submission_title_text"
-        app:layout_constraintStart_toStartOf="@+id/submission_title_text"
-        tools:text="domain.com" />
 
     <TextView
         android:id="@+id/submission_author"
