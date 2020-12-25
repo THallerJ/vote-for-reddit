@@ -17,14 +17,14 @@ lateinit var textView: TextView
 class CommentsFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?,1
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_comments, container, false)
         val id = this.arguments?.getString("submission_id")
 
         textView = root.findViewById(R.id.comments_text_view)
-        textView.text = "COMMENTS\nSubmission ID: " + id
+        textView.text = "COMMENTS\nSubmission ID: " + id // use inspect to get Submission from SubmissionReference
 
         return root
     }
