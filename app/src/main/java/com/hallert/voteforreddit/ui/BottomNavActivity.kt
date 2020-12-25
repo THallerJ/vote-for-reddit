@@ -40,6 +40,11 @@ private const val TITLE_TEXT: String = "title_text"
 private const val SUBREDDIT_TITLE_TEXT: String = "subreddit_text"
 private const val LOGIN_REQUEST_CODE = 0
 
+private const val LAYERED_ACTIVITY_FRAGMENT_INTENT = "layered_activity_intent"
+private const val LAYERED_ACTIVITY_SUBMISSION_INTENT = "layered_activity_submission_intent"
+
+private const val COMMENTS_FRAGMENT_TAG = "comments_fragment"
+
 @AndroidEntryPoint
 class BottomNavActivity :
     AppCompatActivity(),
@@ -245,6 +250,13 @@ class BottomNavActivity :
     override fun sort() {
         val sheet = SubmissionSortFragment()
         sheet.show(supportFragmentManager, SUBMISSION_SORT_TAG)
+    }
+
+    override fun openComments(id: String) {
+        val intent = Intent(this, LayeredActivity::class.java)
+        intent.putExtra(LAYERED_ACTIVITY_FRAGMENT_INTENT, COMMENTS_FRAGMENT_TAG)
+        intent.putExtra(LAYERED_ACTIVITY_SUBMISSION_INTENT, id)
+        startActivity(intent)
     }
 
     @ExperimentalCoroutinesApi

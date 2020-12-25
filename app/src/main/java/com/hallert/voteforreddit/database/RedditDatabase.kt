@@ -32,7 +32,7 @@ interface SubredditDao {
     fun insertSubreddits(subreddits: List<SubredditEntity>)
 }
 
-@Database(entities = [SubmissionEntity::class, SubredditEntity::class], version = 1)
+@Database(entities = [SubmissionEntity::class, SubredditEntity::class], version = 1, exportSchema = false)
 @TypeConverters(SubmissionTypeConverter::class, SubredditTypeConverter::class)
 abstract class RedditDatabase : RoomDatabase() {
     abstract val submissionDao: SubmissionDao

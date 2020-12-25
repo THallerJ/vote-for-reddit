@@ -16,4 +16,5 @@
     <string name="top">Top</string>
     <string name="controversial">Controversial</string>
     <string name="nsfw">NSFW</string>
+    <string name="comments">Comments</string>
 </resources>

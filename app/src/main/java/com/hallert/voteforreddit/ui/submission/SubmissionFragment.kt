@@ -19,7 +19,6 @@ import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
@@ -161,11 +160,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
     // These methods handle click events on items in the RecyclerView
     override fun onItemClick(submission: Submission, position: Int) {
-        Toast.makeText(
-            context,
-            "TODO: Open submission " + submission.title, Toast.LENGTH_SHORT
-        )
-            .show()
+        observer.openComments(submission.id)
     }
 
     override fun onItemThumbnailClick(submission: Submission, position: Int) {
@@ -197,5 +192,6 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     interface SubmissionFragmentObserver {
         fun loginUser()
         fun sort()
+        fun openComments(id: String)
     }
 }
