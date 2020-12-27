@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.comments.CommentsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
 
 private lateinit var toolbarTitleTextView: TextView
 
@@ -14,6 +15,7 @@ private const val LAYERED_ACTIVITY_FRAGMENT_INTENT = "layered_activity_intent"
 private const val LAYERED_ACTIVITY_SUBMISSION_INTENT = "layered_activity_submission_intent"
 private const val COMMENTS_FRAGMENT_TAG: String = "comments_fragment"
 
+@AndroidEntryPoint
 class LayeredActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

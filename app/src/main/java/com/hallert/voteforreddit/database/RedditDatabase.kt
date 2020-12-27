@@ -32,6 +32,11 @@ interface SubredditDao {
     fun insertSubreddits(subreddits: List<SubredditEntity>)
 }
 
+@Dao
+interface CommentDao {
+
+}
+
 @Database(entities = [SubmissionEntity::class, SubredditEntity::class], version = 1, exportSchema = false)
 @TypeConverters(SubmissionTypeConverter::class, SubredditTypeConverter::class)
 abstract class RedditDatabase : RoomDatabase() {
