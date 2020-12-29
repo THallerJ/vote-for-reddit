@@ -1,7 +1,9 @@
 package com.hallert.voteforreddit.injection
 
+import com.hallert.voteforreddit.database.CommentDao
 import com.hallert.voteforreddit.database.SubmissionDao
 import com.hallert.voteforreddit.database.SubredditDao
+import com.hallert.voteforreddit.ui.comments.CommentsRepository
 import com.hallert.voteforreddit.ui.submission.SubmissionRepository
 import com.hallert.voteforreddit.ui.subreddits.SubredditsRepository
 import com.hallert.voteforreddit.user.UserManager
@@ -32,5 +34,14 @@ object RepositoryModule {
         userManager: UserManager
     ): SubredditsRepository {
         return SubredditsRepository(subredditDao, accountHelper, userManager)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCommentRepository(
+        commentDao: CommentDao,
+        accountHelper: AccountHelper)
+    : CommentsRepository {
+        return CommentsRepository(commentDao, accountHelper)
     }
 }

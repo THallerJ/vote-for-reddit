@@ -42,6 +42,7 @@ interface CommentDao {
 abstract class RedditDatabase : RoomDatabase() {
     abstract val submissionDao: SubmissionDao
     abstract val subredditDao: SubredditDao
+    abstract val commentDao: CommentDao
 
     companion object {
         val DATABASE_NAME: String = "reddit_database"

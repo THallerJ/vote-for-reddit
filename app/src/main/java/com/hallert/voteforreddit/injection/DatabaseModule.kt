@@ -2,6 +2,7 @@ package com.hallert.voteforreddit.injection
 
 import android.content.Context
 import androidx.room.Room
+import com.hallert.voteforreddit.database.CommentDao
 import com.hallert.voteforreddit.database.RedditDatabase
 import com.hallert.voteforreddit.database.SubmissionDao
 import com.hallert.voteforreddit.database.SubredditDao
@@ -37,7 +38,13 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSubredditDbo(redditDatabase: RedditDatabase): SubredditDao {
+    fun provideSubredditDao(redditDatabase: RedditDatabase): SubredditDao {
         return redditDatabase.subredditDao
+    }
+
+    @Singleton
+    @Provides
+    fun provideCommentDao(redditDatabase: RedditDatabase): CommentDao {
+        return redditDatabase.commentDao
     }
 }

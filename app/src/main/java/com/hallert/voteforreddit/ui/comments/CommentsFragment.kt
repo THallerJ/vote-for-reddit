@@ -35,7 +35,7 @@ class CommentsFragment: Fragment() {
         textView = root.findViewById(R.id.comments_text_view)
         textView.text = "COMMENTS\nSubmission ID: " + id // use inspect to get Submission from SubmissionReference
 
-        CoroutineScope(Main).launch {  commentsViewModel.test()}
+        commentsViewModel.getComments()
         return root
     }
 }
