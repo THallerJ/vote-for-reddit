@@ -2,9 +2,16 @@ package com.hallert.voteforreddit.ui.comments
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hallert.voteforreddit.database.CommentEntity
 
-class CommentsAdapter constructor(private val listener: CommentClickListener) :
+class CommentAdapter constructor(private val listener: CommentClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var data: List<CommentEntity> = ArrayList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         TODO("Not yet implemented")

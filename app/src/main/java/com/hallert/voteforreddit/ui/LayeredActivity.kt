@@ -1,13 +1,11 @@
 package com.hallert.voteforreddit.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.ui.comments.CommentsFragment
+import com.hallert.voteforreddit.ui.comments.CommentFragment
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.scopes.ActivityScoped
 
 private lateinit var toolbarTitleTextView: TextView
 
@@ -26,7 +24,7 @@ class LayeredActivity : AppCompatActivity() {
         // loads the fragment specified by the intent
         when (intent.extras?.getString(LAYERED_ACTIVITY_FRAGMENT_INTENT)) {
             COMMENTS_FRAGMENT_TAG -> {
-                val fragment = CommentsFragment()
+                val fragment = CommentFragment()
 
                 val bundle = Bundle().apply {
                     putString(

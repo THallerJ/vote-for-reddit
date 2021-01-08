@@ -2,8 +2,7 @@ package com.hallert.voteforreddit.database
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import net.dean.jraw.models.Submission
-import net.dean.jraw.models.Subreddit
+import net.dean.jraw.models.*
 
 @Dao
 interface SubmissionDao {
@@ -25,7 +24,7 @@ interface SubredditDao {
     @Query("SELECT subreddit FROM SubredditEntity WHERE username = :currentUser ORDER BY LOWER(subredditName) ASC")
     fun getSubreddits(currentUser: String): Flow<List<Subreddit>>
 
-    @Query("DELETE FROM SubredditEntity WHERE username =:currentUser")
+    @Query("DELETE FROM SubredditEntity WHERE username = :currentUser")
     fun clearDatabase(currentUser: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -34,11 +33,18 @@ interface SubredditDao {
 
 @Dao
 interface CommentDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertComments(comments: CommentEntity)
 
+    @Query("SELECT * FROM CommentEntity where id = :id ORDER BY saveTimeMillis ASC")
+    fun getComments(id: String): Flow<List<CommentEntity>>
+
+    @Query("DELETE FROM CommentEntity")
+    fun clearDatabase()
 }
 
-@Database(entities = [SubmissionEntity::class, SubredditEntity::class], version = 1, exportSchema = false)
-@TypeConverters(SubmissionTypeConverter::class, SubredditTypeConverter::class)
+@Database(entities = [SubmissionEntity::class, SubredditEntity::class, CommentEntity::class], version = 1, exportSchema = false)
+@TypeConverters(SubmissionTypeConverter::class, SubredditTypeConverter::class, CommentTypeConverter::class)
 abstract class RedditDatabase : RoomDatabase() {
     abstract val submissionDao: SubmissionDao
     abstract val subredditDao: SubredditDao

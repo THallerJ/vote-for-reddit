@@ -1,24 +1,34 @@
 package com.hallert.voteforreddit.ui.comments
 
-import android.util.Log
 import com.hallert.voteforreddit.database.CommentDao
+import com.hallert.voteforreddit.database.CommentEntity
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import net.dean.jraw.oauth.AccountHelper
+
 
 class CommentsRepository(
     private val commentDao: CommentDao,
     private val accountHelper: AccountHelper
 ) {
-    fun test(id: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            //var commentRequest = CommentsRequest(null, null, null, null, CommentSort.TOP)
+    var id: String = null.toString()
+
+    fun setupComments(id: String) {
+        this.id = id
+
+        CoroutineScope(IO).launch {
             val root = accountHelper.reddit.submission(id).comments()
+            val replies = root.children
 
-            // root.loadFully(accountHelper.reddit)
+            val entity = CommentEntity(id, replies, System.currentTimeMillis())
 
-            val it = root.walkTree().forEach { Log.i("TESTING", "COMMENT: " + it.subject.body) }
+            commentDao.insertComments(entity)
         }
+    }
+
+    fun getComments(id: String): Flow<List<CommentEntity>> {
+        return commentDao.getComments(id)
     }
 }
