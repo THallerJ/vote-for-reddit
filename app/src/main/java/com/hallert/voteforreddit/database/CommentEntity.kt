@@ -13,6 +13,7 @@ import net.dean.jraw.models.NestedIdentifiable
 data class CommentEntity constructor(
     @PrimaryKey
     val id: String,
+    val submissionId: String,
     val children: Listing<NestedIdentifiable>,
     val saveTimeMillis: Long
 )

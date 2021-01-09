@@ -4,20 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import net.dean.jraw.models.NestedIdentifiable
 
 @AndroidEntryPoint
 class CommentFragment : Fragment(), CommentClickListener {
     private val commentsViewModel: CommentViewModel by viewModels()
-
-    lateinit var textView: TextView
 
     private lateinit var adapter: CommentAdapter
 
@@ -32,22 +32,34 @@ class CommentFragment : Fragment(), CommentClickListener {
         val id = arguments?.getString("submission_id")
         commentsViewModel.submissionId = id.toString()
 
-        textView = root.findViewById(R.id.comments_text_view)
-        textView.text = "COMMENTS\nSubmission ID: " + id
-
         adapter = CommentAdapter(this)
 
         commentsViewModel.comments.observe(viewLifecycleOwner, Observer {
-            val data = commentsViewModel.comments.value
+            val data = mutableListOf<NestedIdentifiable>()
 
-            if (data != null && data.isNotEmpty()) {
-                adapter.data = data
+            commentsViewModel.comments.value?.forEach { entity ->
+                entity.children.forEach { child ->
+                    data.add(child)
+                }
             }
+
+            adapter.data = data.toList()
         })
 
-        //TODO: re-enable caching once we can clear the cache when appropriate
-        //commentsViewModel.initComments(id!!)
         return root
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initRecyclerView(commentsViewModel.submissionId)
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    @ExperimentalCoroutinesApi
+    fun initRecyclerView(id: String) {
+        comment_recycler_view.layoutManager = LinearLayoutManager(context)
+        comment_recycler_view.adapter = adapter
+        commentsViewModel.initComments(id)
     }
 
     override fun onItemClick() {

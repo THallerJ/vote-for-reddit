@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import net.dean.jraw.oauth.AccountHelper
+import java.util.*
 
 
 class CommentsRepository(
@@ -22,7 +23,8 @@ class CommentsRepository(
             val root = accountHelper.reddit.submission(id).comments()
             val replies = root.children
 
-            val entity = CommentEntity(id, replies, System.currentTimeMillis())
+            val entity =
+                CommentEntity(UUID.randomUUID().toString(), id, replies, System.currentTimeMillis())
 
             commentDao.insertComments(entity)
         }
