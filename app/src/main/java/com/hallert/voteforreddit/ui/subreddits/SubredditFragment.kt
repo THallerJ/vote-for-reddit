@@ -19,8 +19,8 @@ import net.dean.jraw.models.Subreddit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
-    private val subredditsViewModel: SubredditsViewModel by viewModels()
+class SubredditFragment : BottomSheetDialogFragment(), SubredditClickListener {
+    private val subredditViewModel: SubredditViewModel by viewModels()
     private lateinit var adapter: SubredditAdapter
     private lateinit var observer: SubredditFragmentObserver
 
@@ -40,7 +40,7 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
 
         adapter = SubredditAdapter(this)
 
-        subredditsViewModel.subreddits.observe(viewLifecycleOwner, Observer { subreddits ->
+        subredditViewModel.subreddits.observe(viewLifecycleOwner, Observer { subreddits ->
             adapter.data = subreddits
 
             subreddit_frontpage.visibility = View.VISIBLE
@@ -68,7 +68,7 @@ class SubredditsFragment : BottomSheetDialogFragment(), SubredditClickListener {
     fun initRecyclerView() {
         subreddit_recycler_view.layoutManager = LinearLayoutManager(context)
         subreddit_recycler_view.adapter = adapter
-        subredditsViewModel.updateSubreddits()
+        subredditViewModel.updateSubreddits()
     }
 
     // This method control what happens when clicking items in the RecyclerView

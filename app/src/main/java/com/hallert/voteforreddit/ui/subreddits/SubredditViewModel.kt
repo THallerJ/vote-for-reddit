@@ -9,15 +9,15 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import net.dean.jraw.models.Subreddit
 
-class SubredditsViewModel @ViewModelInject constructor(
-    private val subredditsRepository: SubredditsRepository
+class SubredditViewModel @ViewModelInject constructor(
+    private val subredditRepository: SubredditRepository
 ) : ViewModel() {
 
-    val subreddits: LiveData<List<Subreddit>> = subredditsRepository.subreddits.asLiveData()
+    val subreddits: LiveData<List<Subreddit>> = subredditRepository.subreddits.asLiveData()
 
     fun updateSubreddits() {
         CoroutineScope(Main).launch {
-            subredditsRepository.addSubreddits()
+            subredditRepository.addSubreddits()
         }
     }
 }

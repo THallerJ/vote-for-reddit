@@ -16,7 +16,7 @@ import com.hallert.voteforreddit.ui.inbox.InboxFragment
 import com.hallert.voteforreddit.ui.submission.sort.SubmissionSortFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
-import com.hallert.voteforreddit.ui.subreddits.SubredditsFragment
+import com.hallert.voteforreddit.ui.subreddits.SubredditFragment
 import com.hallert.voteforreddit.user.UserManager
 import com.hallert.voteforreddit.util.StringFormatUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +48,7 @@ private const val COMMENTS_FRAGMENT_TAG = "comments_fragment"
 @AndroidEntryPoint
 class BottomNavActivity :
     AppCompatActivity(),
-    SubredditsFragment.SubredditFragmentObserver,
+    SubredditFragment.SubredditFragmentObserver,
     SubmissionsFragment.SubmissionFragmentObserver,
     SubmissionSortFragment.SortingFragmentObserver {
 
@@ -159,7 +159,7 @@ class BottomNavActivity :
                 return@OnNavigationItemSelectedListener false
             }
             R.id.nav_subs -> {
-                val sheet = SubredditsFragment()
+                val sheet = SubredditFragment()
                 sheet.show(supportFragmentManager, SUBREDDIT_SHEET_TAG)
 
                 return@OnNavigationItemSelectedListener false

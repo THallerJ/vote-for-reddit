@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
 class CommentViewModel @ViewModelInject constructor(
-    private val commentsRepository: CommentsRepository,
+    private val commentRepository: CommentRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -27,15 +27,15 @@ class CommentViewModel @ViewModelInject constructor(
     @ExperimentalCoroutinesApi
     @FlowPreview
     val comments: LiveData<List<CommentEntity>> = commentChannel.asFlow().flatMapLatest { id ->
-        commentsRepository.getComments(id)
+        commentRepository.getComments(id)
     }.asLiveData()
 
     var submissionId: String = null.toString()
 
     @ExperimentalCoroutinesApi
     fun initComments(id: String) {
-        commentsRepository.id = id
+        commentRepository.id = id
         commentChannel.offer(id)
-        CoroutineScope(Main).launch { commentsRepository.setupComments(id) }
+        CoroutineScope(Main).launch { commentRepository.setupComments(id) }
     }
 }

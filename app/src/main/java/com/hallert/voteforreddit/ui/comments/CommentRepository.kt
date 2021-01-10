@@ -10,7 +10,7 @@ import net.dean.jraw.oauth.AccountHelper
 import java.util.*
 
 
-class CommentsRepository(
+class CommentRepository(
     private val commentDao: CommentDao,
     private val accountHelper: AccountHelper
 ) {

@@ -11,7 +11,7 @@ import net.dean.jraw.models.Subreddit
 import net.dean.jraw.oauth.AccountHelper
 import net.dean.jraw.pagination.Paginator
 
-class SubredditsRepository(
+class SubredditRepository(
     private val subredditDao: SubredditDao,
     private val accountHelper: AccountHelper,
     private val userManager: UserManager

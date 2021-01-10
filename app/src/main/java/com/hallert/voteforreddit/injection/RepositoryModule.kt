@@ -3,9 +3,9 @@ package com.hallert.voteforreddit.injection
 import com.hallert.voteforreddit.database.CommentDao
 import com.hallert.voteforreddit.database.SubmissionDao
 import com.hallert.voteforreddit.database.SubredditDao
-import com.hallert.voteforreddit.ui.comments.CommentsRepository
+import com.hallert.voteforreddit.ui.comments.CommentRepository
 import com.hallert.voteforreddit.ui.submission.SubmissionRepository
-import com.hallert.voteforreddit.ui.subreddits.SubredditsRepository
+import com.hallert.voteforreddit.ui.subreddits.SubredditRepository
 import com.hallert.voteforreddit.user.UserManager
 import dagger.Module
 import dagger.Provides
@@ -32,8 +32,8 @@ object RepositoryModule {
         subredditDao: SubredditDao,
         accountHelper: AccountHelper,
         userManager: UserManager
-    ): SubredditsRepository {
-        return SubredditsRepository(subredditDao, accountHelper, userManager)
+    ): SubredditRepository {
+        return SubredditRepository(subredditDao, accountHelper, userManager)
     }
 
     @Singleton
@@ -41,7 +41,7 @@ object RepositoryModule {
     fun provideCommentRepository(
         commentDao: CommentDao,
         accountHelper: AccountHelper)
-    : CommentsRepository {
-        return CommentsRepository(commentDao, accountHelper)
+    : CommentRepository {
+        return CommentRepository(commentDao, accountHelper)
     }
 }
