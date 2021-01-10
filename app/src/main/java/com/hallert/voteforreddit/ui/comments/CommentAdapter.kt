@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.util.NumberFormatUtil
 import net.dean.jraw.models.Comment
 import net.dean.jraw.models.MoreChildren
 import net.dean.jraw.models.NestedIdentifiable
@@ -27,7 +28,7 @@ class CommentAdapter constructor(private val listener: CommentClickListener) :
             COMMENT -> {
                 CommentViewHolder(
                     LayoutInflater.from(parent.context)
-                        .inflate(R.layout.comment_item, parent, false)
+                        .inflate(R.layout.comment, parent, false)
                 )
             }
             else -> {
@@ -63,11 +64,16 @@ class CommentAdapter constructor(private val listener: CommentClickListener) :
     }
 
     class CommentViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val commentTextView: TextView = itemView.findViewById(R.id.comment)
+        private val commentTextView: TextView = itemView.findViewById(R.id.comment_body)
+        private val scoreTextView: TextView = itemView.findViewById(R.id.comment_score)
+        private val authorTextView: TextView = itemView.findViewById(R.id.comment_author)
+
 
         fun bind(identifiable: NestedIdentifiable) {
             val comment = identifiable as Comment
             commentTextView.text = comment.body
+            scoreTextView.text = NumberFormatUtil.truncate(comment.score)
+            authorTextView.text = comment.author
         }
     }
 
