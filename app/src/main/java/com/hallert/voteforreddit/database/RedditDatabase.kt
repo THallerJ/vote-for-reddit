@@ -40,6 +40,13 @@ interface CommentDao {
     @Query("SELECT * FROM CommentEntity WHERE submissionId = :id ORDER BY saveTimeMillis ASC")
     fun getComments(id: String): Flow<List<CommentEntity>>
 
+    @Query("SELECT EXISTS (SELECT * FROM CommentEntity WHERE submissionId = :id)")
+    fun hasRecord(id: String): Boolean
+
+    // treat all records with same submissionId as one record, keep 5 most recent records
+    @Query("DELETE FROM CommentEntity WHERE submissionId IN (SELECT submissionId FROM CommentEntity GROUP BY submissionId ORDER BY saveTimeMillis DESC LIMIT 1 OFFSET 5)")
+    fun clearOldRecords()
+
     @Query("DELETE FROM CommentEntity")
     fun clearDatabase()
 }

@@ -19,14 +19,23 @@ class CommentRepository(
     fun setupComments(id: String) {
         this.id = id
 
+
         CoroutineScope(IO).launch {
-            val root = accountHelper.reddit.submission(id).comments()
-            val replies = root.children
+            if (!commentDao.hasRecord(id)) {
+                val root = accountHelper.reddit.submission(id).comments()
+                val replies = root.children
 
-            val entity =
-                CommentEntity(UUID.randomUUID().toString(), id, replies, System.currentTimeMillis())
+                val entity =
+                    CommentEntity(
+                        UUID.randomUUID().toString(),
+                        id,
+                        replies,
+                        System.currentTimeMillis()
+                    )
 
-            commentDao.insertComments(entity)
+                commentDao.insertComments(entity)
+                commentDao.clearOldRecords()
+            }
         }
     }
 
