@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
+import com.hallert.voteforreddit.ui.misc.RecyclerDecoration
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.dean.jraw.models.Submission
@@ -70,18 +72,8 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         submission_recycler_view.adapter = adapter
         submissionViewModel.getNextPage()
 
-        val divider = DividerItemDecoration(
-            context,
-            DividerItemDecoration.VERTICAL
-        )
-
-        divider.setDrawable(context?.let {
-            ContextCompat.getDrawable(
-                it,
-                R.drawable.divider_line
-            )
-        }!!)
-        submission_recycler_view.addItemDecoration(divider)
+        val decoration = RecyclerDecoration()
+        decoration.addDividerLine(context, submission_recycler_view)
 
         val swipeCallback =
             object : SwipeVoteCallBack(this.context, adapter) {
