@@ -1,23 +1,25 @@
 package com.hallert.voteforreddit.ui.comments
 
+import SwipeVoteCallBack
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.ui.misc.RecyclerDecoration
+import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import net.dean.jraw.models.NestedIdentifiable
+import net.dean.jraw.models.VoteDirection
 
 @AndroidEntryPoint
 class CommentFragment : Fragment(), CommentClickListener {
@@ -67,6 +69,12 @@ class CommentFragment : Fragment(), CommentClickListener {
 
         val decoration = RecyclerDecoration()
         decoration.addDividerLine(context, comment_recycler_view)
+
+        comment_recycler_view.addOnScrollListener(object : RecyclerLoadListener() {
+            override fun atBottom() {
+                Toast.makeText(context, "LOAD", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onItemClick() {
