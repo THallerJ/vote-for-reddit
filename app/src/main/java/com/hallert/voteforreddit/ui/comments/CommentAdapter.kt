@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.ui.misc.VotableModelAdapter
 import com.hallert.voteforreddit.util.NumberFormatUtil
 import net.dean.jraw.models.Comment
 import net.dean.jraw.models.MoreChildren
 import net.dean.jraw.models.NestedIdentifiable
 
 class CommentAdapter constructor(private val listener: CommentClickListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    VotableModelAdapter() {
 
     private val COMMENT = 0
     private val MORE_CHILDREN = 1

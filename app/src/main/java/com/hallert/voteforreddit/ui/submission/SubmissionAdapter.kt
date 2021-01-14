@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
+import com.hallert.voteforreddit.ui.misc.VotableModelAdapter
 import com.hallert.voteforreddit.util.DateFormatUtil
 import com.hallert.voteforreddit.util.NumberFormatUtil
 import kotlinx.android.synthetic.main.submission.view.*
@@ -23,13 +24,10 @@ import net.dean.jraw.models.VoteDirection
 class SubmissionAdapter constructor(
     private val listener: SubmissionClickListener
 ) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    VotableModelAdapter() {
 
     private val NO_THUMBNAIL = 0
     private val THUMBNAIL = 1
-
-    private var upvote: Boolean = false
-    private var downvote: Boolean = false
 
     var isMultireddit = true
 
@@ -56,78 +54,14 @@ class SubmissionAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        setViewHolderColor(holder, data[position])
+
         if (!data[position].isSelfPost) {
             (holder as ThumbnailViewHolder).bind(data[position], isMultireddit, listener)
         } else {
             (holder as NoThumbnailViewHolder).bind(data[position], isMultireddit, listener)
         }
 
-        setViewHolderColor(holder, position)
-    }
-
-    private fun setViewHolderColor(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentVoteDirection = data[position].vote
-
-        if (upvote) {
-            if (currentVoteDirection == VoteDirection.UP) {
-                holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
-                        R.color.colorPrimary,
-                        null
-                    )
-                )
-            } else {
-                holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
-                        R.color.upvoteTintColor,
-                        null
-                    )
-                )
-            }
-
-            upvote = false
-        } else if (downvote) {
-            if (currentVoteDirection == VoteDirection.DOWN) {
-                holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
-                        R.color.colorPrimary,
-                        null
-                    )
-                )
-            } else {
-                holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
-                        R.color.downvoteTintColor,
-                        null
-                    )
-                )
-            }
-
-            downvote = false
-        } else {
-            if (currentVoteDirection == VoteDirection.UP) {
-                holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
-                        R.color.upvoteTintColor,
-                        null
-                    )
-                )
-            } else if (currentVoteDirection == VoteDirection.DOWN) {
-                holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
-                        R.color.downvoteTintColor,
-                        null
-                    )
-                )
-            } else {
-                holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
-                        R.color.colorPrimary,
-                        null
-                    )
-                )
-            }
-        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -314,12 +248,12 @@ class SubmissionAdapter constructor(
     }
 
     fun itemSwipedRight(position: Int) {
-        upvote = true
+        userVoteDirection = VoteDirection.UP
         notifyItemChanged(position)
     }
 
     fun itemSwipedLeft(position: Int) {
-        downvote = true
+        userVoteDirection = VoteDirection.DOWN
         notifyItemChanged(position)
     }
 }

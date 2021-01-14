@@ -1,9 +1,10 @@
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.hallert.voteforreddit.R
 
 abstract class SwipeVoteCallBack(
@@ -50,8 +51,20 @@ abstract class SwipeVoteCallBack(
             )
         }
 
-        val upvoteIcon = context?.resources?.getDrawable(R.drawable.ic_swipe_upvote, null)
-        val downvoteIcon = context?.resources?.getDrawable(R.drawable.ic_swipe_downvote, null)
+        val upvoteIcon = context?.let {
+            ResourcesCompat.getDrawable(
+                it.resources,
+                R.drawable.ic_swipe_upvote,
+                null
+            )
+        }
+        val downvoteIcon = context?.let {
+            ResourcesCompat.getDrawable(
+                it.resources,
+                R.drawable.ic_swipe_downvote,
+                null
+            )
+        }
 
         when {
             // swipe to the right
@@ -150,6 +163,14 @@ abstract class SwipeVoteCallBack(
         }
 
         adapter.notifyItemChanged(viewHolder.adapterPosition)
+    }
+
+
+    fun swipeAnimation(recyclerView: RecyclerView) {
+        recyclerView.itemAnimator!!.changeDuration = 0
+
+        val animator = recyclerView.itemAnimator as SimpleItemAnimator
+        animator.supportsChangeAnimations = false
     }
 
 
