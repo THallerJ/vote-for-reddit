@@ -107,8 +107,18 @@ class BottomNavActivity :
 
     private fun switchFragments(
         newFragment: Fragment,
-        newFragmentTag: String
+        newFragmentTag: String,
+        titleText: String?,
+        sortVisible: Boolean
     ) {
+        if (titleText != null)
+            toolbarTitleTextView.text = titleText
+
+        if (sortVisible)
+            sort.visibility = View.VISIBLE
+        else
+            sort.visibility = View.GONE
+
         if (currentFragmentTag != newFragmentTag) {
             if (supportFragmentManager.findFragmentByTag(newFragmentTag) != null) {
                 supportFragmentManager.beginTransaction()
@@ -143,9 +153,7 @@ class BottomNavActivity :
                     fragment.openMultireddit(RedditApp.appContext.getString(R.string.frontpage))
                 }
 
-                sortLayout.visibility = View.VISIBLE
-                toolbarTitleTextView.text = subredditTitle
-                switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+                switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, true)
                 doLoadFrontpage = true
             }
             R.id.nav_search -> {
@@ -166,9 +174,7 @@ class BottomNavActivity :
             }
             R.id.nav_inbox -> {
                 if (!userManager.isUserless()) {
-                    toolbarTitleTextView.text = getString(R.string.inbox)
-                    sortLayout.visibility = View.GONE
-                    switchFragments(InboxFragment(), INBOX_FRAGMENT_TAG)
+                    switchFragments(InboxFragment(), INBOX_FRAGMENT_TAG, getString(R.string.inbox), false)
                     doLoadFrontpage = false
                 } else {
                     loginNewUser()
@@ -176,9 +182,8 @@ class BottomNavActivity :
             }
             R.id.nav_profile -> {
                 if (!userManager.isUserless()) {
-                    toolbarTitleTextView.text = getString(R.string.profile)
                     sortLayout.visibility = View.GONE
-                    switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG)
+                    switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG, getString(R.string.profile), false)
                     doLoadFrontpage = false
                 } else {
                     loginNewUser()
@@ -196,10 +201,9 @@ class BottomNavActivity :
     @ExperimentalCoroutinesApi
     override fun onSubredditSelected(selection: String) {
         subredditTitle = selection
-        toolbarTitleTextView.text = subredditTitle
         getSubmissionFragment().openSubreddit(selection)
         sortText.text = RedditApp.appContext.getString(R.string.hot)
-        switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+        switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, true)
         doLoadFrontpage = false
         bottomNav.selectedItemId = R.id.nav_posts
     }
@@ -212,10 +216,9 @@ class BottomNavActivity :
             bottomNav.selectedItemId = R.id.nav_posts
         } else {
             subredditTitle = selection
-            toolbarTitleTextView.text = subredditTitle
             getSubmissionFragment().openMultireddit(selection)
             sortText.text = RedditApp.appContext.getString(R.string.hot)
-            switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+            switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, true)
             doLoadFrontpage = false
             bottomNav.selectedItemId = R.id.nav_posts
         }
@@ -229,7 +232,7 @@ class BottomNavActivity :
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == LOGIN_REQUEST_CODE) {
-            switchFragments(SubmissionsFragment(), ROOT_FRAGMENT)
+            switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, null, true)
             bottomNav.selectedItemId = R.id.nav_posts
         }
     }
