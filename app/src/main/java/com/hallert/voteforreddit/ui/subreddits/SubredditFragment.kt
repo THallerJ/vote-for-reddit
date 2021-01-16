@@ -1,25 +1,29 @@
 package com.hallert.voteforreddit.ui.subreddits
 
+import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
+import com.hallert.voteforreddit.ui.misc.bottomsheet.HalfScreenBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_subreddits.*
 import net.dean.jraw.models.Subreddit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SubredditFragment : BottomSheetDialogFragment(), SubredditClickListener {
+class SubredditFragment : HalfScreenBottomSheet(), SubredditClickListener {
     private val subredditViewModel: SubredditViewModel by viewModels()
     private lateinit var adapter: SubredditAdapter
     private lateinit var observer: SubredditFragmentObserver
@@ -32,10 +36,6 @@ class SubredditFragment : BottomSheetDialogFragment(), SubredditClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (dialog as? BottomSheetDialog)?.let {
-            val width = Resources.getSystem().displayMetrics.heightPixels
-            it.behavior.peekHeight = width / 2
-        }
         val root = inflater.inflate(R.layout.fragment_subreddits, container, false)
 
         adapter = SubredditAdapter(this)
@@ -58,6 +58,12 @@ class SubredditFragment : BottomSheetDialogFragment(), SubredditClickListener {
         })
 
         return root
+    }
+
+    private fun setupFullHeight(bottomSheet: View) {
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+        bottomSheet.layoutParams = layoutParams
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

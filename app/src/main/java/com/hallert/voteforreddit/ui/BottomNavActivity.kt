@@ -13,9 +13,10 @@ import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.authentication.LoginActivity
 import com.hallert.voteforreddit.ui.inbox.InboxFragment
-import com.hallert.voteforreddit.ui.submission.sort.SubmissionSortFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
+import com.hallert.voteforreddit.ui.search.SearchFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
+import com.hallert.voteforreddit.ui.submission.sort.SubmissionSortFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditFragment
 import com.hallert.voteforreddit.user.UserManager
 import com.hallert.voteforreddit.util.StringFormatUtil
@@ -30,6 +31,7 @@ private const val ROOT_FRAGMENT: String = "root_fragment"
 private const val PROFILE_FRAGMENT_TAG: String = "profile_fragment"
 private const val INBOX_FRAGMENT_TAG: String = "inbox_fragment"
 private const val SUBREDDIT_SHEET_TAG: String = "subreddit_sheet_tag"
+private const val SEARCH_SHEET_TAG: String = "search_sheet_tag"
 private const val SUBMISSION_SORT_TAG: String = "submission_sort"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
@@ -157,13 +159,8 @@ class BottomNavActivity :
                 doLoadFrontpage = true
             }
             R.id.nav_search -> {
-                Toast.makeText(
-                    this@BottomNavActivity,
-                    "TODO: Launch search Fragment",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-
+                val sheet = SearchFragment()
+                sheet.show(supportFragmentManager, SEARCH_SHEET_TAG)
                 return@OnNavigationItemSelectedListener false
             }
             R.id.nav_subs -> {
@@ -174,7 +171,12 @@ class BottomNavActivity :
             }
             R.id.nav_inbox -> {
                 if (!userManager.isUserless()) {
-                    switchFragments(InboxFragment(), INBOX_FRAGMENT_TAG, getString(R.string.inbox), false)
+                    switchFragments(
+                        InboxFragment(),
+                        INBOX_FRAGMENT_TAG,
+                        getString(R.string.inbox),
+                        false
+                    )
                     doLoadFrontpage = false
                 } else {
                     loginNewUser()
@@ -183,7 +185,12 @@ class BottomNavActivity :
             R.id.nav_profile -> {
                 if (!userManager.isUserless()) {
                     sortLayout.visibility = View.GONE
-                    switchFragments(ProfileFragment(), PROFILE_FRAGMENT_TAG, getString(R.string.profile), false)
+                    switchFragments(
+                        ProfileFragment(),
+                        PROFILE_FRAGMENT_TAG,
+                        getString(R.string.profile),
+                        false
+                    )
                     doLoadFrontpage = false
                 } else {
                     loginNewUser()

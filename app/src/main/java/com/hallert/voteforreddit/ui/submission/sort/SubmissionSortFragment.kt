@@ -1,22 +1,18 @@
 package com.hallert.voteforreddit.ui.submission.sort
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.ui.misc.bottomsheet.ExpandedBottomSheet
 import kotlinx.android.synthetic.main.fragment_sorting.*
 import net.dean.jraw.models.SubredditSort
 import net.dean.jraw.models.TimePeriod
 
-
-class SubmissionSortFragment : BottomSheetDialogFragment(), View.OnClickListener {
+class SubmissionSortFragment : ExpandedBottomSheet(), View.OnClickListener {
     private val submissionSortViewModel: SubmissionSortViewModel by viewModels()
 
     private lateinit var observer: SortingFragmentObserver
@@ -27,17 +23,6 @@ class SubmissionSortFragment : BottomSheetDialogFragment(), View.OnClickListener
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_sorting, container, false)
-    }
-
-    // start the BottomSheet in an expanded state
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return super.onCreateDialog(savedInstanceState).apply {
-            setOnShowListener {
-                (this@SubmissionSortFragment.dialog as BottomSheetDialog).behavior.setState(
-                    BottomSheetBehavior.STATE_EXPANDED
-                )
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
