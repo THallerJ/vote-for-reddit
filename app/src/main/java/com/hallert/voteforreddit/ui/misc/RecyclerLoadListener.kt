@@ -2,7 +2,7 @@ package com.hallert.voteforreddit.ui.misc
 
 import androidx.recyclerview.widget.RecyclerView
 
-open class RecyclerLoadListener : RecyclerView.OnScrollListener() {
+abstract class RecyclerLoadListener : RecyclerView.OnScrollListener() {
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
 
@@ -11,5 +11,5 @@ open class RecyclerLoadListener : RecyclerView.OnScrollListener() {
         }
     }
 
-    open fun atBottom() {}
+    abstract fun atBottom()
 }
