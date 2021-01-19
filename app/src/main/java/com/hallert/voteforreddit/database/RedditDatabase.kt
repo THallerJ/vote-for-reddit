@@ -51,6 +51,11 @@ interface CommentDao {
     fun clearDatabase()
 }
 
+@Dao
+interface SearchDao{
+
+}
+
 @Database(
     entities = [SubmissionEntity::class, SubredditEntity::class, CommentEntity::class],
     version = 1,
@@ -65,6 +70,7 @@ abstract class RedditDatabase : RoomDatabase() {
     abstract val submissionDao: SubmissionDao
     abstract val subredditDao: SubredditDao
     abstract val commentDao: CommentDao
+    abstract val searchDao: SearchDao
 
     companion object {
         val DATABASE_NAME: String = "reddit_database"

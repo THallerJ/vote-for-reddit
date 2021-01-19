@@ -23,8 +23,14 @@
     <EditText
         android:id="@+id/search_edit_text"
         android:focusable="true"
+        android:background="@drawable/search_reddit_selector"
+        android:hint="@string/search_reddit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_search"
+        android:layout_margin="12dp"
+        android:textCursorDrawable="@drawable/edit_text_cursor"
+        android:drawablePadding="12dp"
+        android:layout_height="45dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_title"/>
 

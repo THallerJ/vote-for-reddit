@@ -13,4 +13,5 @@
     <color name="dividerColorLight">#f2f2f2</color>
     <color name="stickyColor">#228822</color>
     <color name="nswfColor">#d32f2f</color>
+    <color name="offWhite">#f5f7f9</color>
 </resources>

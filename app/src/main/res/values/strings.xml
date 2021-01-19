@@ -18,4 +18,5 @@
     <string name="nsfw">NSFW</string>
     <string name="comments">Comments</string>
     <string name="load_more">Load more</string>
+    <string name="search_reddit">Search reddit</string>
 </resources>
