@@ -173,7 +173,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
         } else {
             throw RuntimeException(
                 context.toString()
-                        + " must implement SubmissionFragmentListener"
+                        + " must implement SubmissionFragmentObserver"
             )
         }
     }

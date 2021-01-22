@@ -53,11 +53,21 @@ interface CommentDao {
 
 @Dao
 interface SearchDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertSearchSubreddits(subreddits: List<SubredditSearchEntity>)
 
+    @Query("SELECT subreddit FROM SubredditSearchEntity WHERE searchQuery = :query")
+    fun getSearchSubreddits(query: String): Flow<List<Subreddit>>
+
+    @Query("DELETE FROM SubredditSearchEntity WHERE searchQuery != :query")
+    fun clearNonQuery(query: String)
+
+    @Query("DELETE FROM SubredditSearchEntity")
+    fun clearDatabase()
 }
 
 @Database(
-    entities = [SubmissionEntity::class, SubredditEntity::class, CommentEntity::class],
+    entities = [SubmissionEntity::class, SubredditEntity::class, CommentEntity::class, SubredditSearchEntity::class],
     version = 1,
     exportSchema = false
 )

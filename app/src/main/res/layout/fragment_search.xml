@@ -31,7 +31,17 @@
         android:textCursorDrawable="@drawable/edit_text_cursor"
         android:drawablePadding="12dp"
         android:layout_height="45dp"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_title"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/subreddit_search_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,7 +52,8 @@ class BottomNavActivity :
     AppCompatActivity(),
     SubredditFragment.SubredditFragmentObserver,
     SubmissionsFragment.SubmissionFragmentObserver,
-    SubmissionSortFragment.SortingFragmentObserver {
+    SubmissionSortFragment.SortingFragmentObserver,
+    SearchFragment.SearchFragmentObserver {
 
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var toolbarTitleTextView: TextView
@@ -205,14 +206,22 @@ class BottomNavActivity :
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
     }
 
-    @ExperimentalCoroutinesApi
-    override fun onSubredditSelected(selection: String) {
+    private fun openSubreddit(selection: String) {
         subredditTitle = selection
         getSubmissionFragment().openSubreddit(selection)
         sortText.text = RedditApp.appContext.getString(R.string.hot)
         switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, true)
         doLoadFrontpage = false
         bottomNav.selectedItemId = R.id.nav_posts
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onSubredditSelected(selection: String) {
+       openSubreddit(selection)
+    }
+
+    override fun onSubredditSearchSelected(selection: String) {
+        openSubreddit(selection)
     }
 
     @ExperimentalCoroutinesApi
@@ -268,6 +277,8 @@ class BottomNavActivity :
         intent.putExtra(LAYERED_ACTIVITY_SUBMISSION_INTENT, id)
         startActivity(intent)
     }
+
+
 
     @ExperimentalCoroutinesApi
     override fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod?) {

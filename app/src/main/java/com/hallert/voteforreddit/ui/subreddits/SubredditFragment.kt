@@ -1,8 +1,6 @@
 package com.hallert.voteforreddit.ui.subreddits
 
-import android.app.Dialog
 import android.content.Context
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +9,6 @@ import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hallert.voteforreddit.R
 import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.misc.bottomsheet.HalfScreenBottomSheet
@@ -108,7 +103,7 @@ class SubredditFragment : HalfScreenBottomSheet(), SubredditClickListener {
         } else {
             throw RuntimeException(
                 context.toString()
-                        + " must implement SubredditFragmentListener"
+                        + " must implement SubredditFragmentObserver"
             )
         }
     }
