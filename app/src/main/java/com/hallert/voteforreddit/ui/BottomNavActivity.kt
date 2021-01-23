@@ -278,8 +278,6 @@ class BottomNavActivity :
         startActivity(intent)
     }
 
-
-
     @ExperimentalCoroutinesApi
     override fun sortSelected(sort: SubredditSort, timePeriod: TimePeriod?) {
         if (timePeriod == null) {

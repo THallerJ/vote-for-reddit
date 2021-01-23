@@ -29,9 +29,11 @@
         android:drawableStart="@drawable/ic_search"
         android:layout_margin="12dp"
         android:textCursorDrawable="@drawable/edit_text_cursor"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:singleLine="true"
         android:drawablePadding="12dp"
         android:layout_height="45dp"
-        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_title"/>
 

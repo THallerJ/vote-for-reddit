@@ -5,10 +5,10 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -79,17 +79,17 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        searchEditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+        searchEditText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchViewModel.clearNonQuery()
                 context?.let { KeyboardUtil.closeKeyboard(it, searchEditText) }
                 this.dismiss()
 
-                return@OnKeyListener true
+                return@setOnEditorActionListener true
             }
 
             false
-        })
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -115,6 +115,7 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
             )
         }
     }
+
 
     interface SearchFragmentObserver {
         fun onSubredditSearchSelected(selection: String)

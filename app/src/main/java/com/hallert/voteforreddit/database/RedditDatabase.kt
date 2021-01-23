@@ -56,7 +56,7 @@ interface SearchDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSearchSubreddits(subreddits: List<SubredditSearchEntity>)
 
-    @Query("SELECT subreddit FROM SubredditSearchEntity WHERE searchQuery = :query")
+    @Query("SELECT subreddit FROM SubredditSearchEntity WHERE searchQuery = :query ORDER BY saveTimeMillis ASC")
     fun getSearchSubreddits(query: String): Flow<List<Subreddit>>
 
     @Query("DELETE FROM SubredditSearchEntity WHERE searchQuery != :query")
