@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#F8F8F8</color>
+    <color name="colorPrimary">#14171c</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#448aff</color>
     <color name="colorDull">#8d8d8d</color>
     <color name="submissionBackgroundColor">#d0d0d0</color>
@@ -10,11 +10,12 @@
     <color name="upvoteColor">#ffbb93</color>
     <color name="upvoteTintColor">#ffefe6</color>
     <color name="downvoteTintColor">#e6ebff</color>
-    <color name="dividerColor">#f2f2f2</color>
+    <color name="dividerColor">#000000</color>
     <color name="stickyColor">#228822</color>
     <color name="nswfColor">#d32f2f</color>
-    <color name="searchColor">#f5f7f9</color>
-    <color name="primaryText">#000000</color>
+    <color name="searchColor">#1d2025</color>
+    <color name="primaryText">#ffffff</color>
     <color name="primaryTextLight">#000000</color>
     <color name="primaryTextDark">#ffffff</color>
+
 </resources>

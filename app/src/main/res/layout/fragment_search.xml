@@ -14,7 +14,7 @@
         android:gravity="center_horizontal"
         android:paddingTop="16dp"
         android:text="@string/search"
-        android:textColor="@android:color/black"
+        android:textColor="@color/primaryText"
         android:textSize="@dimen/title_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,20 +22,24 @@
 
     <EditText
         android:id="@+id/search_edit_text"
-        android:focusable="true"
-        android:background="@drawable/search_reddit_selector"
-        android:hint="@string/search_reddit"
         android:layout_width="match_parent"
-        android:drawableStart="@drawable/ic_search"
+        android:layout_height="45dp"
         android:layout_margin="12dp"
-        android:textCursorDrawable="@drawable/edit_text_cursor"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/search_reddit_selector"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="12dp"
+        android:focusable="true"
+        android:hint="@string/search_reddit"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:singleLine="true"
-        android:drawablePadding="12dp"
-        android:layout_height="45dp"
+        android:textColor="@color/primaryText"
+        android:textColorHint="@android:color/tab_indicator_text"
+        android:textCursorDrawable="@drawable/edit_text_cursor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_title"/>
+        app:layout_constraintTop_toBottomOf="@id/search_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subreddit_search_recycler_view"

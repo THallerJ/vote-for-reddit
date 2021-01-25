@@ -13,7 +13,7 @@
         android:fontFamily="@font/roboto_bold"
         android:gravity="center_horizontal"
         android:text="@string/sort"
-        android:textColor="@android:color/black"
+        android:textColor="@color/primaryText"
         android:textSize="@dimen/title_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,19 +32,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:buttonTint="@color/primaryText"
             android:paddingStart="4dp"
             android:text="@string/hot"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/new_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryText"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="@string/newSort"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
@@ -53,28 +55,31 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
+            android:buttonTint="@color/primaryText"
             android:text="@string/rising"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/top_text_view"
             android:layout_width="match_parent"
+            android:buttonTint="@color/primaryText"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="@string/top"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/controversial_text_view"
             android:layout_width="match_parent"
+            android:buttonTint="@color/primaryText"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="@string/controversial"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -91,60 +96,66 @@
             android:id="@+id/hour_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryText"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="Hour"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/day_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryText"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="Day"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/week_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryText"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="Week"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/month_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryText"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="Month"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/year_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryText"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="Year"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/all_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryText"
             android:layout_margin="8dp"
             android:paddingStart="4dp"
             android:text="All"
-            android:textColor="@android:color/black"
+            android:textColor="@color/primaryText"
             android:textSize="20sp" />
     </LinearLayout>
 

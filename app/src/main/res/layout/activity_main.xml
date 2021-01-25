@@ -34,7 +34,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/primaryText"
                     android:textSize="@dimen/title_font_size"
                     app:layout_constraintEnd_toStartOf="@+id/sort"
                     app:layout_constraintStart_toEndOf="@+id/sidebar"

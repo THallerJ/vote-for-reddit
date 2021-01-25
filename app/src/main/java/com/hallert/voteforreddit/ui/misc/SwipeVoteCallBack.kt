@@ -167,10 +167,11 @@ abstract class SwipeVoteCallBack(
 
 
     fun swipeAnimation(recyclerView: RecyclerView) {
-        recyclerView.itemAnimator!!.changeDuration = 0
 
-        val animator = recyclerView.itemAnimator as SimpleItemAnimator
-        animator.supportsChangeAnimations = false
+       // recyclerView.itemAnimator!!.changeDuration = 0
+
+       // val animator = recyclerView.itemAnimator as SimpleItemAnimator
+      //  animator.supportsChangeAnimations = false
     }
 
 

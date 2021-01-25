@@ -2,6 +2,7 @@ package com.hallert.voteforreddit
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import com.hallert.voteforreddit.database.RedditDatabase
 import com.hallert.voteforreddit.user.Authentication
 import dagger.hilt.android.HiltAndroidApp
@@ -21,6 +22,9 @@ class RedditApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         appContext = this
         auth.authenticateOnStart(applicationContext)

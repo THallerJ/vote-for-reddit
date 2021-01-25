@@ -1,11 +1,12 @@
 package com.hallert.voteforreddit.ui.submission
 
-import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -148,7 +149,11 @@ class SubmissionAdapter constructor(
             if (submission.isStickied) {
                 title.setTextColor(RedditApp.appContext.getColor(R.color.stickyColor))
             } else {
-                title.setTextColor(Color.BLACK)
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextLight))
+                } else {
+                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextDark))
+                }
             }
 
             val domainParser = SubmissionDomainParser()
@@ -230,7 +235,13 @@ class SubmissionAdapter constructor(
             if (submission.isStickied) {
                 title.setTextColor(RedditApp.appContext.getColor(R.color.stickyColor))
             } else {
-                title.setTextColor(Color.BLACK)
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                    Log.i("TESTING", "LIGHT MODE")
+                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextLight))
+                } else {
+                    Log.i("TESTING", "DARK MODE")
+                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextDark))
+                }
             }
 
             comments.text = NumberFormatUtil.truncate(submission.commentCount)

@@ -4,6 +4,6 @@
     android:insetRight="16dp">
     <shape>
         <size android:height="1dp"/>
-        <solid android:color="@color/dividerColorLight" />
+        <solid android:color="@color/dividerColor" />
     </shape>
 </inset>
