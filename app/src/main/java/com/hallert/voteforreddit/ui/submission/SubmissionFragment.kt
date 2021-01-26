@@ -162,7 +162,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
     }
 
     override fun onItemLongClick() {
-        observer.sort()
+        observer.openMenu()
     }
 
     override fun onAttach(context: Context) {
@@ -181,7 +181,7 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
     interface SubmissionFragmentObserver {
         fun loginUser()
-        fun sort()
+        fun openMenu()
         fun openComments(id: String)
     }
 }

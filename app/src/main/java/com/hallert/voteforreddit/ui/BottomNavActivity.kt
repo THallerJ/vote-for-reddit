@@ -16,6 +16,7 @@ import com.hallert.voteforreddit.ui.inbox.InboxFragment
 import com.hallert.voteforreddit.ui.profile.ProfileFragment
 import com.hallert.voteforreddit.ui.search.SearchFragment
 import com.hallert.voteforreddit.ui.submission.SubmissionsFragment
+import com.hallert.voteforreddit.ui.submission.actionbottomsheet.ActionsFragment
 import com.hallert.voteforreddit.ui.submission.sort.SubmissionSortFragment
 import com.hallert.voteforreddit.ui.subreddits.SubredditFragment
 import com.hallert.voteforreddit.user.UserManager
@@ -33,6 +34,7 @@ private const val INBOX_FRAGMENT_TAG: String = "inbox_fragment"
 private const val SUBREDDIT_SHEET_TAG: String = "subreddit_sheet_tag"
 private const val SEARCH_SHEET_TAG: String = "search_sheet_tag"
 private const val SUBMISSION_SORT_TAG: String = "submission_sort"
+private const val ACTION_MENU_TAG: String = "action_menu_tag"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
 
@@ -96,10 +98,6 @@ class BottomNavActivity :
 
         sortText = findViewById(R.id.sort_text)
         sort.setOnClickListener { sort() }
-
-        more.setOnClickListener {
-            Toast.makeText(this, "TODO: Open menu", Toast.LENGTH_SHORT).show()
-        }
 
         sidebar.setOnClickListener {
             Toast.makeText(this, "TODO: Open sidemenu", Toast.LENGTH_SHORT).show()
@@ -222,6 +220,7 @@ class BottomNavActivity :
 
     override fun onSubredditSearchSelected(selection: String) {
         openSubreddit(selection)
+        openSubreddit(selection)
     }
 
     @ExperimentalCoroutinesApi
@@ -253,6 +252,7 @@ class BottomNavActivity :
         }
     }
 
+
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(CURRENT_FRAGMENT_TAG, currentFragmentTag)
         outState.putString(TITLE_TEXT, toolbarTitleTextView.text.toString())
@@ -266,7 +266,7 @@ class BottomNavActivity :
         loginNewUser()
     }
 
-    override fun sort() {
+    fun sort() {
         val sheet = SubmissionSortFragment()
         sheet.show(supportFragmentManager, SUBMISSION_SORT_TAG)
     }
@@ -276,6 +276,11 @@ class BottomNavActivity :
         intent.putExtra(LAYERED_ACTIVITY_FRAGMENT_INTENT, COMMENTS_FRAGMENT_TAG)
         intent.putExtra(LAYERED_ACTIVITY_SUBMISSION_INTENT, id)
         startActivity(intent)
+    }
+
+    override fun openMenu() {
+        val sheet = ActionsFragment()
+        sheet.show(supportFragmentManager, ACTION_MENU_TAG)
     }
 
     @ExperimentalCoroutinesApi

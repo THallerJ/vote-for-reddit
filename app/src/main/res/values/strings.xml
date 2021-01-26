@@ -19,4 +19,6 @@
     <string name="comments">Comments</string>
     <string name="load_more">Load more</string>
     <string name="search_reddit">Search reddit</string>
+    <string name="toggle_dark_mode">Toggle Dark Mode</string>
+    <string name="actions">Actions</string>
 </resources>

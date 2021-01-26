@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
     @Inject
     lateinit var accountHelper: AccountHelper
+
     @Inject
     lateinit var subredditRepository: SubredditRepository
 

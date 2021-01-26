@@ -1,7 +1,6 @@
 package com.hallert.voteforreddit.ui.misc
 
 import android.content.Context
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
 import net.dean.jraw.models.Votable

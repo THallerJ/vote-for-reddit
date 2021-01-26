@@ -2,6 +2,7 @@ package com.hallert.voteforreddit.injection
 
 import android.content.Context
 import com.hallert.voteforreddit.user.UserManager
+import com.hallert.voteforreddit.user.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,5 +58,11 @@ object AccountModule {
     @Provides
     fun provideUserManager(accountHelper: AccountHelper): UserManager {
         return UserManager(accountHelper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserPref(): UserPreferences {
+        return UserPreferences()
     }
 }
