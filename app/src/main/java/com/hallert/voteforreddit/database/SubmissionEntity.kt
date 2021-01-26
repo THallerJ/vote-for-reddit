@@ -20,7 +20,7 @@ class SubmissionTypeConverter {
         JrawUtils.moshi.adapter(Submission::class.java).serializeNulls()
 
     @TypeConverter
-    fun submissionToJson(submission: Submission): String{
+    fun submissionToJson(submission: Submission): String {
         return adapter.toJson(submission)
     }
 

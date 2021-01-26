@@ -18,11 +18,12 @@ import net.dean.jraw.oauth.AccountHelper
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProfileFragment: Fragment() {
+class ProfileFragment : Fragment() {
     lateinit var textView: TextView
     lateinit var button: Button
 
-    @Inject lateinit var accountHelper: AccountHelper
+    @Inject
+    lateinit var accountHelper: AccountHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +56,7 @@ class ProfileFragment: Fragment() {
     }
 
     private fun logout() {
-        CoroutineScope(IO).launch{
+        CoroutineScope(IO).launch {
             accountHelper.reddit.authManager.revokeRefreshToken()
             accountHelper.reddit.authManager.revokeAccessToken()
             accountHelper.switchToUserless()

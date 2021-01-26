@@ -52,7 +52,7 @@ interface CommentDao {
 }
 
 @Dao
-interface SearchDao{
+interface SearchDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSearchSubreddits(subreddits: List<SubredditSearchEntity>)
 

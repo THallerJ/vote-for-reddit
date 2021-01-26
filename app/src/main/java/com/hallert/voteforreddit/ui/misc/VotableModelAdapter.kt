@@ -1,12 +1,14 @@
 package com.hallert.voteforreddit.ui.misc
 
+import android.content.Context
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.RedditApp
 import net.dean.jraw.models.Votable
 import net.dean.jraw.models.VoteDirection
 
 abstract class VotableModelAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    protected lateinit var context: Context
     protected var userVoteDirection = VoteDirection.NONE
 
     protected fun setViewHolderColor(holder: RecyclerView.ViewHolder, votable: Votable) {
@@ -15,14 +17,14 @@ abstract class VotableModelAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         if (userVoteDirection == VoteDirection.UP) {
             if (currentVoteDirection == VoteDirection.UP) {
                 holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
+                    context.resources.getColor(
                         R.color.colorPrimary,
                         null
                     )
                 )
             } else {
                 holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
+                    context.resources.getColor(
                         R.color.upvoteTintColor,
                         null
                     )
@@ -33,14 +35,14 @@ abstract class VotableModelAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         } else if (userVoteDirection == VoteDirection.DOWN) {
             if (currentVoteDirection == VoteDirection.DOWN) {
                 holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
+                    context.resources.getColor(
                         R.color.colorPrimary,
                         null
                     )
                 )
             } else {
                 holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
+                    context.resources.getColor(
                         R.color.downvoteTintColor,
                         null
                     )
@@ -50,26 +52,31 @@ abstract class VotableModelAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
             if (currentVoteDirection == VoteDirection.UP) {
                 holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
+                    context.resources.getColor(
                         R.color.upvoteTintColor,
                         null
                     )
                 )
             } else if (currentVoteDirection == VoteDirection.DOWN) {
                 holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
+                    context.resources.getColor(
                         R.color.downvoteTintColor,
                         null
                     )
                 )
             } else {
                 holder.itemView.setBackgroundColor(
-                    RedditApp.appContext.resources.getColor(
+                    context.resources.getColor(
                         R.color.colorPrimary,
                         null
                     )
                 )
             }
         }
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        context = recyclerView.context
     }
 }

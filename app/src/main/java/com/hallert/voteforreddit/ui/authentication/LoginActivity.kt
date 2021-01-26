@@ -24,8 +24,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
-    @Inject lateinit var accountHelper: AccountHelper
-    @Inject lateinit var subredditRepository: SubredditRepository
+    @Inject
+    lateinit var accountHelper: AccountHelper
+    @Inject
+    lateinit var subredditRepository: SubredditRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

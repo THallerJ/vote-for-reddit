@@ -4,7 +4,6 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.hallert.voteforreddit.R
 
 abstract class SwipeVoteCallBack(
@@ -31,7 +30,7 @@ abstract class SwipeVoteCallBack(
         isCurrentlyActive: Boolean
     ) {
         val swipeDistance = 200f
-        var newDx: Float = dX;
+        var newDx: Float = dX
         if (newDx >= swipeDistance) {
             newDx = swipeDistance
         } else if (newDx <= -swipeDistance) {
@@ -75,7 +74,7 @@ abstract class SwipeVoteCallBack(
                     itemView.left + (swipeDistance.toInt() / 2) - upvoteIcon!!.intrinsicWidth
                 val iconTop = itemView.top + (itemView.height / 2) - (upvoteIcon.intrinsicHeight)
                 var iconRight =
-                    itemView.left + (swipeDistance.toInt() / 2) + upvoteIcon!!.intrinsicWidth
+                    itemView.left + (swipeDistance.toInt() / 2) + upvoteIcon.intrinsicWidth
                 val iconBottom =
                     itemView.top + (itemView.height / 2) + (upvoteIcon.intrinsicHeight / 2)
 
@@ -86,8 +85,8 @@ abstract class SwipeVoteCallBack(
                         iconLeft = 0
                         iconRight = 0
                     } else {
-                        iconLeft = itemView.left + (dX.toInt() / 2) - upvoteIcon!!.intrinsicWidth
-                        iconRight = itemView.left + (dX.toInt() / 2) + upvoteIcon!!.intrinsicWidth
+                        iconLeft = itemView.left + (dX.toInt() / 2) - upvoteIcon.intrinsicWidth
+                        iconRight = itemView.left + (dX.toInt() / 2) + upvoteIcon.intrinsicWidth
                     }
                 }
 
@@ -108,7 +107,7 @@ abstract class SwipeVoteCallBack(
                     itemView.right - (swipeDistance.toInt() / 2) - downvoteIcon!!.intrinsicWidth
                 val iconTop = itemView.top + (itemView.height / 2) - (downvoteIcon.intrinsicHeight)
                 var iconRight =
-                    itemView.right - (swipeDistance.toInt() / 2) + downvoteIcon!!.intrinsicWidth
+                    itemView.right - (swipeDistance.toInt() / 2) + downvoteIcon.intrinsicWidth
                 val iconBottom =
                     itemView.top + (itemView.height / 2) + (downvoteIcon.intrinsicHeight / 2)
 
@@ -120,7 +119,7 @@ abstract class SwipeVoteCallBack(
                         iconRight = 0
                     } else {
                         iconLeft = itemView.right + (dX.toInt() / 2) - upvoteIcon!!.intrinsicWidth
-                        iconRight = itemView.right + (dX.toInt() / 2) + upvoteIcon!!.intrinsicWidth
+                        iconRight = itemView.right + (dX.toInt() / 2) + upvoteIcon.intrinsicWidth
                     }
                 }
 
@@ -148,7 +147,7 @@ abstract class SwipeVoteCallBack(
             dY,
             actionState,
             isCurrentlyActive
-        );
+        )
     }
 
     override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
@@ -167,11 +166,10 @@ abstract class SwipeVoteCallBack(
 
 
     fun swipeAnimation(recyclerView: RecyclerView) {
+        //recyclerView.itemAnimator!!.changeDuration = 0
 
-       // recyclerView.itemAnimator!!.changeDuration = 0
-
-       // val animator = recyclerView.itemAnimator as SimpleItemAnimator
-      //  animator.supportsChangeAnimations = false
+        // val animator = recyclerView.itemAnimator as SimpleItemAnimator
+        // animator.supportsChangeAnimations = false
     }
 
 

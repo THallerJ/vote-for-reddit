@@ -1,6 +1,5 @@
 package com.hallert.voteforreddit.ui.comments
 
-import SwipeVoteCallBack
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +14,9 @@ import com.hallert.voteforreddit.ui.misc.RecyclerDecoration
 import com.hallert.voteforreddit.ui.misc.RecyclerLoadListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_comments.*
-import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import net.dean.jraw.models.NestedIdentifiable
-import net.dean.jraw.models.VoteDirection
 
 @AndroidEntryPoint
 class CommentFragment : Fragment(), CommentClickListener {

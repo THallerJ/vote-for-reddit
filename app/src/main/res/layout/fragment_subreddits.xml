@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -18,12 +17,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:visibility="gone"
             android:gravity="center_horizontal"
             android:paddingTop="16dp"
             android:text="@string/subreddits"
             android:textColor="@color/primaryText"
             android:textSize="@dimen/title_font_size"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,12 +32,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:visibility="gone"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:text="@string/frontpage"
             android:textColor="@color/primaryText"
             android:textSize="20sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subreddits_title" />
 
@@ -46,13 +45,13 @@
             android:id="@+id/subreddit_popular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:fontFamily="@font/roboto"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:text="@string/popular"
             android:textColor="@color/primaryText"
             android:textSize="20sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subreddit_frontpage" />
 
@@ -61,12 +60,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:visibility="gone"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
             android:text="@string/all"
             android:textColor="@color/primaryText"
             android:textSize="20sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subreddit_popular" />
 
@@ -74,11 +73,11 @@
             android:id="@+id/subreddits_divider_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:visibility="gone"
             android:layout_margin="16dp"
+            android:background="@color/dividerColor"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subreddit_all"
-            android:background="@color/dividerColor" />
+            app:layout_constraintTop_toBottomOf="@+id/subreddit_all" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/subreddit_recycler_view"

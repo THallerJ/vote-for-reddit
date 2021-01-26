@@ -15,6 +15,4 @@
     <color name="nswfColor">#d32f2f</color>
     <color name="searchColor">#f5f7f9</color>
     <color name="primaryText">#000000</color>
-    <color name="primaryTextLight">#000000</color>
-    <color name="primaryTextDark">#ffffff</color>
 </resources>

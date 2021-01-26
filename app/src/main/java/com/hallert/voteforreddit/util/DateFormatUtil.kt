@@ -17,7 +17,7 @@ class DateFormatUtil {
                     val hours = timeBetween / 1000 / 60 / 60
                     return hours.toString() + "h"
                 }
-                timeBetween <= YEAR_IN_MILLIS  -> { // YEAR_IN_MILLIS is the number of millis in 364 days
+                timeBetween <= YEAR_IN_MILLIS -> { // YEAR_IN_MILLIS is the number of millis in 364 days
                     val days = timeBetween / 1000 / 60 / 60 / 24
                     return days.toString() + "d"
                 }

@@ -13,7 +13,7 @@ class StringFormatUtil {
             for (i in splitString.indices) {
                 val newString =
                     splitString[i].substring(0, 1).toUpperCase() +
-                            splitString[i].substring(1).toLowerCase();
+                            splitString[i].substring(1).toLowerCase()
 
                 sb.append(newString)
 

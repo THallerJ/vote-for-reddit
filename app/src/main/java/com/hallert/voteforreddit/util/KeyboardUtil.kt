@@ -18,7 +18,7 @@ class KeyboardUtil {
         // used for opening the keyboard in dialogs
         fun openKeyboardDialog(dialog: Dialog, view: View) {
             view.requestFocus()
-            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
 
         fun closeKeyboard(context: Context, view: View) {

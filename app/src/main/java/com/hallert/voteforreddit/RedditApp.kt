@@ -17,14 +17,15 @@ class RedditApp : Application() {
 
     @Inject
     lateinit var auth: Authentication
+
     @Inject
     lateinit var db: RedditDatabase
 
     override fun onCreate() {
         super.onCreate()
 
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         appContext = this
         auth.authenticateOnStart(applicationContext)
@@ -32,6 +33,6 @@ class RedditApp : Application() {
     }
 
     companion object {
-         lateinit var appContext: Context
+        lateinit var appContext: Context
     }
 }

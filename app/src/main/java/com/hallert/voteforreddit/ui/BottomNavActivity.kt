@@ -217,7 +217,7 @@ class BottomNavActivity :
 
     @ExperimentalCoroutinesApi
     override fun onSubredditSelected(selection: String) {
-       openSubreddit(selection)
+        openSubreddit(selection)
     }
 
     override fun onSubredditSearchSelected(selection: String) {

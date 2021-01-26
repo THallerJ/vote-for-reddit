@@ -8,14 +8,11 @@
     <color name="submissionIconColor">#606060</color>
     <color name="downvoteColor">#c0cfff</color>
     <color name="upvoteColor">#ffbb93</color>
-    <color name="upvoteTintColor">#ffefe6</color>
-    <color name="downvoteTintColor">#e6ebff</color>
+    <color name="upvoteTintColor">#572d14</color>
+    <color name="downvoteTintColor">#121b40</color>
     <color name="dividerColor">#000000</color>
     <color name="stickyColor">#228822</color>
     <color name="nswfColor">#d32f2f</color>
     <color name="searchColor">#1d2025</color>
     <color name="primaryText">#ffffff</color>
-    <color name="primaryTextLight">#000000</color>
-    <color name="primaryTextDark">#ffffff</color>
-
 </resources>

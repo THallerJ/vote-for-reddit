@@ -1,12 +1,11 @@
 package com.hallert.voteforreddit.ui.submission
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -14,7 +13,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.hallert.voteforreddit.R
-import com.hallert.voteforreddit.RedditApp
 import com.hallert.voteforreddit.ui.misc.VotableModelAdapter
 import com.hallert.voteforreddit.util.DateFormatUtil
 import com.hallert.voteforreddit.util.NumberFormatUtil
@@ -55,14 +53,13 @@ class SubmissionAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        setViewHolderColor(holder, data[position])
-
         if (!data[position].isSelfPost) {
-            (holder as ThumbnailViewHolder).bind(data[position], isMultireddit, listener)
+            (holder as ThumbnailViewHolder).bind(data[position], isMultireddit, listener, context)
         } else {
-            (holder as NoThumbnailViewHolder).bind(data[position], isMultireddit, listener)
+            (holder as NoThumbnailViewHolder).bind(data[position], isMultireddit, listener, context)
         }
 
+        setViewHolderColor(holder, data[position])
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -94,7 +91,8 @@ class SubmissionAdapter constructor(
         fun bind(
             submission: Submission,
             isMultireddit: Boolean,
-            listener: SubmissionClickListener
+            listener: SubmissionClickListener,
+            context: Context
         ) {
             thumbnail.layout(0, 0, 0, 0)
             val requestOptions = RequestOptions()
@@ -147,14 +145,11 @@ class SubmissionAdapter constructor(
             title.text = submission.title
 
             if (submission.isStickied) {
-                title.setTextColor(RedditApp.appContext.getColor(R.color.stickyColor))
+                title.setTextColor(context.getColor(R.color.stickyColor))
             } else {
-                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextLight))
-                } else {
-                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextDark))
-                }
+                title.setTextColor(context.getColor(R.color.primaryText))
             }
+
 
             val domainParser = SubmissionDomainParser()
 
@@ -203,7 +198,8 @@ class SubmissionAdapter constructor(
         fun bind(
             submission: Submission,
             isMultireddit: Boolean,
-            listener: SubmissionClickListener
+            listener: SubmissionClickListener,
+            context: Context
         ) {
             linkFlair.text = submission.linkFlairText
 
@@ -233,15 +229,9 @@ class SubmissionAdapter constructor(
             title.text = submission.title
 
             if (submission.isStickied) {
-                title.setTextColor(RedditApp.appContext.getColor(R.color.stickyColor))
+                title.setTextColor(context.getColor(R.color.stickyColor))
             } else {
-                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-                    Log.i("TESTING", "LIGHT MODE")
-                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextLight))
-                } else {
-                    Log.i("TESTING", "DARK MODE")
-                    title.setTextColor(RedditApp.appContext.getColor(R.color.primaryTextDark))
-                }
+                title.setTextColor(context.getColor(R.color.primaryText))
             }
 
             comments.text = NumberFormatUtil.truncate(submission.commentCount)
