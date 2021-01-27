@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hallert.voteforreddit.R
+import com.hallert.voteforreddit.RedditApp
 import kotlinx.android.synthetic.main.subreddit_item.view.*
 import net.dean.jraw.models.Subreddit
 
-class SubredditAdapter constructor(private val clickListener: SubredditClickListener) :
+class SubredditAdapter constructor(
+    private val clickListener: SubredditClickListener,
+    private val showPrefix: Boolean
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var data: List<Subreddit> = ArrayList()
@@ -27,7 +31,7 @@ class SubredditAdapter constructor(private val clickListener: SubredditClickList
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is SubredditViewHolder -> {
-                holder.bind(data[position], clickListener)
+                holder.bind(data[position], showPrefix, clickListener)
             }
 
         }
@@ -40,8 +44,20 @@ class SubredditAdapter constructor(private val clickListener: SubredditClickList
     class SubredditViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name: TextView = itemView.subreddit_name
 
-        fun bind(subreddit: Subreddit, listener: SubredditClickListener) {
-            name.text = subreddit.name
+        fun bind(subreddit: Subreddit, showSuffix: Boolean, listener: SubredditClickListener) {
+            if (showSuffix) {
+                name.text = String.format(
+                    RedditApp.appContext.resources.getString(R.string.subreddit_name),
+                    "r/",
+                    subreddit.name
+                )
+            } else {
+                name.text = String.format(
+                    RedditApp.appContext.resources.getString(R.string.subreddit_name),
+                    "",
+                    subreddit.name
+                )
+            }
 
             itemView.setOnClickListener {
                 listener.onItemClick(subreddit, adapterPosition)

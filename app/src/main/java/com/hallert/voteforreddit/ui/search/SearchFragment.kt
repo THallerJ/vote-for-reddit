@@ -42,7 +42,7 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
         searchEditText = root.findViewById<EditText>(R.id.search_edit_text)
 
-        subredditAdapter = SubredditAdapter(this)
+        subredditAdapter = SubredditAdapter(this, true)
 
         searchViewModel.subreddits.observe(
             viewLifecycleOwner,

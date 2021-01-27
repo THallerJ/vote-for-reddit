@@ -21,4 +21,5 @@
     <string name="search_reddit">Search reddit</string>
     <string name="toggle_dark_mode">Toggle Dark Mode</string>
     <string name="actions">Actions</string>
+    <string name="subreddit_name">%1s%2$s</string>
 </resources>

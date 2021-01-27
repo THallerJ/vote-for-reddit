@@ -32,7 +32,7 @@ class SubredditFragment : HalfScreenBottomSheet(), SubredditClickListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_subreddits, container, false)
 
-        adapter = SubredditAdapter(this)
+        adapter = SubredditAdapter(this, false)
 
         subredditViewModel.subreddits.observe(viewLifecycleOwner, Observer { subreddits ->
             adapter.data = subreddits
