@@ -24,6 +24,7 @@ import com.hallert.voteforreddit.util.StringFormatUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import net.dean.jraw.models.SearchSort
 import net.dean.jraw.models.SubredditSort
 import net.dean.jraw.models.TimePeriod
 import javax.inject.Inject
@@ -66,6 +67,7 @@ class BottomNavActivity :
     private lateinit var subredditTitle: String
 
     private var doLoadFrontpage = true
+    private var searchFlag = false
 
     private lateinit var currentUser: String
 
@@ -117,9 +119,9 @@ class BottomNavActivity :
             toolbarTitleTextView.text = titleText
 
         if (sortVisible)
-            sort.visibility = View.VISIBLE
+            sortLayout.visibility = View.VISIBLE
         else
-            sort.visibility = View.GONE
+            sortLayout.visibility = View.GONE
 
         if (currentFragmentTag != newFragmentTag) {
             if (supportFragmentManager.findFragmentByTag(newFragmentTag) != null) {
@@ -155,7 +157,7 @@ class BottomNavActivity :
                     fragment.openMultireddit(RedditApp.appContext.getString(R.string.frontpage))
                 }
 
-                switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, true)
+                switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, !searchFlag)
                 doLoadFrontpage = true
             }
             R.id.nav_search -> {
@@ -208,13 +210,19 @@ class BottomNavActivity :
         startActivityForResult(intent, LOGIN_REQUEST_CODE)
     }
 
-    private fun openSubreddit(selection: String) {
-        subredditTitle = selection
-        getSubmissionFragment().openSubreddit(selection)
-        sortText.text = RedditApp.appContext.getString(R.string.hot)
-        switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, true)
+    private fun openSubmissionFragment(title: String, sortVisibile: Boolean, searchFlag: Boolean) {
+        subredditTitle = title
+        switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, title, sortVisibile)
+        this.searchFlag = searchFlag
         doLoadFrontpage = false
         bottomNav.selectedItemId = R.id.nav_posts
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun openSubreddit(selection: String) {
+        openSubmissionFragment(selection, true, false)
+        getSubmissionFragment().openSubreddit(selection)
+        sortText.text = RedditApp.appContext.getString(R.string.hot)
     }
 
     @ExperimentalCoroutinesApi
@@ -222,9 +230,19 @@ class BottomNavActivity :
         openSubreddit(selection)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onSubredditSearchSelected(selection: String) {
         openSubreddit(selection)
-        openSubreddit(selection)
+    }
+
+    override fun onSearch(
+        query: String,
+        timePeriod: TimePeriod,
+        sort: SearchSort,
+        subreddit: String?
+    ) {
+        openSubmissionFragment(query, false, true)
+        getSubmissionFragment().searchReddit(query, timePeriod, sort, subreddit)
     }
 
     @ExperimentalCoroutinesApi
@@ -255,7 +273,6 @@ class BottomNavActivity :
             bottomNav.selectedItemId = R.id.nav_posts
         }
     }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(CURRENT_FRAGMENT_TAG, currentFragmentTag)

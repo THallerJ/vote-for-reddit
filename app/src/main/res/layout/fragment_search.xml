@@ -34,7 +34,6 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_margin="16dp"
-        android:theme="@style/spinnerTheme"
         android:background="@drawable/spinner_selector"
         android:popupBackground="@color/colorAccentDull"
         android:gravity="center"

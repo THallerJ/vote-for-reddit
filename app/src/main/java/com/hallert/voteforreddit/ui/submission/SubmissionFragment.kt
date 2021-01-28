@@ -3,6 +3,7 @@ package com.hallert.voteforreddit.ui.submission
 import SwipeVoteCallBack
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,10 +21,7 @@ import com.hallert.voteforreddit.user.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_submissions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import net.dean.jraw.models.Submission
-import net.dean.jraw.models.SubredditSort
-import net.dean.jraw.models.TimePeriod
-import net.dean.jraw.models.VoteDirection
+import net.dean.jraw.models.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -137,9 +135,8 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
     }
 
-    @ExperimentalCoroutinesApi
-    fun openFrontpage() {
-        submissionViewModel.switchFrontpage()
+    fun searchReddit(query: String, timePeriod: TimePeriod, sort: SearchSort, subreddit: String?) {
+        Log.i("TESTING", query)
     }
 
     @ExperimentalCoroutinesApi

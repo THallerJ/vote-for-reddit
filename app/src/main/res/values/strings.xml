@@ -25,21 +25,26 @@
     <string name="posts_search">Posts with %1$s</string>
     <string name="search_check_text">Limit to r/%1$s</string>
     <string name="search_hint_subreddit">Search r/%1$s</string>
-
+    <string name="all_time">All Time</string>
+    <string name="year">Year</string>
+    <string name="month">Month</string>
+    <string name="week">Week</string>
+    <string name="day">Day</string>
+    <string name="relevance">Relevance</string>
 
     <string-array name="search_time_period">
-        <item>All Time</item>
-        <item>Year</item>
-        <item>Month</item>
-        <item>Week</item>
-        <item>Day</item>
+        <item>@string/all_time</item>
+        <item>@string/year</item>
+        <item>@string/month</item>
+        <item>@string/week</item>
+        <item>@string/day</item>
     </string-array>
 
     <string-array name="search_sort">
-        <item>Relevance</item>
-        <item>Hot</item>
-        <item>Top</item>
-        <item>New</item>
-        <item>Comments</item>
+        <item>@string/relevance</item>
+        <item>@string/hot</item>
+        <item>@string/top</item>
+        <item>@string/newSort</item>
+        <item>@string/comments</item>
     </string-array>
 </resources>

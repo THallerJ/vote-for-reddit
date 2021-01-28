@@ -23,7 +23,9 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_subreddits.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import net.dean.jraw.models.SearchSort
 import net.dean.jraw.models.Subreddit
+import net.dean.jraw.models.TimePeriod
 
 private const val SEARCH_BUNDLE = "search_bundle"
 
@@ -141,6 +143,28 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
 
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val timePeriod = when (timePeriodSpinner.selectedItem) {
+                    resources.getString(R.string.all_time) -> TimePeriod.ALL
+                    resources.getString(R.string.year) -> TimePeriod.YEAR
+                    resources.getString(R.string.month) -> TimePeriod.MONTH
+                    resources.getString(R.string.week) -> TimePeriod.WEEK
+                    resources.getString(R.string.day) -> TimePeriod.DAY
+                    else -> TimePeriod.ALL
+                }
+
+                val sort = when (sortSpinner.selectedItem) {
+                    resources.getString(R.string.relevance) -> SearchSort.RELEVANCE
+                    resources.getString(R.string.hot) -> SearchSort.HOT
+                    resources.getString(R.string.top) -> SearchSort.TOP
+                    resources.getString(R.string.newSort) -> SearchSort.NEW
+                    resources.getString(R.string.comments) -> SearchSort.COMMENTS
+                    else -> SearchSort.RELEVANCE
+                }
+
+                val subreddit = if (subCheckbox.isChecked) subredditTitle else null
+
+                observer.onSearch(searchEditText.text.toString(), timePeriod, sort, subreddit)
+
                 searchViewModel.clearNonQuery()
                 context?.let { KeyboardUtil.closeKeyboard(it, searchEditText) }
                 this.dismiss()
@@ -203,6 +227,7 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
 
     interface SearchFragmentObserver {
         fun onSubredditSearchSelected(selection: String)
+        fun onSearch(query: String, timePeriod: TimePeriod, sort: SearchSort, subreddit: String?)
     }
 }
 
