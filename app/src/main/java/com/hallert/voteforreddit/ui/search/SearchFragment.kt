@@ -159,7 +159,7 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
                 R.array.search_time_period,
                 android.R.layout.simple_spinner_item
             ).also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.modified_spinner_item)
                 timePeriodSpinner.adapter = adapter
             }
         }
@@ -170,7 +170,7 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
                 R.array.search_sort,
                 android.R.layout.simple_spinner_item
             ).also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.modified_spinner_item)
                 sortSpinner.adapter = adapter
             }
         }
