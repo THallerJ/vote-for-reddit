@@ -3,10 +3,9 @@
 
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/searchColor" />
+            <solid android:color="@color/colorAccentDull" />
             <corners android:radius="30dp" />
-            <padding android:left="8dp" />
-            <stroke android:width="1dp" android:color="@color/searchColor" />
+            <stroke android:width="1dp" android:color="@color/colorAccentDull" />
         </shape>
     </item>
 </selector>

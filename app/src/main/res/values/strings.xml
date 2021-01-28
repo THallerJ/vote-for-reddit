@@ -18,8 +18,28 @@
     <string name="nsfw">NSFW</string>
     <string name="comments">Comments</string>
     <string name="load_more">Load more</string>
-    <string name="search_reddit">Search reddit</string>
+    <string name="search_hint">Search reddit</string>
     <string name="toggle_dark_mode">Toggle Dark Mode</string>
     <string name="actions">Actions</string>
     <string name="subreddit_name">%1s%2$s</string>
+    <string name="posts_search">Posts with %1$s</string>
+    <string name="search_check_text">Limit to r/%1$s</string>
+    <string name="search_hint_subreddit">Search r/%1$s</string>
+
+
+    <string-array name="search_time_period">
+        <item>All Time</item>
+        <item>Year</item>
+        <item>Month</item>
+        <item>Week</item>
+        <item>Day</item>
+    </string-array>
+
+    <string-array name="search_sort">
+        <item>Relevance</item>
+        <item>Hot</item>
+        <item>Top</item>
+        <item>New</item>
+        <item>Comments</item>
+    </string-array>
 </resources>

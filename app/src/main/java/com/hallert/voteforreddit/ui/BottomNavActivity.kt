@@ -44,6 +44,7 @@ private const val TITLE_TEXT: String = "title_text"
 private const val SUBREDDIT_TITLE_TEXT: String = "subreddit_text"
 private const val LOGIN_REQUEST_CODE = 0
 
+private const val SEARCH_BUNDLE = "search_bundle"
 private const val LAYERED_ACTIVITY_FRAGMENT_INTENT = "layered_activity_intent"
 private const val LAYERED_ACTIVITY_SUBMISSION_INTENT = "layered_activity_submission_intent"
 
@@ -159,6 +160,9 @@ class BottomNavActivity :
             }
             R.id.nav_search -> {
                 val sheet = SearchFragment()
+                val bundle = Bundle()
+                bundle.putString(SEARCH_BUNDLE, subredditTitle)
+                sheet.arguments = bundle
                 sheet.show(supportFragmentManager, SEARCH_SHEET_TAG)
                 return@OnNavigationItemSelectedListener false
             }

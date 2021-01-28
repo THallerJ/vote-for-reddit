@@ -18,6 +18,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Spinner
+        android:id="@+id/time_period_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/spinner_selector"
+        android:gravity="center"
+        android:padding="4.5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
+
+    <Spinner
+        android:id="@+id/sort_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/spinner_selector"
+        android:gravity="center"
+        android:padding="4.5dp"
+        app:layout_constraintStart_toEndOf="@id/time_period_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
+
+    <CheckBox
+        android:id="@+id/search_checkbox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/spinner_selector"
+        android:buttonTint="@color/primaryText"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="Limit to subreddit"
+        android:textColor="@color/primaryText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sort_spinner"
+        app:layout_constraintTop_toBottomOf="@id/search_edit_text" />
+
+    <View
+        android:id="@+id/search_divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="16dp"
+        android:background="@color/dividerColor"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time_period_spinner" />
+
     <EditText
         android:id="@+id/search_edit_text"
         android:layout_width="match_parent"
@@ -29,7 +78,7 @@
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="12dp"
         android:focusable="true"
-        android:hint="@string/search_reddit"
+        android:hint="@string/search_hint"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:singleLine="true"
@@ -46,6 +95,6 @@
         android:paddingStart="16dp"
         android:paddingTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_divider_line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

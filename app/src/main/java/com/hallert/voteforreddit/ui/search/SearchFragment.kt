@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
+import android.widget.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,12 +25,21 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import net.dean.jraw.models.Subreddit
 
+private const val SEARCH_BUNDLE = "search_bundle"
+
 @AndroidEntryPoint
 class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
     private val searchViewModel: SearchViewModel by viewModels()
+
     private lateinit var searchEditText: EditText
+    private lateinit var subCheckbox: CheckBox
+    private lateinit var timePeriodSpinner: Spinner
+    private lateinit var sortSpinner: Spinner
+
     private lateinit var subredditAdapter: SubredditAdapter
     private lateinit var observer: SearchFragmentObserver
+
+    private lateinit var subredditTitle: String
 
     @FlowPreview
     @ExperimentalCoroutinesApi
@@ -40,16 +49,44 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
-        searchEditText = root.findViewById<EditText>(R.id.search_edit_text)
+
+        subredditTitle = arguments?.getString(SEARCH_BUNDLE).toString()
+
+        searchEditText = root.findViewById(R.id.search_edit_text)
+        timePeriodSpinner = root.findViewById(R.id.time_period_spinner)
+        sortSpinner = root.findViewById(R.id.sort_spinner)
+        subCheckbox = root.findViewById(R.id.search_checkbox)
 
         subredditAdapter = SubredditAdapter(this, true)
+
+        if (isInSubreddit()) {
+            subCheckbox.text =
+                resources.getString(R.string.search_check_text).let {
+                    String.format(
+                        it, subredditTitle
+                    )
+                }
+
+            setSearchHint(true)
+
+            subCheckbox.isChecked = true
+            subCheckbox.visibility = View.VISIBLE
+        } else {
+            subCheckbox.visibility = View.GONE
+        }
+
+        subCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            setSearchHint(isChecked)
+        }
 
         searchViewModel.subreddits.observe(
             viewLifecycleOwner,
             Observer { subreddits ->
                 subredditAdapter.data = subreddits
+                search_divider_line.visibility = View.VISIBLE
             })
 
+        setupSpinners()
         setupEditText()
 
         dialog?.let { KeyboardUtil.openKeyboardDialog(it, searchEditText) }
@@ -62,6 +99,27 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
         initSubredditRecyclerView()
     }
 
+    private fun isInSubreddit(): Boolean {
+        return subredditTitle != resources.getString(R.string.frontpage) && subredditTitle != resources.getString(
+            R.string.all
+        ) && subredditTitle != resources.getString(R.string.popular)
+    }
+
+    private fun setSearchHint(isSubreddit: Boolean) {
+        if (isSubreddit) {
+            searchEditText.hint =
+                resources.getString(R.string.search_hint_subreddit).let {
+                    String.format(
+                        it, subredditTitle
+                    )
+                }
+        } else {
+            searchEditText.hint =
+                resources.getString(R.string.search_hint)
+        }
+    }
+
+
     private fun initSubredditRecyclerView() {
         subreddit_search_recycler_view.layoutManager = LinearLayoutManager(context)
         subreddit_search_recycler_view.adapter = subredditAdapter
@@ -71,15 +129,17 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
     private fun setupEditText() {
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = searchEditText.text.toString()
-                searchViewModel.searchReddit(query)
+                if (searchEditText.text.isNotBlank()) {
+                    val query = searchEditText.text.toString()
+                    searchViewModel.searchReddit(query)
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        searchEditText.setOnEditorActionListener { v, actionId, event ->
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchViewModel.clearNonQuery()
                 context?.let { KeyboardUtil.closeKeyboard(it, searchEditText) }
@@ -89,6 +149,30 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
             }
 
             false
+        }
+    }
+
+    private fun setupSpinners() {
+        context?.let {
+            ArrayAdapter.createFromResource(
+                it,
+                R.array.search_time_period,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                timePeriodSpinner.adapter = adapter
+            }
+        }
+
+        context?.let {
+            ArrayAdapter.createFromResource(
+                it,
+                R.array.search_sort,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                sortSpinner.adapter = adapter
+            }
         }
     }
 

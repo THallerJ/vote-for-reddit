@@ -10,7 +10,8 @@ import net.dean.jraw.models.Subreddit
 import net.dean.jraw.oauth.AccountHelper
 
 class SearchRepository constructor(
-    private val searchDao: SearchDao, private val accountHelper: AccountHelper
+    private val searchDao: SearchDao,
+    private val accountHelper: AccountHelper
 ) {
 
     fun searchSubreddits(query: String) {
@@ -32,6 +33,7 @@ class SearchRepository constructor(
     fun getSearchSubreddits(query: String): Flow<List<Subreddit>> {
         return searchDao.getSearchSubreddits(query)
     }
+
 
     fun clearNonQuery(query: String) {
         CoroutineScope(IO).launch {

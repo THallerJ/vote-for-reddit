@@ -16,14 +16,14 @@ import net.dean.jraw.models.Submission
 import net.dean.jraw.models.SubredditSort
 import net.dean.jraw.models.TimePeriod
 import net.dean.jraw.oauth.AccountHelper
-import net.dean.jraw.pagination.DefaultPaginator
+import net.dean.jraw.pagination.Paginator
 import java.util.*
 
 class SubmissionRepository(
     private val submissionDao: SubmissionDao,
     private val accountHelper: AccountHelper
 ) {
-    private lateinit var subreddit: DefaultPaginator<Submission>
+    private lateinit var subreddit: Paginator<Submission>
 
     val submissions: Flow<List<Submission>>
         get() = submissionDao.getAllSubmissions().filterNotNull()
@@ -106,6 +106,15 @@ class SubmissionRepository(
         }
 
         submissionDao.insertSubmissions(submissionList.toList())
+    }
+
+    fun searchReddit(query: String) {
+        //subreddit = accountHelper.reddit.search().query(query).build()
+
+    }
+
+    fun searchReddit(query: String, subredditName: String) {
+        //  subreddit = accountHelper.reddit.subreddit("").search().query(query).timePeriod(Time)
     }
 
     @ExperimentalCoroutinesApi

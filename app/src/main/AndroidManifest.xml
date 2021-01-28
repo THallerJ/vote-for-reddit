@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hallert.voteforreddit">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -27,7 +28,7 @@
             android:value="TheNapkinOfDoom" />
         <meta-data
             android:name="net.dean.jraw.android.CLIENT_ID"
-            android:value="6zKTM0XLvNctWg"/>
+            android:value="6zKTM0XLvNctWg" />
         <meta-data
             android:name="net.dean.jraw.android.REDIRECT_URL"
             android:value="https://github.com/THallerJ" />
