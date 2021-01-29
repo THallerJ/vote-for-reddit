@@ -14,10 +14,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import net.dean.jraw.models.Submission
-import net.dean.jraw.models.SubredditSort
-import net.dean.jraw.models.TimePeriod
-import net.dean.jraw.models.VoteDirection
+import net.dean.jraw.models.*
 import net.dean.jraw.oauth.AccountHelper
 import timber.log.Timber
 
@@ -58,6 +55,15 @@ class SubmissionViewModel @ViewModelInject constructor(
     fun startup() = runBlocking {
         CoroutineScope(Main).launch {
             submissionRepository.refresh()
+        }
+    }
+
+    fun searchReddit(query: String, timePeriod: TimePeriod, sort: SearchSort, subreddit: String?) {
+        isFrontPage = false
+        this.subredditName = subredditName
+
+        CoroutineScope(Main).launch {
+            submissionRepository.searchReddit(query, timePeriod, sort, subreddit)
         }
     }
 

@@ -3,7 +3,6 @@ package com.hallert.voteforreddit.ui.submission
 import SwipeVoteCallBack
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -135,8 +134,9 @@ class SubmissionsFragment : Fragment(), SubmissionClickListener {
 
     }
 
+    @ExperimentalCoroutinesApi
     fun searchReddit(query: String, timePeriod: TimePeriod, sort: SearchSort, subreddit: String?) {
-        Log.i("TESTING", query)
+        submissionViewModel.searchReddit(query, timePeriod, sort, subreddit)
     }
 
     @ExperimentalCoroutinesApi

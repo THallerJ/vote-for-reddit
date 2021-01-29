@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import net.dean.jraw.models.SearchSort
 import net.dean.jraw.models.Submission
 import net.dean.jraw.models.SubredditSort
 import net.dean.jraw.models.TimePeriod
@@ -28,18 +29,30 @@ class SubmissionRepository(
     val submissions: Flow<List<Submission>>
         get() = submissionDao.getAllSubmissions().filterNotNull()
 
-    private lateinit var subredditName: String
-
     @ExperimentalCoroutinesApi
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     fun buildSubreddit(subName: String) {
         subreddit = accountHelper.reddit.subreddit(subName).posts().build()
-        subredditName = subName
     }
 
     fun buildSubreddit() {
         subreddit = accountHelper.reddit.frontPage().build()
+    }
+
+    private fun buildSearchQuery(
+        query: String,
+        timePeriod: TimePeriod,
+        sort: SearchSort,
+        subredditName: String?
+    ) {
+        subreddit = if (!subredditName.isNullOrEmpty()) {
+            accountHelper.reddit.subreddit(subredditName).search().query(query)
+                .timePeriod(timePeriod)
+                .sorting(sort).build()
+        } else {
+            accountHelper.reddit.search().query(query).timePeriod(timePeriod).sorting(sort).build()
+        }
     }
 
     fun sortSubreddit(
@@ -108,15 +121,6 @@ class SubmissionRepository(
         submissionDao.insertSubmissions(submissionList.toList())
     }
 
-    fun searchReddit(query: String) {
-        //subreddit = accountHelper.reddit.search().query(query).build()
-
-    }
-
-    fun searchReddit(query: String, subredditName: String) {
-        //  subreddit = accountHelper.reddit.subreddit("").search().query(query).timePeriod(Time)
-    }
-
     @ExperimentalCoroutinesApi
     fun refresh() {
         isLoading.value = true
@@ -147,6 +151,26 @@ class SubmissionRepository(
             if (WebUtil.isOnline()) {
                 submissionDao.clearDatabase()
                 buildSubreddit(subredditName)
+                insertSubmissions(subreddit.next())
+            }
+
+            isLoading.value = false
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    fun searchReddit(
+        query: String,
+        timePeriod: TimePeriod,
+        sort: SearchSort,
+        subreddiName: String?
+    ) {
+        isLoading.value = true
+
+        CoroutineScope(IO).launch {
+            if (WebUtil.isOnline()) {
+                submissionDao.clearDatabase()
+                buildSearchQuery(query, timePeriod, sort, subreddiName)
                 insertSubmissions(subreddit.next())
             }
 
