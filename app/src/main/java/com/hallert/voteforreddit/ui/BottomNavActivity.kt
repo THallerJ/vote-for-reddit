@@ -36,6 +36,8 @@ private const val SUBREDDIT_SHEET_TAG: String = "subreddit_sheet_tag"
 private const val SEARCH_SHEET_TAG: String = "search_sheet_tag"
 private const val SUBMISSION_SORT_TAG: String = "submission_sort"
 private const val ACTION_MENU_TAG: String = "action_menu_tag"
+private const val SEARCH_FLAG_TAG: String = "search_flag_tag"
+private const val LOAD_TAG: String = "load_tag"
 
 private const val CURRENT_FRAGMENT_TAG: String = "current_fragment_tag"
 
@@ -47,6 +49,7 @@ private const val LOGIN_REQUEST_CODE = 0
 
 private const val SEARCH_TITLE_BUNDLE = "search_title_bundle"
 private const val SEARCH_FLAG_BUNDLE = "search_flag_bundle"
+private const val SEARCH_SUB_BUNDLE = "search_sub_bundle"
 private const val LAYERED_ACTIVITY_FRAGMENT_INTENT = "layered_activity_intent"
 private const val LAYERED_ACTIVITY_SUBMISSION_INTENT = "layered_activity_submission_intent"
 
@@ -66,6 +69,7 @@ class BottomNavActivity :
     private lateinit var sortLayout: LinearLayout
 
     private lateinit var subredditTitle: String
+    private lateinit var submissionsTitle: String
 
     private var doLoadFrontpage = true
     private var searchFlag = false
@@ -86,7 +90,8 @@ class BottomNavActivity :
         if (savedInstanceState == null) {
             currentUser = userManager.currentUser()
             subredditTitle = getString(R.string.frontpage)
-            toolbarTitleTextView.text = subredditTitle
+            submissionsTitle = subredditTitle
+            toolbarTitleTextView.text = submissionsTitle
             currentFragmentTag = ROOT_FRAGMENT
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, SubmissionsFragment(), ROOT_FRAGMENT).commit()
@@ -95,6 +100,8 @@ class BottomNavActivity :
             currentFragmentTag = savedInstanceState.getString(CURRENT_FRAGMENT_TAG)!!
             toolbarTitleTextView.text = savedInstanceState.getString(TITLE_TEXT)
             subredditTitle = savedInstanceState.getString(SUBREDDIT_TITLE_TEXT)!!
+            searchFlag = savedInstanceState.getBoolean(SEARCH_FLAG_TAG)
+            doLoadFrontpage = savedInstanceState.getBoolean(LOAD_TAG)
         }
 
         bottomNav = findViewById(R.id.bottom_navigation_bar)
@@ -151,25 +158,27 @@ class BottomNavActivity :
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_posts -> {
-                if ((doLoadFrontpage && (subredditTitle != getString(R.string.frontpage)))
+                if ((doLoadFrontpage && (submissionsTitle != getString(R.string.frontpage)))
                     || (currentUser != userManager.currentUser())
                 ) {
                     val fragment: SubmissionsFragment = getSubmissionFragment()
                     searchFlag = false
                     sortText.text = RedditApp.appContext.getString(R.string.hot)
                     subredditTitle = getString(R.string.frontpage)
+                    submissionsTitle = subredditTitle
                     currentUser = userManager.currentUser()
                     fragment.openMultireddit(RedditApp.appContext.getString(R.string.frontpage))
                 }
 
-                switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, !searchFlag)
+                switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, submissionsTitle, !searchFlag)
                 doLoadFrontpage = true
             }
             R.id.nav_search -> {
                 val sheet = SearchFragment()
                 val bundle = Bundle()
 
-                bundle.putString(SEARCH_TITLE_BUNDLE, subredditTitle)
+                bundle.putString(SEARCH_TITLE_BUNDLE, submissionsTitle)
+                bundle.putString(SEARCH_SUB_BUNDLE, subredditTitle)
                 bundle.putBoolean(SEARCH_FLAG_BUNDLE, searchFlag)
 
                 sheet.arguments = bundle
@@ -228,6 +237,7 @@ class BottomNavActivity :
     @ExperimentalCoroutinesApi
     private fun openSubreddit(selection: String) {
         subredditTitle = selection
+        submissionsTitle = subredditTitle
         openSubmissionFragment(selection, true, false)
         getSubmissionFragment().openSubreddit(selection)
         sortText.text = RedditApp.appContext.getString(R.string.hot)
@@ -250,6 +260,7 @@ class BottomNavActivity :
         sort: SearchSort,
         subreddit: String?
     ) {
+        submissionsTitle = query
         openSubmissionFragment(query, false, true)
         getSubmissionFragment().searchReddit(query, timePeriod, sort, subreddit)
     }
@@ -262,6 +273,7 @@ class BottomNavActivity :
             bottomNav.selectedItemId = R.id.nav_posts
         } else {
             subredditTitle = selection
+            submissionsTitle = subredditTitle
             getSubmissionFragment().openMultireddit(selection)
             sortText.text = RedditApp.appContext.getString(R.string.hot)
             switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, subredditTitle, true)
@@ -288,6 +300,8 @@ class BottomNavActivity :
         outState.putString(TITLE_TEXT, toolbarTitleTextView.text.toString())
         outState.putString(SUBREDDIT_TITLE_TEXT, subredditTitle)
         outState.putString(CURRENT_USER_TAG, currentUser)
+        outState.putBoolean(SEARCH_FLAG_TAG, searchFlag)
+        outState.putBoolean(LOAD_TAG, doLoadFrontpage)
 
         super.onSaveInstanceState(outState)
     }

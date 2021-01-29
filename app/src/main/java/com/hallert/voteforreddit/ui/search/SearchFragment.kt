@@ -29,6 +29,7 @@ import net.dean.jraw.models.TimePeriod
 
 private const val SEARCH_TITLE_BUNDLE = "search_title_bundle"
 private const val SEARCH_FLAG_BUNDLE = "search_flag_bundle"
+private const val SEARCH_SUB_BUNDLE = "search_sub_bundle"
 
 @AndroidEntryPoint
 class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
@@ -43,6 +44,7 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
     private lateinit var observer: SearchFragmentObserver
 
     private lateinit var subredditTitle: String
+    private lateinit var submissionsTitle: String
     private var searchFlag: Boolean = false
 
     @FlowPreview
@@ -54,7 +56,8 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
 
-        subredditTitle = arguments?.getString(SEARCH_TITLE_BUNDLE).toString()
+        submissionsTitle = arguments?.getString(SEARCH_TITLE_BUNDLE).toString()
+        subredditTitle = arguments?.getString(SEARCH_SUB_BUNDLE).toString()
         searchFlag = arguments?.getBoolean(SEARCH_FLAG_BUNDLE) == true
 
         searchEditText = root.findViewById(R.id.search_edit_text)
@@ -124,7 +127,6 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
         }
     }
 
-
     private fun initSubredditRecyclerView() {
         subreddit_search_recycler_view.layoutManager = LinearLayoutManager(context)
         subreddit_search_recycler_view.adapter = subredditAdapter
@@ -132,8 +134,8 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
 
     @ExperimentalCoroutinesApi
     private fun setupEditText() {
-        if (isInSubreddit() && searchFlag) {
-            searchEditText.setText(subredditTitle)
+        if (searchFlag) {
+            searchEditText.setText(submissionsTitle)
         }
 
         searchEditText.addTextChangedListener(object : TextWatcher {
