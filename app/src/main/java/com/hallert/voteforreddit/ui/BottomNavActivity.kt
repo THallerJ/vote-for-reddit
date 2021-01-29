@@ -118,10 +118,14 @@ class BottomNavActivity :
         if (titleText != null)
             toolbarTitleTextView.text = titleText
 
-        if (sortVisible)
+        if (sortVisible) {
             sortLayout.visibility = View.VISIBLE
-        else
+            sidebar.visibility = View.VISIBLE
+        }
+        else {
             sortLayout.visibility = View.GONE
+            sidebar.visibility = View.GONE
+        }
 
         if (currentFragmentTag != newFragmentTag) {
             if (supportFragmentManager.findFragmentByTag(newFragmentTag) != null) {
@@ -151,6 +155,7 @@ class BottomNavActivity :
                     || (currentUser != userManager.currentUser())
                 ) {
                     val fragment: SubmissionsFragment = getSubmissionFragment()
+                    searchFlag = false
                     sortText.text = RedditApp.appContext.getString(R.string.hot)
                     subredditTitle = getString(R.string.frontpage)
                     currentUser = userManager.currentUser()
@@ -235,6 +240,7 @@ class BottomNavActivity :
         openSubreddit(selection)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onSearch(
         query: String,
         timePeriod: TimePeriod,
