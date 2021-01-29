@@ -27,7 +27,8 @@ import net.dean.jraw.models.SearchSort
 import net.dean.jraw.models.Subreddit
 import net.dean.jraw.models.TimePeriod
 
-private const val SEARCH_BUNDLE = "search_bundle"
+private const val SEARCH_TITLE_BUNDLE = "search_title_bundle"
+private const val SEARCH_FLAG_BUNDLE = "search_flag_bundle"
 
 @AndroidEntryPoint
 class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
@@ -42,6 +43,7 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
     private lateinit var observer: SearchFragmentObserver
 
     private lateinit var subredditTitle: String
+    private var searchFlag: Boolean = false
 
     @FlowPreview
     @ExperimentalCoroutinesApi
@@ -52,7 +54,8 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
 
-        subredditTitle = arguments?.getString(SEARCH_BUNDLE).toString()
+        subredditTitle = arguments?.getString(SEARCH_TITLE_BUNDLE).toString()
+        searchFlag = arguments?.getBoolean(SEARCH_FLAG_BUNDLE) == true
 
         searchEditText = root.findViewById(R.id.search_edit_text)
         timePeriodSpinner = root.findViewById(R.id.time_period_spinner)
@@ -129,6 +132,10 @@ class SearchFragment : FullscreenBottomSheet(), SubredditClickListener {
 
     @ExperimentalCoroutinesApi
     private fun setupEditText() {
+        if (isInSubreddit() && searchFlag) {
+            searchEditText.setText(subredditTitle)
+        }
+
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (searchEditText.text.isNotBlank()) {

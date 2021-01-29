@@ -45,7 +45,8 @@ private const val TITLE_TEXT: String = "title_text"
 private const val SUBREDDIT_TITLE_TEXT: String = "subreddit_text"
 private const val LOGIN_REQUEST_CODE = 0
 
-private const val SEARCH_BUNDLE = "search_bundle"
+private const val SEARCH_TITLE_BUNDLE = "search_title_bundle"
+private const val SEARCH_FLAG_BUNDLE = "search_flag_bundle"
 private const val LAYERED_ACTIVITY_FRAGMENT_INTENT = "layered_activity_intent"
 private const val LAYERED_ACTIVITY_SUBMISSION_INTENT = "layered_activity_submission_intent"
 
@@ -121,8 +122,7 @@ class BottomNavActivity :
         if (sortVisible) {
             sortLayout.visibility = View.VISIBLE
             sidebar.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             sortLayout.visibility = View.GONE
             sidebar.visibility = View.GONE
         }
@@ -168,7 +168,10 @@ class BottomNavActivity :
             R.id.nav_search -> {
                 val sheet = SearchFragment()
                 val bundle = Bundle()
-                bundle.putString(SEARCH_BUNDLE, subredditTitle)
+
+                bundle.putString(SEARCH_TITLE_BUNDLE, subredditTitle)
+                bundle.putBoolean(SEARCH_FLAG_BUNDLE, searchFlag)
+
                 sheet.arguments = bundle
                 sheet.show(supportFragmentManager, SEARCH_SHEET_TAG)
                 return@OnNavigationItemSelectedListener false
@@ -216,7 +219,6 @@ class BottomNavActivity :
     }
 
     private fun openSubmissionFragment(title: String, sortVisibile: Boolean, searchFlag: Boolean) {
-        subredditTitle = title
         switchFragments(SubmissionsFragment(), ROOT_FRAGMENT, title, sortVisibile)
         this.searchFlag = searchFlag
         doLoadFrontpage = false
@@ -225,6 +227,7 @@ class BottomNavActivity :
 
     @ExperimentalCoroutinesApi
     private fun openSubreddit(selection: String) {
+        subredditTitle = selection
         openSubmissionFragment(selection, true, false)
         getSubmissionFragment().openSubreddit(selection)
         sortText.text = RedditApp.appContext.getString(R.string.hot)
